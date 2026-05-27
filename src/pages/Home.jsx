@@ -8,6 +8,67 @@ const TERMINAL_LINES = [
   { cmd: '> ', text: 'estimated time saved: 18h/week ✓' },
 ]
 
+const STEPS = [
+  { title: 'Diagnóstico', desc: 'Analizamos tus procesos, cuellos de botella y dónde la IA tiene mayor impacto en tu negocio.' },
+  { title: 'Diseño del Agente', desc: 'Diseñamos el stack de agentes exacto para tu operación. Sin soluciones genéricas.' },
+  { title: 'Construcción', desc: 'Construimos e integramos el agente a tus sistemas actuales: WhatsApp, CRM, e-commerce.' },
+  { title: 'Activación', desc: 'Onboarding para tu equipo y seguimiento mensual. El agente evoluciona con tu negocio.' },
+]
+
+const s = {
+  hero: { padding: '100px 0 80px' },
+  heroInner: {
+    display: 'grid', gridTemplateColumns: '1fr 1fr',
+    gap: 64, alignItems: 'center',
+  },
+  heroLeft: { display: 'flex', flexDirection: 'column', gap: 0 },
+  heroSub: { color: 'var(--muted)', fontSize: 17, lineHeight: 1.7, margin: '20px 0 32px', maxWidth: 500 },
+  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap' },
+  heroStats: { display: 'flex', gap: 32, marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' },
+  heroStat: { display: 'flex', flexDirection: 'column', gap: 4 },
+  heroStatVal: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: 1, color: 'var(--text)' },
+  heroStatDesc: { fontSize: 12, color: 'var(--muted)' },
+  heroRight: {},
+  mockupWrap: { display: 'flex', flexDirection: 'column', gap: 12 },
+  statsRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
+  statCard: {
+    background: 'var(--dark3)', border: '1px solid var(--border)',
+    borderRadius: 12, padding: '18px 20px',
+  },
+  statLabel: { fontSize: 12, color: 'var(--muted)', marginBottom: 4 },
+  statVal: { fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.2rem', letterSpacing: 1 },
+  statSub: { fontSize: 11, color: 'var(--muted)', marginTop: 4 },
+  chartCard: {
+    background: 'var(--dark3)', border: '1px solid var(--border)',
+    borderRadius: 12, padding: '16px 20px',
+  },
+  chartBars: { display: 'flex', alignItems: 'flex-end', gap: 8, height: 80, marginBottom: 8 },
+  barWrap: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, height: '100%' },
+  bar: { width: '100%', borderRadius: '4px 4px 0 0', transition: 'height 0.5s' },
+  barLabel: { fontSize: 10, color: 'var(--muted)' },
+  chartLegend: { display: 'flex', flexDirection: 'column', gap: 2 },
+  steps: {
+    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24,
+  },
+  step: { position: 'relative' },
+  stepNum: {
+    fontFamily: "'Bebas Neue', sans-serif", fontSize: '3.5rem', letterSpacing: 2,
+    color: 'rgba(123,92,245,0.2)', lineHeight: 1, marginBottom: 12,
+  },
+  stepTitle: { fontSize: '1.3rem', marginBottom: 10 },
+  stepDesc: { fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 },
+  ctaBand: {
+    background: 'linear-gradient(135deg, rgba(123,92,245,0.25), rgba(0,219,130,0.15))',
+    borderTop: '1px solid rgba(123,92,245,0.3)',
+    borderBottom: '1px solid rgba(0,219,130,0.2)',
+    padding: '64px 0',
+  },
+  ctaBandInner: {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    gap: 32, flexWrap: 'wrap',
+  },
+}
+
 function TerminalMockup() {
   const [lines, setLines] = useState([])
 
@@ -159,65 +220,4 @@ export default function Home() {
       </section>
     </div>
   )
-}
-
-const STEPS = [
-  { title: 'Diagnóstico', desc: 'Analizamos tus procesos, cuellos de botella y dónde la IA tiene mayor impacto en tu negocio.' },
-  { title: 'Diseño del Agente', desc: 'Diseñamos el stack de agentes exacto para tu operación. Sin soluciones genéricas.' },
-  { title: 'Construcción', desc: 'Construimos e integramos el agente a tus sistemas actuales: WhatsApp, CRM, e-commerce.' },
-  { title: 'Activación', desc: 'Onboarding para tu equipo y seguimiento mensual. El agente evoluciona con tu negocio.' },
-]
-
-const s = {
-  hero: { padding: '100px 0 80px' },
-  heroInner: {
-    display: 'grid', gridTemplateColumns: '1fr 1fr',
-    gap: 64, alignItems: 'center',
-  },
-  heroLeft: { display: 'flex', flexDirection: 'column', gap: 0 },
-  heroSub: { color: 'var(--muted)', fontSize: 17, lineHeight: 1.7, margin: '20px 0 32px', maxWidth: 500 },
-  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap' },
-  heroStats: { display: 'flex', gap: 32, marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' },
-  heroStat: { display: 'flex', flexDirection: 'column', gap: 4 },
-  heroStatVal: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: 1, color: 'var(--text)' },
-  heroStatDesc: { fontSize: 12, color: 'var(--muted)' },
-  heroRight: {},
-  mockupWrap: { display: 'flex', flexDirection: 'column', gap: 12 },
-  statsRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
-  statCard: {
-    background: 'var(--dark3)', border: '1px solid var(--border)',
-    borderRadius: 12, padding: '18px 20px',
-  },
-  statLabel: { fontSize: 12, color: 'var(--muted)', marginBottom: 4 },
-  statVal: { fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.2rem', letterSpacing: 1 },
-  statSub: { fontSize: 11, color: 'var(--muted)', marginTop: 4 },
-  chartCard: {
-    background: 'var(--dark3)', border: '1px solid var(--border)',
-    borderRadius: 12, padding: '16px 20px',
-  },
-  chartBars: { display: 'flex', alignItems: 'flex-end', gap: 8, height: 80, marginBottom: 8 },
-  barWrap: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, height: '100%' },
-  bar: { width: '100%', borderRadius: '4px 4px 0 0', transition: 'height 0.5s' },
-  barLabel: { fontSize: 10, color: 'var(--muted)' },
-  chartLegend: { display: 'flex', flexDirection: 'column', gap: 2 },
-  steps: {
-    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24,
-  },
-  step: { position: 'relative' },
-  stepNum: {
-    fontFamily: "'Bebas Neue', sans-serif", fontSize: '3.5rem', letterSpacing: 2,
-    color: 'rgba(123,92,245,0.2)', lineHeight: 1, marginBottom: 12,
-  },
-  stepTitle: { fontSize: '1.3rem', marginBottom: 10 },
-  stepDesc: { fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 },
-  ctaBand: {
-    background: 'linear-gradient(135deg, rgba(123,92,245,0.25), rgba(0,219,130,0.15))',
-    borderTop: '1px solid rgba(123,92,245,0.3)',
-    borderBottom: '1px solid rgba(0,219,130,0.2)',
-    padding: '64px 0',
-  },
-  ctaBandInner: {
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    gap: 32, flexWrap: 'wrap',
-  },
 }
