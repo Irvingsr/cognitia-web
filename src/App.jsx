@@ -7,6 +7,8 @@ import Manifiesto from './pages/Manifiesto'
 import Diagnostico from './pages/Diagnostico'
 import Calculadora from './pages/Calculadora'
 import Contacto from './pages/Contacto'
+import Blog from './pages/Blog'
+import BlogPost from './pages/BlogPost'
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/diagnostico" element={<Diagnostico />} />
           <Route path="/calculadora" element={<Calculadora />} />
           <Route path="/contacto" element={<Contacto />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
         </Routes>
       </main>
       <Footer />
