@@ -41,7 +41,7 @@ export default function Contacto() {
       </section>
 
       <section style={s.main}>
-        <div className="container" style={s.grid}>
+        <div className="container contact-main-grid">
           {/* Quick CTAs */}
           <div style={s.ctaCol}>
             <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" style={s.ctaCard}>
@@ -98,7 +98,7 @@ export default function Contacto() {
             ) : (
               <form onSubmit={handleSubmit} style={s.form}>
                 <h3 style={{ marginBottom: 24 }}>Envíanos un mensaje</h3>
-                <div style={s.row}>
+                <div className="form-row-2col">
                   <div className="form-field">
                     <label>Nombre *</label>
                     <input className="form-input" placeholder="Tu nombre" value={form.nombre} onChange={set('nombre')} required />
@@ -108,7 +108,7 @@ export default function Contacto() {
                     <input className="form-input" type="email" placeholder="correo@empresa.com" value={form.email} onChange={set('email')} required />
                   </div>
                 </div>
-                <div style={s.row}>
+                <div className="form-row-2col">
                   <div className="form-field">
                     <label>Teléfono</label>
                     <input className="form-input" placeholder="+52 984 000 0000" value={form.telefono} onChange={set('telefono')} />

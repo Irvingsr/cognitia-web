@@ -305,3 +305,47 @@ textarea.form-input { resize: vertical; min-height: 120px; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 24px; }
   .glass-panel { padding: 24px 20px; }
 }
+
+/* ── RESPONSIVE — Calculadora ───────────── */
+.calc-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: stretch;
+  padding: 48px;
+  background: rgba(10,10,12,0.5);
+}
+@media (max-width: 768px) {
+  .calc-main-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px 20px;
+  }
+}
+
+/* ── RESPONSIVE — Contacto ──────────────── */
+.contact-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 768px) {
+  .contact-main-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* ── FORM FIELD ─────────────────────────── */
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field label { font-size: 13px; font-weight: 600; color: var(--muted); }

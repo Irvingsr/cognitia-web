@@ -32,7 +32,7 @@ export default function Calculadora() {
 
       <section style={s.body}>
         <div className="container" style={{ maxWidth: 1100 }}>
-          <div className="glass-panel animate-fade-in-up" style={s.grid}>
+          <div className="glass-panel animate-fade-in-up calc-main-grid">
 
             {/* ── SLIDERS ── */}
             <div style={s.inputs}>
