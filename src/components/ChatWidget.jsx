@@ -21,227 +21,6 @@ const WELCOME_MSG = {
   content: '¡Hola! Soy el asistente de Cognitia. ¿En qué puedo ayudarte? Cuéntame sobre tu negocio y te explico cómo un agente de IA puede transformarlo. 🚀',
 }
 
-export default function ChatWidget() {
-  const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [input, setInput] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [unread, setUnread] = useState(false)
-  const messagesEndRef = useRef(null)
-  const inputRef = useRef(null)
-  const panelRef = useRef(null)
-
-  // Inicializar con mensaje de bienvenida al abrir por primera vez
-  useEffect(() => {
-    if (open && messages.length === 0) {
-      setMessages([WELCOME_MSG])
-    }
-    if (open) {
-      setUnread(false)
-      setTimeout(() => inputRef.current?.focus(), 100)
-    }
-  }, [open])
-
-  // Auto-scroll al último mensaje
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, loading])
-
-  // Mostrar badge de notificación después de 8s si no está abierto
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!open) setUnread(true)
-    }, 8000)
-    return () => clearTimeout(timer)
-  }, [])
-
-  async function sendMessage() {
-    const text = input.trim()
-    if (!text || loading) return
-
-    const newMessages = [...messages, { role: 'user', content: text }]
-    setMessages(newMessages)
-    setInput('')
-    setLoading(true)
-    setError('')
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 300,
-          system: SYSTEM_PROMPT,
-          messages: newMessages.slice(-12).map(m => ({
-            role: m.role,
-            content: m.content,
-          })),
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Error al procesar tu mensaje')
-      }
-
-      const reply = data.content?.[0]?.text || 'No pude procesar tu mensaje. Intenta de nuevo.'
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
-    } catch (e) {
-      setError(e.message || 'Error de conexión. Intenta de nuevo.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage()
-    }
-  }
-
-  function handleTextareaInput(e) {
-    setInput(e.target.value)
-    // Auto-resize textarea
-    e.target.style.height = 'auto'
-    e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'
-  }
-
-  return (
-    <>
-      {/* Panel del chat */}
-      <div
-        ref={panelRef}
-        style={{
-          ...s.panel,
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'all' : 'none',
-          transform: open ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.97)',
-        }}
-        aria-hidden={!open}
-      >
-        {/* Header */}
-        <div style={s.header}>
-          <div style={s.headerLeft}>
-            <div style={s.avatar}>◈</div>
-            <div>
-              <div style={s.agentName}>Asistente Cognitia</div>
-              <div style={s.statusRow}>
-                <span style={s.statusDot} />
-                <span style={s.statusText}>En línea · IA activa 24/7</span>
-              </div>
-            </div>
-          </div>
-          <button style={s.closeBtn} onClick={() => setOpen(false)} aria-label="Cerrar chat">
-            ✕
-          </button>
-        </div>
-
-        {/* Mensajes */}
-        <div style={s.messagesArea}>
-          {messages.map((m, i) => (
-            <div
-              key={i}
-              style={{
-                ...s.msgRow,
-                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
-              }}
-            >
-              {m.role === 'assistant' && <div style={s.botAvatar}>◈</div>}
-              <div style={m.role === 'user' ? s.msgUser : s.msgBot}>
-                {m.content}
-              </div>
-            </div>
-          ))}
-
-          {/* Indicador de "escribiendo..." */}
-          {loading && (
-            <div style={{ ...s.msgRow, justifyContent: 'flex-start' }}>
-              <div style={s.botAvatar}>◈</div>
-              <div style={{ ...s.msgBot, ...s.typing }}>
-                <span style={s.dot} />
-                <span style={{ ...s.dot, animationDelay: '0.2s' }} />
-                <span style={{ ...s.dot, animationDelay: '0.4s' }} />
-              </div>
-            </div>
-          )}
-
-          {error && <div style={s.errorMsg}>{error}</div>}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Área de input */}
-        <div style={s.inputRow}>
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={handleTextareaInput}
-            onKeyDown={handleKey}
-            placeholder="Escribe tu pregunta..."
-            style={s.textarea}
-            rows={1}
-            maxLength={500}
-          />
-          <button
-            onClick={sendMessage}
-            disabled={!input.trim() || loading}
-            style={{
-              ...s.sendBtn,
-              opacity: !input.trim() || loading ? 0.4 : 1,
-              cursor: !input.trim() || loading ? 'not-allowed' : 'pointer',
-            }}
-            aria-label="Enviar mensaje"
-          >
-            ↑
-          </button>
-        </div>
-
-        {/* Footer */}
-        <div style={s.footer}>
-          Powered by <span style={{ color: '#00C2FF' }}>Cognitia</span> · IA que trabaja 24/7
-        </div>
-      </div>
-
-      {/* Botón flotante (FAB) */}
-      <button
-        style={{
-          ...s.fab,
-          background: open
-            ? 'linear-gradient(135deg, #444, #222)'
-            : 'linear-gradient(135deg, #7B5CF5, #00C2FF)',
-        }}
-        onClick={() => { setOpen(o => !o); setUnread(false) }}
-        aria-label={open ? 'Cerrar asistente' : 'Abrir asistente IA de Cognitia'}
-      >
-        <span style={{ ...s.fabIcon, transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
-          {open ? '✕' : '◈'}
-        </span>
-        {/* Badge de notificación */}
-        {unread && !open && <span style={s.badge} />}
-      </button>
-
-      {/* Animaciones CSS */}
-      <style>{`
-        @keyframes dotBounce {
-          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-          40% { transform: translateY(-6px); opacity: 1; }
-        }
-        @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulseBadge {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.3); }
-        }
-      `}</style>
-    </>
-  )
-}
-
 const s = {
   /* FAB */
   fab: {
@@ -488,4 +267,209 @@ const s = {
     borderTop: '1px solid rgba(255,255,255,0.04)',
     flexShrink: 0,
   },
+}
+
+export default function ChatWidget() {
+  const [open, setOpen] = useState(false)
+  const [messages, setMessages] = useState([])
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [unread, setUnread] = useState(false)
+  const messagesEndRef = useRef(null)
+  const inputRef = useRef(null)
+  const panelRef = useRef(null)
+
+  // Inicializar con mensaje de bienvenida al abrir por primera vez
+  useEffect(() => {
+    if (open && messages.length === 0) {
+      setMessages([WELCOME_MSG])
+    }
+    if (open) {
+      setUnread(false)
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [open])
+
+  // Auto-scroll al último mensaje
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, loading])
+
+  // Mostrar badge de notificación después de 8s si no está abierto
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!open) setUnread(true)
+    }, 8000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  async function sendMessage() {
+    const text = input.trim()
+    if (!text || loading) return
+
+    const newMessages = [...messages, { role: 'user', content: text }]
+    setMessages(newMessages)
+    setInput('')
+    setLoading(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 300,
+          system: SYSTEM_PROMPT,
+          messages: newMessages.slice(-12).map(m => ({
+            role: m.role,
+            content: m.content,
+          })),
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Error al procesar tu mensaje')
+      }
+
+      const reply = data.content?.[0]?.text || 'No pude procesar tu mensaje. Intenta de nuevo.'
+      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
+    } catch (e) {
+      setError(e.message || 'Error de conexión. Intenta de nuevo.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
+  }
+
+  function handleTextareaInput(e) {
+    setInput(e.target.value)
+    // Auto-resize textarea
+    e.target.style.height = 'auto'
+    e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'
+  }
+
+  return (
+    <>
+      {/* Panel del chat */}
+      <div
+        ref={panelRef}
+        style={{
+          ...s.panel,
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? 'all' : 'none',
+          transform: open ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.97)',
+        }}
+        aria-hidden={!open}
+      >
+        {/* Header */}
+        <div style={s.header}>
+          <div style={s.headerLeft}>
+            <div style={s.avatar}>◈</div>
+            <div>
+              <div style={s.agentName}>Asistente Cognitia</div>
+              <div style={s.statusRow}>
+                <span style={s.statusDot} />
+                <span style={s.statusText}>En línea · IA activa 24/7</span>
+              </div>
+            </div>
+          </div>
+          <button style={s.closeBtn} onClick={() => setOpen(false)} aria-label="Cerrar chat">
+            ✕
+          </button>
+        </div>
+
+        {/* Mensajes */}
+        <div style={s.messagesArea}>
+          {messages.map((m, i) => (
+            <div
+              key={i}
+              style={{
+                ...s.msgRow,
+                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
+              }}
+            >
+              {m.role === 'assistant' && <div style={s.botAvatar}>◈</div>}
+              <div style={m.role === 'user' ? s.msgUser : s.msgBot}>
+                {m.content}
+              </div>
+            </div>
+          ))}
+
+          {/* Indicador de "escribiendo..." */}
+          {loading && (
+            <div style={{ ...s.msgRow, justifyContent: 'flex-start' }}>
+              <div style={s.botAvatar}>◈</div>
+              <div style={{ ...s.msgBot, ...s.typing }}>
+                <span style={s.dot} />
+                <span style={{ ...s.dot, animationDelay: '0.2s' }} />
+                <span style={{ ...s.dot, animationDelay: '0.4s' }} />
+              </div>
+            </div>
+          )}
+
+          {error && <div style={s.errorMsg}>{error}</div>}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Área de input */}
+        <div style={s.inputRow}>
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={handleTextareaInput}
+            onKeyDown={handleKey}
+            placeholder="Escribe tu pregunta..."
+            style={s.textarea}
+            rows={1}
+            maxLength={500}
+          />
+          <button
+            onClick={sendMessage}
+            disabled={!input.trim() || loading}
+            style={{
+              ...s.sendBtn,
+              opacity: !input.trim() || loading ? 0.4 : 1,
+              cursor: !input.trim() || loading ? 'not-allowed' : 'pointer',
+            }}
+            aria-label="Enviar mensaje"
+          >
+            ↑
+          </button>
+        </div>
+
+        {/* Footer */}
+        <div style={s.footer}>
+          Powered by <span style={{ color: '#00C2FF' }}>Cognitia</span> · IA que trabaja 24/7
+        </div>
+      </div>
+
+      {/* Botón flotante (FAB) */}
+      <button
+        style={{
+          ...s.fab,
+          background: open
+            ? 'linear-gradient(135deg, #444, #222)'
+            : 'linear-gradient(135deg, #7B5CF5, #00C2FF)',
+        }}
+        onClick={() => { setOpen(o => !o); setUnread(false) }}
+        aria-label={open ? 'Cerrar asistente' : 'Abrir asistente IA de Cognitia'}
+      >
+        <span style={{ ...s.fabIcon, transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
+          {open ? '✕' : '◈'}
+        </span>
+        {/* Badge de notificación */}
+        {unread && !open && <span style={s.badge} />}
+      </button>
+    </>
+  )
 }
