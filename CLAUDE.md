@@ -246,7 +246,7 @@ git push origin main
 - [ ] Confirmar que cognitiamx.com resuelve a Vercel (DNS propagación)
 - [ ] Agregar ANTHROPIC_API_KEY en Vercel → activar chat flotante
 - [ ] Agregar MAKE_WEBHOOK_URL en Vercel → activar formulario de contacto
-- [ ] Construir el widget de chat flotante (llama a /api/chat.js)
+- [x] Construir el widget de chat flotante → `src/components/ChatWidget.jsx` ✅
 
 ### 🟡 Pendiente — Media prioridad
 - [ ] Página 404 personalizada con branding Cognitia
