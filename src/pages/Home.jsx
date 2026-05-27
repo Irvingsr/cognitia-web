@@ -70,20 +70,17 @@ const s = {
 }
 
 function TerminalMockup() {
-  const [lines, setLines] = useState([])
+  const [lineCount, setLineCount] = useState(0)
 
   useEffect(() => {
-    let i = 0
-    const interval = setInterval(() => {
-      if (i < TERMINAL_LINES.length) {
-        setLines(prev => [...prev, TERMINAL_LINES[i]])
-        i++
-      } else {
-        clearInterval(interval)
-      }
+    if (lineCount >= TERMINAL_LINES.length) return
+    const timer = setTimeout(() => {
+      setLineCount(c => c + 1)
     }, 900)
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearTimeout(timer)
+  }, [lineCount])
+
+  const lines = TERMINAL_LINES.slice(0, lineCount)
 
   return (
     <div style={s.mockupWrap}>
@@ -131,7 +128,7 @@ function TerminalMockup() {
               <span className="cmd">{l.cmd}</span>{l.text}
             </p>
           ))}
-          {lines.length < TERMINAL_LINES.length && (
+          {lineCount < TERMINAL_LINES.length && (
             <p className="terminal-line"><span className="cmd">&gt; </span><span className="cursor">▋</span></p>
           )}
         </div>
