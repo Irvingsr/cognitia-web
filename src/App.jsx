@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+import ChatWidget from './components/ChatWidget'
 import Home from './pages/Home'
 import Servicios from './pages/Servicios'
 import Manifiesto from './pages/Manifiesto'
@@ -33,6 +34,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <ChatWidget />
     </BrowserRouter>
   )
 }
