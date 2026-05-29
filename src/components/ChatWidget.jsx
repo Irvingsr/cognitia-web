@@ -214,6 +214,75 @@ const s = {
     textAlign: 'center',
   },
 
+  /* Lead capture card */
+  leadCard: {
+    background: 'linear-gradient(135deg, rgba(123,92,245,0.12), rgba(0,194,255,0.08))',
+    border: '1px solid rgba(123,92,245,0.3)',
+    borderRadius: 14,
+    padding: '14px 16px',
+    animation: 'fadeSlideIn 0.3s ease',
+  },
+  leadTitle: {
+    fontSize: 13,
+    fontWeight: 700,
+    color: '#E8F0FE',
+    marginBottom: 4,
+  },
+  leadSub: {
+    fontSize: 11.5,
+    color: '#7A8FAD',
+    marginBottom: 12,
+    lineHeight: 1.5,
+  },
+  leadInput: {
+    width: '100%',
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: 8,
+    color: '#E8F0FE',
+    fontSize: 13,
+    padding: '8px 12px',
+    outline: 'none',
+    fontFamily: "'DM Sans', sans-serif",
+    boxSizing: 'border-box',
+    marginBottom: 8,
+  },
+  leadBtns: {
+    display: 'flex',
+    gap: 8,
+    marginTop: 4,
+  },
+  leadSubmit: {
+    flex: 1,
+    padding: '9px 0',
+    background: 'linear-gradient(135deg, #7B5CF5, #00C2FF)',
+    border: 'none',
+    borderRadius: 8,
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
+  leadSkip: {
+    padding: '9px 14px',
+    background: 'none',
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: 8,
+    color: '#7A8FAD',
+    fontSize: 12,
+    cursor: 'pointer',
+  },
+  leadSuccess: {
+    background: 'rgba(0,219,130,0.1)',
+    border: '1px solid rgba(0,219,130,0.25)',
+    borderRadius: 14,
+    padding: '12px 16px',
+    fontSize: 13,
+    color: '#00DB82',
+    textAlign: 'center',
+    animation: 'fadeSlideIn 0.3s ease',
+  },
+
   /* Input area */
   inputRow: {
     display: 'flex',
@@ -276,9 +345,16 @@ export default function ChatWidget() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [unread, setUnread] = useState(false)
+
+  // Lead capture
+  const [leadStatus, setLeadStatus] = useState('idle') // 'idle' | 'show' | 'sent' | 'skipped'
+  const [leadName, setLeadName] = useState('')
+  const [leadPhone, setLeadPhone] = useState('')
+  const [leadSubmitting, setLeadSubmitting] = useState(false)
+  const [leadError, setLeadError] = useState('')
+
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
-  const panelRef = useRef(null)
 
   // Inicializar con mensaje de bienvenida al abrir por primera vez
   useEffect(() => {
@@ -294,15 +370,23 @@ export default function ChatWidget() {
   // Auto-scroll al último mensaje
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, loading])
+  }, [messages, loading, leadStatus])
 
-  // Mostrar badge de notificación después de 8s si no está abierto
+  // Mostrar badge de notificación después de 8s
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!open) setUnread(true)
     }, 8000)
     return () => clearTimeout(timer)
   }, [])
+
+  // Mostrar formulario de lead después del 2do mensaje del usuario
+  useEffect(() => {
+    const userMsgs = messages.filter(m => m.role === 'user').length
+    if (userMsgs >= 2 && leadStatus === 'idle') {
+      setLeadStatus('show')
+    }
+  }, [messages, leadStatus])
 
   async function sendMessage() {
     const text = input.trim()
@@ -330,10 +414,7 @@ export default function ChatWidget() {
       })
 
       const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Error al procesar tu mensaje')
-      }
+      if (!res.ok) throw new Error(data.error || 'Error al procesar tu mensaje')
 
       const reply = data.content?.[0]?.text || 'No pude procesar tu mensaje. Intenta de nuevo.'
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
@@ -341,6 +422,36 @@ export default function ChatWidget() {
       setError(e.message || 'Error de conexión. Intenta de nuevo.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function submitLead(e) {
+    e.preventDefault()
+    if (!leadName.trim() || !leadPhone.trim()) {
+      setLeadError('Por favor completa tu nombre y WhatsApp.')
+      return
+    }
+    setLeadSubmitting(true)
+    setLeadError('')
+
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: leadName.trim(),
+          whatsapp: leadPhone.trim(),
+          conversacion: messages,
+          fuente: window.location.hostname,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Error al enviar')
+      setLeadStatus('sent')
+    } catch (e) {
+      setLeadError(e.message || 'Error al enviar. Intenta de nuevo.')
+    } finally {
+      setLeadSubmitting(false)
     }
   }
 
@@ -353,7 +464,6 @@ export default function ChatWidget() {
 
   function handleTextareaInput(e) {
     setInput(e.target.value)
-    // Auto-resize textarea
     e.target.style.height = 'auto'
     e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'
   }
@@ -362,7 +472,6 @@ export default function ChatWidget() {
     <>
       {/* Panel del chat */}
       <div
-        ref={panelRef}
         style={{
           ...s.panel,
           opacity: open ? 1 : 0,
@@ -383,29 +492,19 @@ export default function ChatWidget() {
               </div>
             </div>
           </div>
-          <button style={s.closeBtn} onClick={() => setOpen(false)} aria-label="Cerrar chat">
-            ✕
-          </button>
+          <button style={s.closeBtn} onClick={() => setOpen(false)} aria-label="Cerrar chat">✕</button>
         </div>
 
         {/* Mensajes */}
         <div style={s.messagesArea}>
           {messages.map((m, i) => (
-            <div
-              key={i}
-              style={{
-                ...s.msgRow,
-                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
-              }}
-            >
+            <div key={i} style={{ ...s.msgRow, justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
               {m.role === 'assistant' && <div style={s.botAvatar}>◈</div>}
-              <div style={m.role === 'user' ? s.msgUser : s.msgBot}>
-                {m.content}
-              </div>
+              <div style={m.role === 'user' ? s.msgUser : s.msgBot}>{m.content}</div>
             </div>
           ))}
 
-          {/* Indicador de "escribiendo..." */}
+          {/* Indicador escribiendo */}
           {loading && (
             <div style={{ ...s.msgRow, justifyContent: 'flex-start' }}>
               <div style={s.botAvatar}>◈</div>
@@ -418,10 +517,51 @@ export default function ChatWidget() {
           )}
 
           {error && <div style={s.errorMsg}>{error}</div>}
+
+          {/* Tarjeta de captura de lead */}
+          {leadStatus === 'show' && (
+            <div style={s.leadCard}>
+              <div style={s.leadTitle}>¿Te interesa saber más? 👋</div>
+              <div style={s.leadSub}>Déjame tu nombre y WhatsApp y te contactamos para una consulta gratuita.</div>
+              <form onSubmit={submitLead}>
+                <input
+                  style={s.leadInput}
+                  placeholder="Tu nombre"
+                  value={leadName}
+                  onChange={e => setLeadName(e.target.value)}
+                  maxLength={80}
+                />
+                <input
+                  style={s.leadInput}
+                  placeholder="Tu WhatsApp (ej. 984 123 4567)"
+                  value={leadPhone}
+                  onChange={e => setLeadPhone(e.target.value)}
+                  maxLength={20}
+                  type="tel"
+                />
+                {leadError && <div style={{ ...s.errorMsg, marginBottom: 8 }}>{leadError}</div>}
+                <div style={s.leadBtns}>
+                  <button type="submit" style={s.leadSubmit} disabled={leadSubmitting}>
+                    {leadSubmitting ? 'Enviando...' : 'Quiero más info →'}
+                  </button>
+                  <button type="button" style={s.leadSkip} onClick={() => setLeadStatus('skipped')}>
+                    Omitir
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {leadStatus === 'sent' && (
+            <div style={s.leadSuccess}>
+              ✓ ¡Listo! Irving te contactará en breve por WhatsApp.
+            </div>
+          )}
+
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Área de input */}
+        {/* Input */}
         <div style={s.inputRow}>
           <textarea
             ref={inputRef}
@@ -467,7 +607,6 @@ export default function ChatWidget() {
         <span style={{ ...s.fabIcon, transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
           {open ? '✕' : '◈'}
         </span>
-        {/* Badge de notificación */}
         {unread && !open && <span style={s.badge} />}
       </button>
     </>
