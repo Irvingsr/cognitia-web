@@ -107,7 +107,7 @@ export default async function handler(req, res) {
     if (!response.ok) {
       console.error('Anthropic API error:', response.status, JSON.stringify(data))
       const status = response.status === 429 ? 429 : 502
-      return res.status(status).json({ error: 'Error al procesar tu mensaje' })
+      return res.status(status).json({ error: 'Error al procesar tu mensaje', _debug: response.status })
     }
 
     return res.status(200).json(data)
