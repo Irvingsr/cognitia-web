@@ -16,10 +16,10 @@ function checkRateLimit(ip) {
   return true
 }
 
-function sanitizeText(str) {
+function sanitizeText(str, maxLen = 2000) {
   if (typeof str !== 'string') return ''
   // Eliminar caracteres de control y limitar longitud
-  return str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '').slice(0, 2000)
+  return str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '').slice(0, maxLen)
 }
 
 function validateMessages(messages) {
@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   const { model, max_tokens, system, messages } = req.body || {}
 
   // Validar modelo (solo permitir modelos Anthropic autorizados)
-  const ALLOWED_MODELS = ['claude-sonnet-4-20250514', 'claude-haiku-4-5-20251001']
+  const ALLOWED_MODELS = ['claude-sonnet-4-20250514', 'claude-haiku-3-5-20241022']
   if (!ALLOWED_MODELS.includes(model)) {
     return res.status(400).json({ error: 'Modelo no permitido' })
   }
@@ -82,8 +82,8 @@ export default async function handler(req, res) {
   }))
 
   // Sanitizar system prompt (solo usamos el nuestro, ignoramos el del cliente si es muy largo)
-  const systemPrompt = typeof system === 'string' && system.length < 5000
-    ? sanitizeText(system)
+  const systemPrompt = typeof system === 'string' && system.length < 12000
+    ? sanitizeText(system, 12000)
     : 'Eres el asistente de COGNITIA. Responde en español.'
 
   try {
