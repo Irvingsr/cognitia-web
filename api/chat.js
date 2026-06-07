@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   const { model, max_tokens, system, messages } = req.body || {}
 
   // Validar modelo (solo permitir modelos Anthropic autorizados)
-  const ALLOWED_MODELS = ['claude-sonnet-4-5', 'claude-3-5-haiku-20241022']
+  const ALLOWED_MODELS = ['claude-haiku-4-5', 'claude-sonnet-4-6']
   if (!ALLOWED_MODELS.includes(model)) {
     return res.status(400).json({ error: 'Modelo no permitido' })
   }
@@ -105,7 +105,7 @@ export default async function handler(req, res) {
     const data = await response.json()
 
     if (!response.ok) {
-      // No exponer detalles internos del error de Anthropic al frontend
+      console.error('Anthropic API error:', response.status, JSON.stringify(data))
       const status = response.status === 429 ? 429 : 502
       return res.status(status).json({ error: 'Error al procesar tu mensaje' })
     }

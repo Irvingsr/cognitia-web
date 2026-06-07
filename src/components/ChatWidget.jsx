@@ -241,10 +241,14 @@ export default function ChatWidget() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-3-5-haiku-20241022',
+          model: 'claude-haiku-4-5',
           max_tokens: 400,
           system: SYSTEM_PROMPT,
-          messages: newMessages.slice(-14).map(m => ({ role: m.role, content: m.content })),
+          messages: (() => {
+            const msgs = newMessages.slice(-14).map(m => ({ role: m.role, content: m.content }))
+            const firstUser = msgs.findIndex(m => m.role === 'user')
+            return firstUser > 0 ? msgs.slice(firstUser) : msgs
+          })(),
         }),
       })
       const data = await res.json()
