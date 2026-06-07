@@ -241,7 +241,7 @@ export default function ChatWidget() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-haiku-3-5-20241022',
+          model: 'claude-3-5-haiku-20241022',
           max_tokens: 400,
           system: SYSTEM_PROMPT,
           messages: newMessages.slice(-14).map(m => ({ role: m.role, content: m.content })),

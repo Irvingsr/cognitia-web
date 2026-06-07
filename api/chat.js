@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   const { model, max_tokens, system, messages } = req.body || {}
 
   // Validar modelo (solo permitir modelos Anthropic autorizados)
-  const ALLOWED_MODELS = ['claude-sonnet-4-20250514', 'claude-haiku-3-5-20241022']
+  const ALLOWED_MODELS = ['claude-sonnet-4-5', 'claude-3-5-haiku-20241022']
   if (!ALLOWED_MODELS.includes(model)) {
     return res.status(400).json({ error: 'Modelo no permitido' })
   }
