@@ -6,6 +6,7 @@ const categoryColors = {
   'Casos prácticos': { bg: 'rgba(0,219,130,0.12)',  color: '#34d399' },
   'Estrategia':      { bg: 'rgba(0,194,255,0.12)',  color: '#00C2FF' },
   'Herramientas':    { bg: 'rgba(245,158,11,0.12)', color: '#fbbf24' },
+  'Real Estate':     { bg: 'rgba(0,194,255,0.12)',  color: '#00C2FF' },
 }
 
 export default function Blog() {

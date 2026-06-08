@@ -6,6 +6,15 @@
 
 export const posts = [
   {
+    slug: 'ia-agencias-inmobiliarias-riviera-maya',
+    title: 'Cómo las agencias inmobiliarias de la Riviera Maya pierden el 78% de sus leads (y cómo la IA lo resuelve)',
+    excerpt: 'Un prospecto que no recibe respuesta personalizada en los primeros 5 minutos tiene un 78% más de probabilidad de irse a la competencia. En el mercado de lujo de la Riviera Maya, esa fricción cuesta millones.',
+    date: '2026-06-07',
+    category: 'Real Estate',
+    readTime: '6 min',
+    author: 'Irving de los Santos',
+  },
+  {
     slug: 'que-es-un-agente-de-ia',
     title: '¿Qué es un agente de IA y cómo puede trabajar en tu negocio?',
     excerpt: 'Sin tecnicismos: qué son los agentes de IA, cómo funcionan y por qué un negocio como el tuyo ya puede usarlos hoy — sin contratar a nadie nuevo.',
