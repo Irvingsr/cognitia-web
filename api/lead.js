@@ -84,7 +84,7 @@ export default async function handler(req, res) {
       : 'Sin mensajes previos',
     timestamp,
     fuente: sanitize(fuente || 'cognitiamx.com', 100),
-    accion_sugerida: `WhatsApp: https://wa.me/52${sanitize(whatsapp, 20).replace(/\D/g, '')}${email ? ` | Email: ${sanitize(email, 150)}` : ''}`,
+    accion_sugerida: `WhatsApp: https://wa.me/52${sanitize(whatsapp, 20).replace(/\D/g, '')}`,
   }
 
   try {
