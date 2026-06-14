@@ -31,6 +31,61 @@ function sanitize(str, maxLen = 200) {
   return str.trim().slice(0, maxLen).replace(/[<>]/g, '')
 }
 
+/**
+ * Genera un resumen del lead con IA (Claude Haiku), a partir de la conversación.
+ * Extrae Negocio / Dolor / Interés / Sector en 3-4 líneas limpias.
+ * Si algo falla (sin API key, API caída, timeout) devuelve null y el caller
+ * usa un respaldo de texto crudo — un lead NUNCA se pierde por culpa del resumen.
+ */
+async function generarResumen(conversacion) {
+  if (!Array.isArray(conversacion) || conversacion.length === 0) return null
+
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) return null
+
+  // Transcript legible de la conversación (un solo bloque, máx ~3500 chars)
+  const transcript = conversacion
+    .map(m => `${m.role === 'user' ? 'Cliente' : 'Asesor'}: ${typeof m.content === 'string' ? m.content : ''}`)
+    .join('\n')
+    .slice(0, 3500)
+
+  const system = `Eres un analista de leads de Cognitia, una consultoría de IA. A partir de la conversación entre un Cliente y el Asesor virtual del sitio, redacta un resumen del lead en español, en texto plano, máximo 4 líneas, sin relleno ni saludos. Usa EXACTAMENTE este formato:
+Negocio: <qué negocio tiene el cliente, o "no especificado">
+Dolor: <el problema u operación que le cuesta, o "no especificado">
+Interés: <qué busca o qué tan caliente está el lead>
+Sector: <clínicas / inmobiliario / B2B / otro, e interés ALTO/MEDIO/BAJO>
+Si la conversación es muy corta o vaga, infiere con prudencia y marca lo que falte como "no especificado". No inventes datos.`
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5',
+        max_tokens: 200,
+        system,
+        messages: [{ role: 'user', content: `Conversación:\n\n${transcript}` }],
+      }),
+    })
+
+    if (!response.ok) {
+      console.error('[lead.js] generarResumen: Anthropic respondió', response.status)
+      return null
+    }
+
+    const data = await response.json()
+    const texto = data?.content?.[0]?.text
+    return typeof texto === 'string' && texto.trim() ? texto.trim() : null
+  } catch (err) {
+    console.error('[lead.js] generarResumen falló:', err)
+    return null
+  }
+}
+
 export default async function handler(req, res) {
   // CORS
   const origin = req.headers.origin
@@ -69,6 +124,12 @@ export default async function handler(req, res) {
     hour: '2-digit', minute: '2-digit',
   })
 
+  // Resumen del lead con IA. Si falla, respaldo = último mensaje crudo (lo de antes).
+  const resumenIA = await generarResumen(conversacion)
+  const resumenRespaldo = Array.isArray(conversacion) && conversacion.length > 0
+    ? `"${sanitize(conversacion.filter(m => m.role === 'user').slice(-1)[0]?.content || '', 200)}"`
+    : 'Sin mensajes previos'
+
   const payload = {
     nombre: sanitize(nombre, 100),
     whatsapp: sanitize(whatsapp, 30),
@@ -79,9 +140,7 @@ export default async function handler(req, res) {
           mensaje: sanitize(m.content, 300),
         }))
       : [],
-    resumen: Array.isArray(conversacion) && conversacion.length > 0
-      ? `"${sanitize(conversacion.filter(m => m.role === 'user').slice(-1)[0]?.content || '', 200)}"`
-      : 'Sin mensajes previos',
+    resumen: resumenIA ? sanitize(resumenIA, 600) : resumenRespaldo,
     timestamp,
     fuente: sanitize(fuente || 'cognitiamx.com', 100),
     accion_sugerida: `WhatsApp: https://wa.me/52${sanitize(whatsapp, 20).replace(/\D/g, '')}`,
