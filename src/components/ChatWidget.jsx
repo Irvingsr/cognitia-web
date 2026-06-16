@@ -103,6 +103,62 @@ function hasInterest(messages) {
   return INTEREST_KEYWORDS.some(kw => userTexts.includes(kw))
 }
 
+// Mensaje cálido que invita a dejar datos (se inserta una sola vez antes de la tarjeta)
+const LEAD_INVITE_MSG = {
+  role: 'assistant',
+  content: 'Me encantaría que un asesor de Cognitia te dé seguimiento personalizado. Si me dejas tus datos aquí abajo, te contactamos sin compromiso para una revisión de 30 min sin costo. 👇',
+}
+
+// Palabras que sugieren que el usuario está describiendo un dolor operativo
+const PAIN_KEYWORDS = [
+  'problema', 'reto', 'no contesto', 'no contestamos', 'no respondo', 'no alcanzo',
+  'no doy seguimiento', 'pierdo', 'se van', 'tardo', 'tarde', 'lento', 'manual',
+  'no me da tiempo', 'no tengo tiempo', 'se me escapan', 'no logro', 'difícil',
+]
+
+// Chips de respuesta rápida por etapa (reglas en el front, sin IA)
+const QUICK_REPLIES = {
+  sector: [
+    'Tengo una clínica o consultorio',
+    'Soy de una inmobiliaria',
+    'Tengo una empresa de servicios',
+    'Otro tipo de negocio',
+  ],
+  reto: [
+    'No contesto a tiempo los mensajes',
+    'No doy buen seguimiento',
+    'Pierdo clientes por la demora',
+    'Quiero vender más',
+  ],
+  agendar: ['Quiero agendar una llamada'],
+}
+
+/**
+ * Decide qué chips de respuesta rápida mostrar según la etapa de la conversación.
+ * Reglas puras en el front — no llama a la IA. Devuelve [] cuando no aplica.
+ */
+function getQuickReplies(messages, leadStatus, loading) {
+  // No competir con la tarjeta de lead, el éxito, ni el typing indicator
+  if (loading) return []
+  if (leadStatus === 'show' || leadStatus === 'sent') return []
+
+  const userMsgs = messages.filter(m => m.role === 'user')
+
+  // Inicio: solo está el WELCOME_MSG, aún no escribe → ofrecer sector
+  if (userMsgs.length === 0) return QUICK_REPLIES.sector
+
+  const lastUser = userMsgs[userMsgs.length - 1]?.content?.toLowerCase() || ''
+
+  // Diagnóstico primero (coherente con IFC™): si describe un dolor, ofrecer
+  // opciones de reto para precisar — ANTES de empujar a agendar.
+  if (PAIN_KEYWORDS.some(kw => lastUser.includes(kw))) return QUICK_REPLIES.reto
+
+  // Interés explícito sin dolor en el mensaje → empujar a agendar
+  if (INTEREST_KEYWORDS.some(kw => lastUser.includes(kw))) return QUICK_REPLIES.agendar
+
+  return []
+}
+
 const s = {
   fab: {
     position: 'fixed', bottom: 28, right: 28, width: 56, height: 56,
@@ -213,6 +269,17 @@ const s = {
     flexShrink: 0, boxShadow: '0 4px 12px rgba(123,92,245,0.4)',
   },
   footer: { textAlign: 'center', fontSize: 11, color: '#3D5170', padding: '8px 16px 10px', borderTop: '1px solid rgba(255,255,255,0.04)', flexShrink: 0 },
+  quickWrap: {
+    display: 'flex', flexWrap: 'wrap', gap: 7, padding: '10px 16px 4px',
+    flexShrink: 0, animation: 'fadeSlideIn 0.25s ease',
+  },
+  quickChip: {
+    background: 'linear-gradient(135deg, rgba(123,92,245,0.18), rgba(0,194,255,0.12))',
+    border: '1px solid rgba(123,92,245,0.3)', borderRadius: 16,
+    color: '#D8E6FF', fontSize: 12, fontWeight: 600, padding: '7px 13px',
+    cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", lineHeight: 1.2,
+    transition: 'background 0.2s, transform 0.15s', whiteSpace: 'nowrap',
+  },
 }
 
 export default function ChatWidget() {
@@ -251,21 +318,25 @@ export default function ChatWidget() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Mostrar formulario después del 3er mensaje del usuario + si hay interés detectado
+  // Mostrar formulario: 3er mensaje con interés, o 4to mensaje a secas.
+  // Antes de la tarjeta, inserta un mensaje cálido invitando a dejar datos (una vez).
   useEffect(() => {
     if (leadStatus !== 'idle') return
     const userMsgs = messages.filter(m => m.role === 'user')
     const count = userMsgs.length
-    if (count >= 3 && hasInterest(messages)) {
-      setLeadStatus('show')
-    } else if (count >= 5) {
-      // Mostrar igual después del 5to mensaje aunque no haya keywords
-      setLeadStatus('show')
+    const shouldShow = (count >= 3 && hasInterest(messages)) || count >= 4
+    if (shouldShow) {
+      // No insertar el mensaje cálido si el chat aún está respondiendo (evita encimar)
+      if (!loading) {
+        setMessages(prev => [...prev, LEAD_INVITE_MSG])
+        setLeadStatus('show')
+      }
     }
-  }, [messages, leadStatus])
+  }, [messages, leadStatus, loading])
 
-  async function sendMessage() {
-    const text = input.trim()
+  async function sendMessage(override) {
+    // Si recibe texto (chip de respuesta rápida) lo usa; si no, lee del input.
+    const text = (typeof override === 'string' ? override : input).trim()
     if (!text || loading) return
     const newMessages = [...messages, { role: 'user', content: text }]
     setMessages(newMessages)
@@ -423,6 +494,26 @@ export default function ChatWidget() {
           <div ref={messagesEndRef} />
         </div>
 
+        {/* Respuestas rápidas (chips) */}
+        {(() => {
+          const chips = getQuickReplies(messages, leadStatus, loading)
+          if (chips.length === 0) return null
+          return (
+            <div style={s.quickWrap}>
+              {chips.map((chip, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  style={s.quickChip}
+                  onClick={() => sendMessage(chip)}
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+          )
+        })()}
+
         {/* Input */}
         <div style={s.inputRow}>
           <textarea
@@ -436,7 +527,7 @@ export default function ChatWidget() {
             maxLength={500}
           />
           <button
-            onClick={sendMessage}
+            onClick={() => sendMessage()}
             disabled={!input.trim() || loading}
             style={{ ...s.sendBtn, opacity: !input.trim() || loading ? 0.4 : 1, cursor: !input.trim() || loading ? 'not-allowed' : 'pointer' }}
             aria-label="Enviar mensaje"
