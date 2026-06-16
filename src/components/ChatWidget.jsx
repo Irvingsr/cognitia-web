@@ -159,6 +159,15 @@ function getQuickReplies(messages, leadStatus, loading) {
   return []
 }
 
+// Reconocimiento de voz nativo del navegador (Web Speech API).
+// Existe en Chrome / Edge / Chrome Android; en Safari/iOS es parcial.
+// Si no existe, el botón de micrófono simplemente no se muestra (el cliente escribe).
+const SpeechRecognition =
+  typeof window !== 'undefined'
+    ? window.SpeechRecognition || window.webkitSpeechRecognition
+    : null
+const VOICE_SUPPORTED = !!SpeechRecognition
+
 const s = {
   fab: {
     position: 'fixed', bottom: 28, right: 28, width: 56, height: 56,
@@ -268,6 +277,16 @@ const s = {
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     flexShrink: 0, boxShadow: '0 4px 12px rgba(123,92,245,0.4)',
   },
+  micBtn: {
+    width: 40, height: 40, borderRadius: 12,
+    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+    color: '#D8E6FF', fontSize: 16, display: 'flex', alignItems: 'center',
+    justifyContent: 'center', flexShrink: 0, transition: 'background 0.2s, transform 0.15s',
+  },
+  micBtnActive: {
+    background: 'linear-gradient(135deg, #8B1E2D, #b3263a)', border: '1px solid #b3263a',
+    color: '#fff', fontSize: 14, animation: 'micPulse 1.4s ease-in-out infinite',
+  },
   footer: { textAlign: 'center', fontSize: 11, color: '#3D5170', padding: '8px 16px 10px', borderTop: '1px solid rgba(255,255,255,0.04)', flexShrink: 0 },
   quickWrap: {
     display: 'flex', flexWrap: 'wrap', gap: 7, padding: '10px 16px 4px',
@@ -289,6 +308,7 @@ export default function ChatWidget() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [unread, setUnread] = useState(false)
+  const [listening, setListening] = useState(false) // dictado por voz activo
 
   // Lead capture
   const [leadStatus, setLeadStatus] = useState('idle') // 'idle' | 'show' | 'sent' | 'skipped'
@@ -300,6 +320,7 @@ export default function ChatWidget() {
 
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+  const recognitionRef = useRef(null)
 
   useEffect(() => {
     if (open && messages.length === 0) setMessages([WELCOME_MSG])
@@ -333,6 +354,71 @@ export default function ChatWidget() {
       }
     }
   }, [messages, leadStatus, loading])
+
+  // Detener el dictado si se cierra el chat o se desmonta el componente
+  useEffect(() => {
+    if (!open && recognitionRef.current) {
+      recognitionRef.current.stop()
+    }
+    return () => {
+      if (recognitionRef.current) recognitionRef.current.stop()
+    }
+  }, [open])
+
+  // Inicia / detiene el dictado por voz (Web Speech API del navegador).
+  // El texto reconocido va llenando el input; el cliente lo revisa y envía.
+  function toggleVoice() {
+    if (!VOICE_SUPPORTED || loading) return
+
+    // Si ya está escuchando, detener
+    if (listening && recognitionRef.current) {
+      recognitionRef.current.stop()
+      return
+    }
+
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'es-MX'
+    recognition.interimResults = true
+    recognition.continuous = false
+    recognitionRef.current = recognition
+
+    // Texto que ya había escrito el usuario antes de dictar (no lo pisamos)
+    const base = input ? input.trim() + ' ' : ''
+
+    recognition.onstart = () => { setListening(true); setError('') }
+
+    recognition.onresult = (event) => {
+      let transcript = ''
+      for (let i = 0; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript
+      }
+      setInput((base + transcript).slice(0, 500))
+    }
+
+    recognition.onerror = (event) => {
+      // 'not-allowed' = permiso negado; 'no-speech' = no se detectó voz.
+      // En cualquier caso, salir limpio sin romper el chat de texto.
+      setListening(false)
+      recognitionRef.current = null
+      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        setError('Para usar la voz, permite el micrófono en tu navegador.')
+      }
+    }
+
+    recognition.onend = () => {
+      setListening(false)
+      recognitionRef.current = null
+      // Devolver el foco al input para que el cliente edite/envíe
+      setTimeout(() => inputRef.current?.focus(), 50)
+    }
+
+    try {
+      recognition.start()
+    } catch {
+      setListening(false)
+      recognitionRef.current = null
+    }
+  }
 
   async function sendMessage(override) {
     // Si recibe texto (chip de respuesta rápida) lo usa; si no, lee del input.
@@ -526,6 +612,16 @@ export default function ChatWidget() {
             rows={1}
             maxLength={500}
           />
+          {/* Micrófono: solo si el navegador soporta reconocimiento de voz */}
+          {VOICE_SUPPORTED && (
+            <button
+              onClick={toggleVoice}
+              disabled={loading}
+              style={{ ...s.micBtn, ...(listening ? s.micBtnActive : {}), opacity: loading ? 0.4 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+              aria-label={listening ? 'Detener dictado' : 'Hablar en vez de escribir'}
+              title={listening ? 'Detener dictado' : 'Hablar en vez de escribir'}
+            >{listening ? '■' : '🎤'}</button>
+          )}
           <button
             onClick={() => sendMessage()}
             disabled={!input.trim() || loading}
