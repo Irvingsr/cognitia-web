@@ -321,6 +321,8 @@ export default function ChatWidget() {
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
   const recognitionRef = useRef(null)
+  const keepListeningRef = useRef(false) // el usuario quiere seguir dictando (no parar en pausas)
+  const voiceBaseRef = useRef('')        // texto previo en el input al iniciar el dictado
 
   useEffect(() => {
     if (open && messages.length === 0) setMessages([WELCOME_MSG])
@@ -357,67 +359,91 @@ export default function ChatWidget() {
 
   // Detener el dictado si se cierra el chat o se desmonta el componente
   useEffect(() => {
-    if (!open && recognitionRef.current) {
-      recognitionRef.current.stop()
+    if (!open) {
+      keepListeningRef.current = false
+      recognitionRef.current?.stop()
     }
     return () => {
-      if (recognitionRef.current) recognitionRef.current.stop()
+      keepListeningRef.current = false
+      recognitionRef.current?.stop()
     }
   }, [open])
 
-  // Inicia / detiene el dictado por voz (Web Speech API del navegador).
-  // El texto reconocido va llenando el input; el cliente lo revisa y envía.
-  function toggleVoice() {
-    if (!VOICE_SUPPORTED || loading) return
-
-    // Si ya está escuchando, detener
-    if (listening && recognitionRef.current) {
-      recognitionRef.current.stop()
-      return
-    }
-
+  // Crea una sesión de reconocimiento de voz. Se reusa en cada (re)arranque,
+  // porque la Web Speech API dispara onend tras silencios largos aunque
+  // continuous=true; cuando eso pasa y el usuario NO ha parado, se reinicia.
+  function startRecognition() {
     const recognition = new SpeechRecognition()
     recognition.lang = 'es-MX'
     recognition.interimResults = true
-    recognition.continuous = false
+    recognition.continuous = true // no cortar a la primera pausa
     recognitionRef.current = recognition
-
-    // Texto que ya había escrito el usuario antes de dictar (no lo pisamos)
-    const base = input ? input.trim() + ' ' : ''
 
     recognition.onstart = () => { setListening(true); setError('') }
 
     recognition.onresult = (event) => {
-      let transcript = ''
+      // Texto final acumulado en sesiones previas (lo guardamos en voiceBaseRef)
+      // + lo que se está reconociendo ahora.
+      let finalSoFar = ''
+      let interim = ''
       for (let i = 0; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript
+        const chunk = event.results[i][0].transcript
+        if (event.results[i].isFinal) finalSoFar += chunk
+        else interim += chunk
       }
-      setInput((base + transcript).slice(0, 500))
+      const full = (voiceBaseRef.current + finalSoFar + interim).trim()
+      setInput(full.slice(0, 500))
+      // Persistir lo ya finalizado para no perderlo si la sesión se reinicia
+      if (finalSoFar) voiceBaseRef.current = (voiceBaseRef.current + finalSoFar)
     }
 
     recognition.onerror = (event) => {
-      // 'not-allowed' = permiso negado; 'no-speech' = no se detectó voz.
-      // En cualquier caso, salir limpio sin romper el chat de texto.
-      setListening(false)
-      recognitionRef.current = null
+      // 'no-speech' / 'aborted' son benignos: dejamos que onend decida reiniciar.
       if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        keepListeningRef.current = false
+        setListening(false)
+        recognitionRef.current = null
         setError('Para usar la voz, permite el micrófono en tu navegador.')
       }
     }
 
     recognition.onend = () => {
+      // Si el usuario sigue queriendo dictar, reiniciar (la API se apaga sola
+      // tras pausas). Si ya tocó parar, cerrar limpio.
+      if (keepListeningRef.current) {
+        try { recognition.start() } catch { /* reintento silencioso */ }
+        return
+      }
       setListening(false)
       recognitionRef.current = null
-      // Devolver el foco al input para que el cliente edite/envíe
       setTimeout(() => inputRef.current?.focus(), 50)
     }
 
     try {
       recognition.start()
     } catch {
+      keepListeningRef.current = false
       setListening(false)
       recognitionRef.current = null
     }
+  }
+
+  // Inicia / detiene el dictado por voz. El texto reconocido va llenando el
+  // input; el cliente lo revisa y envía. NO para en pausas: solo al tocar ■.
+  function toggleVoice() {
+    if (!VOICE_SUPPORTED || loading) return
+
+    // Si ya está escuchando → el usuario pide parar
+    if (listening) {
+      keepListeningRef.current = false
+      recognitionRef.current?.stop()
+      return
+    }
+
+    // Arrancar: recordar el texto previo del input y activar la bandera
+    voiceBaseRef.current = input ? input.trim() + ' ' : ''
+    keepListeningRef.current = true
+    startRecognition()
   }
 
   async function sendMessage(override) {
