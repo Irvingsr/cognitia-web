@@ -1,15 +1,17 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { getPost, formatDate } from '../data/posts'
-import { lazy, Suspense } from 'react'
 import Seo from '../components/Seo'
 
-// Importa dinámicamente el contenido del post según el slug
-function loadPostContent(slug) {
-  return lazy(() =>
-    import(`../posts/${slug}.jsx`).catch(() => ({
-      default: () => <p style={{ color: 'var(--muted)' }}>Contenido no disponible.</p>
-    }))
-  )
+// Contenido de los posts, resuelto en tiempo de build.
+// Eager (no lazy) para que el cuerpo del artículo también quede en el HTML
+// prerenderizado; con carga diferida el prerender solo guardaría el fallback.
+const POST_MODULES = import.meta.glob('../posts/*.jsx', { eager: true })
+
+function getPostContent(slug) {
+  const mod = POST_MODULES[`../posts/${slug}.jsx`]
+  return mod?.default || (() => (
+    <p style={{ color: 'var(--muted)' }}>Contenido no disponible.</p>
+  ))
 }
 
 export default function BlogPost() {
@@ -18,7 +20,7 @@ export default function BlogPost() {
 
   if (!post) return <Navigate to="/blog" replace />
 
-  const PostContent = loadPostContent(slug)
+  const PostContent = getPostContent(slug)
 
   return (
     <div className="page-bg">
@@ -75,11 +77,9 @@ export default function BlogPost() {
       {/* Contenido del post */}
       <section style={s.body}>
         <div className="container" style={{ maxWidth: 780 }}>
-          <Suspense fallback={<div style={{ color: 'var(--muted)', padding: '40px 0' }}>Cargando...</div>}>
-            <div style={s.content} className="post-content">
-              <PostContent />
-            </div>
-          </Suspense>
+          <div style={s.content} className="post-content">
+            <PostContent />
+          </div>
 
           {/* CTA dentro del post */}
           <div style={s.ctaBox}>

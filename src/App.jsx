@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import ChatWidget from './components/ChatWidget'
@@ -14,9 +14,12 @@ import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import NotFound from './pages/NotFound'
 
+// El Router NO vive aquí: lo aporta quien monta la app.
+// En el navegador es BrowserRouter (src/main.jsx); en el prerender es
+// StaticRouter (src/entry-server.jsx), que no depende de `document`.
 export default function App() {
   return (
-    <BrowserRouter>
+    <>
       <Seo />
       {/* Blobs animados fijos — siempre visibles sin importar el scroll */}
       <div className="background-blobs" aria-hidden="true">
@@ -41,6 +44,6 @@ export default function App() {
       </main>
       <Footer />
       <ChatWidget />
-    </BrowserRouter>
+    </>
   )
 }
