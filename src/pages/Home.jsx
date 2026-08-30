@@ -216,7 +216,7 @@ export default function Home() {
               negocio — con tu tono, sin curva técnica para ti.
             </p>
             <div style={s.heroBtns} className="fade-up d4">
-              <Link to="/diagnostico" className="btn-primary">
+              <Link to="/scorecard" className="btn-primary">
                 Mide tu fricción gratis →
               </Link>
               <Link to="/contacto" className="btn-secondary">
@@ -318,7 +318,7 @@ export default function Home() {
               Calcula tu Índice de Fricción Cognitiva™ gratis. 2 minutos, sin compromiso.
             </p>
           </div>
-          <Link to="/diagnostico" className="btn-success" style={{ flexShrink: 0 }}>
+          <Link to="/scorecard" className="btn-success" style={{ flexShrink: 0 }}>
             Calcular mi IFC™ gratis →
           </Link>
         </div>

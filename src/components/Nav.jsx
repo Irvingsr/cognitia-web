@@ -5,7 +5,7 @@ const links = [
   { to: '/servicios',   label: 'Servicios' },
   { to: '/manifiesto',  label: 'Manifiesto' },
   { to: '/blog',        label: 'Blog' },
-  { to: '/diagnostico', label: 'Diagnóstico IFC™', highlight: true },
+  { to: '/diagnostico', label: 'Diagnóstico Estratégico', highlight: true },
   { to: '/calculadora', label: 'Calculadora ROI' },
 ]
 

@@ -27,7 +27,8 @@ export default function Footer() {
           <div style={s.col}>
             <Link to="/servicios" style={s.link}>Servicios</Link>
             <Link to="/manifiesto" style={s.link}>Manifiesto</Link>
-            <Link to="/diagnostico" style={s.link}>Test Diagnóstico</Link>
+            <Link to="/diagnostico" style={s.link}>Diagnóstico Estratégico</Link>
+            <Link to="/scorecard" style={s.link}>Evaluación gratuita</Link>
             <Link to="/calculadora" style={s.link}>Calculadora ROI</Link>
             <Link to="/contacto" style={s.link}>Contacto</Link>
           </div>

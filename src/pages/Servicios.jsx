@@ -115,9 +115,9 @@ export default function Servicios() {
       <section style={s.cta}>
         <div className="container" style={s.ctaInner}>
           <h2>¿No sabes por dónde empezar?</h2>
-          <p style={{ color: 'var(--muted)', marginTop: 10 }}>Haz el diagnóstico gratuito y te decimos exactamente qué agente necesitas.</p>
+          <p style={{ color: 'var(--muted)', marginTop: 10 }}>Empezamos por entender tu operación y de ahí sale el plan.</p>
           <div style={{ display: 'flex', gap: 12, marginTop: 28, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/diagnostico" className="btn-primary">Hacer Diagnóstico Gratis →</Link>
+            <Link to="/diagnostico" className="btn-primary">Solicitar Diagnóstico Estratégico →</Link>
             <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" className="btn-secondary">WhatsApp directo</a>
           </div>
         </div>

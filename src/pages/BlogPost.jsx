@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { getPost, formatDate } from '../data/posts'
 import { lazy, Suspense } from 'react'
+import Seo from '../components/Seo'
 
 // Importa dinámicamente el contenido del post según el slug
 function loadPostContent(slug) {
@@ -21,6 +22,12 @@ export default function BlogPost() {
 
   return (
     <div className="page-bg">
+      {/* Metadata propia del post — si no, heredaría la del Home */}
+      <Seo
+        title={`${post.title} | Cognitia`}
+        description={post.excerpt}
+        type="article"
+      />
 
       {/* Header del post */}
       <section style={s.header}>

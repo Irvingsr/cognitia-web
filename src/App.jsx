@@ -2,10 +2,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import ChatWidget from './components/ChatWidget'
+import Seo from './components/Seo'
 import Home from './pages/Home'
 import Servicios from './pages/Servicios'
 import Manifiesto from './pages/Manifiesto'
 import Diagnostico from './pages/Diagnostico'
+import Scorecard from './pages/Scorecard'
 import Calculadora from './pages/Calculadora'
 import Contacto from './pages/Contacto'
 import Blog from './pages/Blog'
@@ -15,6 +17,7 @@ import NotFound from './pages/NotFound'
 export default function App() {
   return (
     <BrowserRouter>
+      <Seo />
       {/* Blobs animados fijos — siempre visibles sin importar el scroll */}
       <div className="background-blobs" aria-hidden="true">
         <div className="blob blob-1" />
@@ -28,6 +31,7 @@ export default function App() {
           <Route path="/servicios" element={<Servicios />} />
           <Route path="/manifiesto" element={<Manifiesto />} />
           <Route path="/diagnostico" element={<Diagnostico />} />
+          <Route path="/scorecard" element={<Scorecard />} />
           <Route path="/calculadora" element={<Calculadora />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/blog" element={<Blog />} />
