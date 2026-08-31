@@ -150,6 +150,27 @@ async function run() {
     console.error(`  ✗ 404.html — ${err.message.split('\n')[0]}`)
   }
 
+  // Sitemap generado desde la MISMA lista de rutas que se prerenderiza.
+  // Asi no puede desincronizarse ni listar URLs que redirigen o devuelven 404.
+  const { SITE_URL } = await vite.ssrLoadModule('/src/data/seo.js')
+  const priority = route => (route === '/' ? '1.0' : route.startsWith('/blog/') ? '0.6' : '0.8')
+  const sitemap = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...routes.map(route =>
+      [
+        '  <url>',
+        `    <loc>${SITE_URL}${route === '/' ? '/' : route}</loc>`,
+        `    <priority>${priority(route)}</priority>`,
+        '  </url>',
+      ].join('\n')
+    ),
+    '</urlset>',
+    '',
+  ].join('\n')
+  await writeFile(join(DIST, 'sitemap.xml'), sitemap, 'utf8')
+  console.log(`  ✓ ${'sitemap.xml'.padEnd(42)} ${String(routes.length).padStart(7)} URLs`)
+
   await vite.close()
 
   console.log(`\nPrerender completo · ${routes.length - failed} ok · ${failed} con error\n`)

@@ -2,7 +2,10 @@
 // El componente <Seo> la aplica en cliente y el prerender la hornea en el HTML inicial.
 // Cualquier cambio de title/description/canonical se hace AQUÍ, no en las páginas.
 
-export const SITE_URL = 'https://cognitiamx.com'
+// Host canónico. Es `www` porque el dominio en Vercel redirige apex -> www a nivel
+// de dominio; declarar el apex aquí apuntaría el canonical a una URL que redirige.
+// Si algún día se invierte ese redirect en el panel, basta cambiar esta constante.
+export const SITE_URL = 'https://www.cognitiamx.com'
 export const SITE_NAME = 'Cognitia'
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`
 
