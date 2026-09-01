@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { LogoMark } from './Logo'
 
 const CALENDLY_URL = 'https://calendly.com/irvingsr-cognitiamx/llamada-de-consultoria-cognitia-30-min'
 
@@ -83,7 +84,7 @@ Cuando el usuario mencione empresa de servicios, proveedores, industria, logíst
 
 const WELCOME_MSG = {
   role: 'assistant',
-  content: '¡Hola! Soy el asesor virtual de Cognitia. ¿Tienes una clínica, inmobiliaria o empresa? Cuéntame un poco de tu negocio y te digo dónde puede estar perdiendo dinero por fricción operativa — y cómo eliminarla. 🚀',
+  content: '¡Hola! Soy el asesor virtual de Cognitia. ¿Tienes una clínica, inmobiliaria o empresa? Cuéntame un poco de tu negocio y te digo dónde puede estar perdiendo dinero por fricción operativa — y cómo eliminarla.',
 }
 
 // Palabras clave que indican interés real del usuario
@@ -106,7 +107,7 @@ function hasInterest(messages) {
 // Mensaje cálido que invita a dejar datos (se inserta una sola vez antes de la tarjeta)
 const LEAD_INVITE_MSG = {
   role: 'assistant',
-  content: 'Me encantaría que un asesor de Cognitia te dé seguimiento personalizado. Si me dejas tus datos aquí abajo, te contactamos sin compromiso para una revisión de 30 min sin costo. 👇',
+  content: 'Me encantaría que un asesor de Cognitia te dé seguimiento personalizado. Si me dejas tus datos aquí abajo, te contactamos sin compromiso para una revisión de 30 min sin costo.',
 }
 
 // Palabras que sugieren que el usuario está describiendo un dolor operativo
@@ -535,7 +536,7 @@ export default function ChatWidget() {
         {/* Header */}
         <div style={s.header}>
           <div style={s.headerLeft}>
-            <div style={s.avatar}>◈</div>
+            <div style={s.avatar}><LogoMark size={26} id="chat-avatar" /></div>
             <div>
               <div style={s.agentName}>Asesor Cognitia</div>
               <div style={s.statusRow}>
@@ -551,14 +552,14 @@ export default function ChatWidget() {
         <div style={s.messagesArea}>
           {messages.map((m, i) => (
             <div key={i} style={{ ...s.msgRow, justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-              {m.role === 'assistant' && <div style={s.botAvatar}>◈</div>}
+              {m.role === 'assistant' && <div style={s.botAvatar}><LogoMark size={18} id="chat-bot" /></div>}
               <div style={m.role === 'user' ? s.msgUser : s.msgBot}>{m.content}</div>
             </div>
           ))}
 
           {loading && (
             <div style={{ ...s.msgRow, justifyContent: 'flex-start' }}>
-              <div style={s.botAvatar}>◈</div>
+              <div style={s.botAvatar}><LogoMark size={18} id="chat-typing" /></div>
               <div style={{ ...s.msgBot, ...s.typing }}>
                 <span style={s.dot} />
                 <span style={{ ...s.dot, animationDelay: '0.2s' }} />
@@ -572,7 +573,7 @@ export default function ChatWidget() {
           {/* Tarjeta de captura de lead */}
           {leadStatus === 'show' && (
             <div style={s.leadCard}>
-              <div style={s.leadTitle}>¿Quieres una consulta gratuita? 🎯</div>
+              <div style={s.leadTitle}>¿Quieres una consulta gratuita?</div>
               <div style={s.leadSub}>Déjanos tus datos y un asesor de Cognitia te contacta para una revisión personalizada de 30 min, sin costo.</div>
               <form onSubmit={submitLead}>
                 <input style={s.leadInput} placeholder="Tu nombre *" value={leadName} onChange={e => setLeadName(e.target.value)} maxLength={80} />
@@ -598,7 +599,7 @@ export default function ChatWidget() {
                 ¿Prefieres elegir tu horario ahora?
               </div>
               <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" style={s.calendlyBtn}>
-                📅 Agendar llamada de 30 min gratis
+                Agendar llamada de 30 min gratis
               </a>
             </div>
           )}
@@ -646,7 +647,16 @@ export default function ChatWidget() {
               style={{ ...s.micBtn, ...(listening ? s.micBtnActive : {}), opacity: loading ? 0.4 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
               aria-label={listening ? 'Detener dictado' : 'Hablar en vez de escribir'}
               title={listening ? 'Detener dictado' : 'Hablar en vez de escribir'}
-            >{listening ? '■' : '🎤'}</button>
+            >
+              {listening ? (
+                <span style={{ display: 'block', width: 11, height: 11, background: 'currentColor', borderRadius: 2 }} />
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <rect x="9" y="2" width="6" height="11" rx="3" />
+                  <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
+                </svg>
+              )}
+            </button>
           )}
           <button
             onClick={() => sendMessage()}
@@ -668,7 +678,7 @@ export default function ChatWidget() {
         aria-label={open ? 'Cerrar asesor' : 'Hablar con asesor de Cognitia'}
       >
         <span style={{ ...s.fabIcon, transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
-          {open ? '✕' : '◈'}
+          {open ? '✕' : <LogoMark size={26} id="chat-fab" />}
         </span>
         {unread && !open && <span style={s.badge} />}
       </button>

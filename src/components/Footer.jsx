@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import Logo from './Logo'
+import { WHATSAPP_URL, TELEFONO_DISPLAY, TELEFONO_E164, EMAIL, UBICACION } from '../data/contacto'
 
 export default function Footer() {
   return (
@@ -7,15 +9,14 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div style={s.logo}>
-            <span style={s.logoIcon}>◈</span>
-            <span style={s.logoText}>Cognitia</span>
+            <Logo size={28} id="footer-logo" />
           </div>
-          <p style={s.tagline}>IA que trabaja para tu negocio, no al revés.</p>
+          <p style={s.tagline}>Claridad sobre qué mejorar y dónde aplicar la tecnología.</p>
           <div style={s.socials}>
-            <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" style={s.badge}>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" style={s.badge}>
               WhatsApp
             </a>
-            <a href="mailto:irvingsr@cognitiamx.com" style={s.badge}>
+            <a href={`mailto:${EMAIL}`} style={s.badge}>
               Email
             </a>
           </div>
@@ -38,9 +39,9 @@ export default function Footer() {
         <div>
           <p style={s.colTitle}>Contacto</p>
           <div style={s.col}>
-            <span style={s.link}>+52 984 179 8638</span>
-            <span style={s.link}>irvingsr@cognitiamx.com</span>
-            <span style={s.link}>Playa del Carmen, Q. Roo</span>
+            <a href={`tel:${TELEFONO_E164}`} style={s.link}>{TELEFONO_DISPLAY}</a>
+            <a href={`mailto:${EMAIL}`} style={s.link}>{EMAIL}</a>
+            <span style={s.link}>{UBICACION}</span>
           </div>
         </div>
       </div>
@@ -66,8 +67,6 @@ const s = {
     paddingBottom: 48,
   },
   logo: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 },
-  logoIcon: { fontSize: 22, color: '#7B5CF5' },
-  logoText: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: 2, color: '#E8F0FE' },
   tagline: { fontSize: 13, color: '#7A8FAD', lineHeight: 1.6, maxWidth: 240, marginBottom: 20 },
   socials: { display: 'flex', gap: 10 },
   badge: {

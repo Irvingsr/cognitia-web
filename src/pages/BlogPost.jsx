@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { getPost, formatDate } from '../data/posts'
 import Seo from '../components/Seo'
+import { WHATSAPP_URL } from '../data/contacto'
 
 // Contenido de los posts, resuelto en tiempo de build.
 // Eager (no lazy) para que el cuerpo del artículo también quede en el HTML
@@ -84,17 +85,17 @@ export default function BlogPost() {
           {/* CTA dentro del post */}
           <div style={s.ctaBox}>
             <p style={s.ctaLabel}>¿Quieres aplicar esto en tu negocio?</p>
-            <h3 style={s.ctaTitle}>Diagnostica tu operación en 2 minutos</h3>
+            <h3 style={s.ctaTitle}>Empieza por entender qué te está frenando</h3>
             <p style={s.ctaText}>
-              Descubre exactamente qué procesos puedes automatizar y qué impacto tendría en tu negocio.
-              Gratis, sin compromiso.
+              El Diagnóstico Estratégico analiza tu operación y te entrega prioridades y un plan
+              de acción antes de que inviertas en tecnología.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 20 }}>
               <Link to="/diagnostico" className="btn-primary">
-                Hacer el diagnóstico →
+                Solicitar Diagnóstico Estratégico →
               </Link>
               <a
-                href="https://wa.me/529841798638"
+                href={WHATSAPP_URL}
                 target="_blank" rel="noreferrer"
                 className="btn-secondary"
               >

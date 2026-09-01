@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { WHATSAPP_URL, TELEFONO_DISPLAY, EMAIL } from '../data/contacto'
 
 export default function Contacto() {
   const [sent, setSent] = useState(false)
@@ -35,8 +36,8 @@ export default function Contacto() {
       <section style={s.header}>
         <div className="container" style={{ textAlign: 'center' }}>
           <p className="label label-electric">Hablemos</p>
-          <h1>¿Listo para automatizar<br />tu negocio?</h1>
-          <p style={s.headerSub}>Sin compromisos. Una conversación de 30 minutos puede cambiar cómo opera tu negocio para siempre.</p>
+          <h1>Hablemos sobre lo que quieres mejorar en tu negocio</h1>
+          <p style={s.headerSub}>Cuéntanos qué te está frenando. Si podemos ayudarte, te decimos cómo; si no, también te lo decimos.</p>
         </div>
       </section>
 
@@ -44,43 +45,37 @@ export default function Contacto() {
         <div className="container contact-main-grid">
           {/* Quick CTAs */}
           <div style={s.ctaCol}>
-            <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" style={s.ctaCard}>
-              <div style={{ ...s.ctaIcon, background: 'rgba(0,219,130,0.1)', border: '1px solid rgba(0,219,130,0.25)' }}>
-                <span style={{ fontSize: 28 }}>💬</span>
-              </div>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" style={s.ctaCard}>
+              <span style={{ ...s.ctaRule, background: 'var(--success)' }} aria-hidden="true" />
               <div>
                 <p style={s.ctaTitle}>WhatsApp directo</p>
-                <p style={s.ctaSub}>Respuesta en menos de 2 horas en horario de negocios</p>
-                <p style={s.ctaLink}>+52 984 179 8638 →</p>
+                <p style={s.ctaSub}>La vía más rápida para una primera conversación</p>
+                <p style={s.ctaLink}>{TELEFONO_DISPLAY} →</p>
               </div>
             </a>
 
             <a href="https://calendly.com/irvingsr-cognitiamx/llamada-de-consultoria-cognitia-30-min" target="_blank" rel="noreferrer" style={s.ctaCard}>
-              <div style={{ ...s.ctaIcon, background: 'rgba(123,92,245,0.1)', border: '1px solid rgba(123,92,245,0.25)' }}>
-                <span style={{ fontSize: 28 }}>📅</span>
-              </div>
+              <span style={{ ...s.ctaRule, background: 'var(--purple)' }} aria-hidden="true" />
               <div>
                 <p style={s.ctaTitle}>Agendar llamada</p>
-                <p style={s.ctaSub}>Sesión de diagnóstico gratuita de 30 minutos con Irving</p>
+                <p style={s.ctaSub}>30 minutos con Irving para entender tu caso</p>
                 <p style={{ ...s.ctaLink, color: 'var(--purple)' }}>Ver disponibilidad →</p>
               </div>
             </a>
 
-            <a href="mailto:irvingsr@cognitiamx.com" style={s.ctaCard}>
-              <div style={{ ...s.ctaIcon, background: 'rgba(0,194,255,0.1)', border: '1px solid rgba(0,194,255,0.25)' }}>
-                <span style={{ fontSize: 28 }}>✉️</span>
-              </div>
+            <a href={`mailto:${EMAIL}`} style={s.ctaCard}>
+              <span style={{ ...s.ctaRule, background: 'var(--electric)' }} aria-hidden="true" />
               <div>
-                <p style={s.ctaTitle}>Email</p>
-                <p style={s.ctaSub}>Para propuestas formales y proyectos enterprise</p>
-                <p style={{ ...s.ctaLink, color: 'var(--electric)' }}>irvingsr@cognitiamx.com →</p>
+                <p style={s.ctaTitle}>Correo</p>
+                <p style={s.ctaSub}>Para propuestas formales y proyectos de mayor alcance</p>
+                <p style={{ ...s.ctaLink, color: 'var(--electric)' }}>{EMAIL} →</p>
               </div>
             </a>
 
             <div style={s.infoBox}>
-              <p style={s.infoTitle}>📍 Ubicación</p>
+              <p style={s.infoTitle}>Ubicación</p>
               <p style={s.infoText}>Playa del Carmen, Quintana Roo · México</p>
-              <p style={s.infoText}>También atendemos Tabasco y proyectos remotos</p>
+              <p style={s.infoText}>Atendemos la Riviera Maya de forma presencial, y el resto del país en remoto</p>
             </div>
           </div>
 
@@ -91,7 +86,7 @@ export default function Contacto() {
                 <div style={s.thanksBadge}>✓</div>
                 <h3>¡Mensaje recibido!</h3>
                 <p style={{ color: 'var(--muted)', marginTop: 10 }}>Te contactaremos en menos de 24 horas. También puedes escribirnos por WhatsApp para una respuesta más rápida.</p>
-                <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" className="btn-success" style={{ marginTop: 20, alignSelf: 'center' }}>
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="btn-success" style={{ marginTop: 20, alignSelf: 'center' }}>
                   Ir a WhatsApp
                 </a>
               </div>
@@ -154,7 +149,7 @@ const s = {
     borderRadius: 14, padding: '20px 22px', textDecoration: 'none',
     transition: 'border-color 0.2s, transform 0.2s',
   },
-  ctaIcon: { width: 52, height: 52, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  ctaRule: { width: 3, alignSelf: 'stretch', borderRadius: 3, flexShrink: 0, opacity: 0.8 },
   ctaTitle: { fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--text)' },
   ctaSub: { fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 },
   ctaLink: { fontSize: 13, color: 'var(--success)', marginTop: 6, fontWeight: 600 },

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import Evidencia from '../components/Evidencia'
 
 const TERMINAL_LINES = [
   { cmd: '> ', text: 'midiendo_friccion_operativa.py' },
@@ -12,17 +13,17 @@ const ZONAS = [
   {
     num: 'Zona 1',
     title: 'Primer Contacto',
-    desc: 'Un prospecto que no recibe respuesta personalizada en los primeros 5 minutos tiene 78% más probabilidad de irse con tu competencia. ¿Qué tan rápido respondes hoy?',
+    desc: 'Cuando un prospecto escribe y nadie contesta a tiempo, la conversación se enfría y muchas veces se pierde. ¿Cuánto tarda hoy tu negocio en responder?',
   },
   {
     num: 'Zona 2',
     title: 'Seguimiento',
-    desc: 'La mayoría de las ventas ocurren entre el contacto 5 y el 12. La mayoría de los equipos se rinde en el 2. Ahí se queda el dinero.',
+    desc: 'Pocas ventas se cierran en el primer contacto, pero el seguimiento suele abandonarse mucho antes de tiempo. ¿Quién lo sostiene hoy en tu equipo?',
   },
   {
     num: 'Zona 3',
     title: 'Cliente Activo',
-    desc: '¿Tu cliente siente que lo anticipas o que solo lo buscas cuando te conviene? Un cliente anticipado tiene 4X más probabilidad de referirte.',
+    desc: '¿Tu cliente siente que lo anticipas, o que solo lo buscas cuando te conviene? La diferencia se nota en la recompra y en las recomendaciones.',
   },
   {
     num: 'Zona 4',
@@ -33,24 +34,21 @@ const ZONAS = [
 
 const SECTORES = [
   {
-    icon: '✚',
     title: 'Clínicas Estéticas y Dentales',
     desc: 'Agenda llena sin perder pacientes en WhatsApp. Confirmaciones, recordatorios y seguimiento post-consulta automáticos, con el tono de tu clínica.',
   },
   {
-    icon: '⌂',
     title: 'Inmobiliarias y Real Estate',
     desc: 'Leads de portales atendidos y calificados en menos de 1 minuto, 24/7. Seguimiento que no se rinde y pipeline visible en tiempo real.',
   },
   {
-    icon: '◆',
     title: 'Empresas y Servicios B2B',
     desc: 'Operación, cotizaciones y atención sin cuellos de botella. Menos horas de administración, más control y reportes claros para dirección.',
   },
 ]
 
 const STEPS = [
-  { title: 'Auditoría IFC™', desc: 'Medimos la fricción en tus 4 zonas de contacto y la traducimos a dinero: cuántos prospectos y cuántas ventas estás perdiendo hoy. Sin costo.' },
+  { title: 'Auditoría IFC™', desc: 'Medimos la fricción en tus 4 zonas de contacto y la traducimos a dinero: cuántos prospectos y cuántas ventas estás perdiendo hoy. ' },
   { title: 'Diseño del Sistema', desc: 'Diseñamos los agentes de IA exactos para eliminar la fricción detectada. Con el tono y la personalidad de tu negocio. Sin soluciones genéricas.' },
   { title: 'Implementación', desc: 'Activamos los agentes en tu operación real: WhatsApp, portales, CRM. Tu equipo aprende a operarlos sin curva técnica.' },
   { title: 'Evolución Mensual', desc: 'El sistema se mide, se ajusta y mejora cada mes. La fricción no regresa: tu operación se vuelve más fina con el tiempo.' },
@@ -85,12 +83,6 @@ const s = {
   barLabel: { fontSize: 10, color: 'var(--muted)' },
   sectoresGrid: {
     display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24,
-  },
-  sectorIcon: {
-    fontSize: 28, color: 'var(--electric)', marginBottom: 16,
-    width: 56, height: 56, borderRadius: 14,
-    background: 'rgba(110,159,212,0.08)', border: '1px solid rgba(110,159,212,0.2)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
   zonas: {
     display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24,
@@ -152,9 +144,9 @@ function TerminalMockup() {
           <p style={s.statSub}>Con agente activo · 24/7, sin descansos ni vacaciones</p>
         </div>
         <div style={s.statCard}>
-          <p style={s.statLabel}>Seguimiento por Prospecto</p>
-          <p style={{ ...s.statVal, color: 'var(--text)' }}>5–12</p>
-          <p style={s.statSub}>Contactos donde ocurre la venta · el agente nunca se rinde</p>
+          <p style={s.statLabel}>Seguimiento</p>
+          <p style={{ ...s.statVal, color: 'var(--text)' }}>Sostenido</p>
+          <p style={s.statSub}>El seguimiento no se abandona a los dos intentos</p>
         </div>
       </div>
 
@@ -225,13 +217,12 @@ export default function Home() {
             </div>
             <div style={s.heroStats} className="fade-up d4">
               {[
-                { val: '78%',  desc: 'de los prospectos se van con la competencia si no respondes en 5 minutos' },
-                { val: '5–12', desc: 'contactos donde ocurre la venta. La mayoría de los equipos se rinde en el 2' },
-                { val: '4x',   desc: 'más referidos cuando el cliente siente que lo anticipas' },
-              ].map(st => (
-                <div key={st.val} style={s.heroStat}>
-                  <span style={s.heroStatVal}>{st.val}</span>
-                  <span style={s.heroStatDesc}>{st.desc}</span>
+                'Identificamos qué está frenando tus resultados',
+                'Priorizamos dónde tiene sentido aplicar tecnología',
+                'Implementamos y acompañamos la adopción',
+              ].map(t => (
+                <div key={t} style={s.heroStat}>
+                  <span style={s.heroStatDesc}>{t}</span>
                 </div>
               ))}
             </div>
@@ -254,7 +245,6 @@ export default function Home() {
           <div style={s.sectoresGrid}>
             {SECTORES.map((sec, i) => (
               <div key={i} className="glass-card">
-                <div style={s.sectorIcon}>{sec.icon}</div>
                 <h3 style={{ fontSize: '1.3rem', marginBottom: 10 }}>{sec.title}</h3>
                 <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 }}>{sec.desc}</p>
               </div>
@@ -308,6 +298,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* EVIDENCIA — por qué esto importa, antes de pedir la decisión */}
+      <Evidencia />
 
       {/* CTA BAND */}
       <section style={s.ctaBand}>

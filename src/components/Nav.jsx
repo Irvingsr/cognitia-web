@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import Logo from './Logo'
+import { WHATSAPP_URL } from '../data/contacto'
 
 const links = [
   { to: '/servicios',   label: 'Servicios' },
@@ -9,8 +11,6 @@ const links = [
   { to: '/calculadora', label: 'Calculadora ROI' },
 ]
 
-const WHATSAPP_URL = 'https://wa.me/529841798638?text=Hola%20Irving%2C%20vengo%20de%20cognitiamx.com%20y%20quiero%20saber%20m%C3%A1s'
-
 export default function Nav() {
   const [open, setOpen] = useState(false)
 
@@ -18,9 +18,8 @@ export default function Nav() {
     <nav style={styles.nav}>
       <div style={styles.inner}>
         {/* Logo */}
-        <Link to="/" style={styles.logo}>
-          <span style={styles.logoIcon}>◈</span>
-          <span style={styles.logoText}>Cognitia</span>
+        <Link to="/" style={styles.logo} aria-label="Cognitia — inicio">
+          <Logo size={30} id="nav-logo" />
         </Link>
 
         {/* Desktop links */}
@@ -87,8 +86,6 @@ const styles = {
     fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, letterSpacing: 2,
     color: '#F2F4F7', flexShrink: 0,
   },
-  logoIcon: { fontSize: 24, color: '#6E9FD4' },
-  logoText: {},
   links: { display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto', flexWrap: 'nowrap' },
   link: {
     padding: '6px 14px', borderRadius: 8, fontSize: 14, fontWeight: 500,

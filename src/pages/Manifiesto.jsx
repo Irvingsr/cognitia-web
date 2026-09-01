@@ -2,19 +2,16 @@ import { useState } from 'react'
 
 const PILLARS = [
   {
-    icon: '🧘',
     title: 'La IA al servicio de las personas, no al revés',
     sub: 'Reducir estrés y facilitar el trabajo humano',
     body: 'Creemos firmemente que la tecnología debe adaptarse a tu equipo y no obligar a tu gente a cambiar su esencia para complacer a una máquina. La IA debe ser una herramienta invisible que elimine la carga mental, automatice lo aburrido y te devuelva el recurso más valioso: el tiempo.',
   },
   {
-    icon: '🤝',
     title: 'Estrategia + Tecnología + Acompañamiento Humano',
     sub: 'No vendemos software, entregamos resultados',
     body: 'La implementación de IA falla cuando es solo tecnología. Nosotros combinamos diagnóstico estratégico, herramientas de vanguardia y acompañamiento real para que el cambio funcione en la realidad de tu negocio, no solo en papel.',
   },
   {
-    icon: '⚡',
     title: 'Simplicidad sobre Complejidad',
     sub: 'Si necesita un manual de 200 páginas, está mal diseñado',
     body: 'Un agente de IA bien construido debe sentirse natural desde el primer día. Diseñamos flujos simples, intuitivos y focalizados en el problema real. Sin tecnicismos, sin promesas vacías, sin complejidad innecesaria.',
@@ -26,7 +23,6 @@ function AccordionItem({ item }) {
   return (
     <div className={`accordion-item${open ? ' open' : ''}`}>
       <div className="accordion-header" onClick={() => setOpen(o => !o)}>
-        <span className="acc-icon">{item.icon}</span>
         <div style={{ flex: 1 }}>
           <h4>{item.title}</h4>
           {open && <p style={{ fontSize: 12, color: 'var(--purple)', marginTop: 4 }}>{item.sub}</p>}
@@ -64,18 +60,6 @@ export default function Manifiesto() {
               <span style={s.quoteMark}>"</span>
               La IA debe facilitar el trabajo humano, reducir estrés y mejorar la toma de decisiones, no imponer tecnología por moda.
             </blockquote>
-            <div style={s.stats}>
-              {[
-                { val: '4.1M', label: 'PyMEs en México sin automatización · INEGI 2024' },
-                { val: '60%',  label: 'reducción de tiempo en tareas repetitivas · Deloitte 2023' },
-                { val: '$3.7T', label: 'valor global generado por IA en empresas · McKinsey 2024' },
-              ].map((st, i) => (
-                <div key={i} style={s.stat}>
-                  <span style={s.statVal}>{st.val}</span>
-                  <span style={s.statLabel}>{st.label}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Right — accordion */}
