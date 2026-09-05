@@ -57,7 +57,21 @@ export function LogoMark({ size = 34, id = 'cognitia-mark' }) {
  * Lockup horizontal: isotipo + wordmark. Es la variante para cabecera y pie.
  * `showMark={false}` deja solo el wordmark (variante principal sobre fondo oscuro).
  */
-export default function Logo({ size = 30, showMark = true, id = 'cognitia-logo' }) {
+export default function Logo({ size = 30, showMark = true, id = 'cognitia-logo', tone = 'claro' }) {
+  // El Brand Guide (pag. 02, "Horizontal variante") define el lockup sobre fondo claro:
+  // mismo isotipo con degradado y "COGNIT" en tinta oscura en vez de blanco.
+  const colorWordmark = tone === 'oscuro' ? '#252C28' : '#FFFFFF'
+  // Sobre marfil, el degradado cian del wordmark pierde contraste. Se usa el extremo
+  // mas profundo del propio degradado de marca (#0088FF), sin introducir color nuevo.
+  const estiloIA = tone === 'oscuro'
+    ? { color: '#0088FF' }
+    : {
+        background: 'linear-gradient(90deg, #00C2FF, #0088FF)',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        color: '#00C2FF',
+      }
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
       {showMark && <LogoMark size={size} id={id} />}
@@ -68,21 +82,11 @@ export default function Logo({ size = 30, showMark = true, id = 'cognitia-logo' 
           letterSpacing: 1.6,
           lineHeight: 1,
           whiteSpace: 'nowrap',
-          color: '#FFFFFF',
+          color: colorWordmark,
         }}
       >
         COGNIT
-        <span
-          style={{
-            background: 'linear-gradient(90deg, #00C2FF, #0088FF)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            color: '#00C2FF',
-          }}
-        >
-          IA
-        </span>
+        <span style={estiloIA}>IA</span>
       </span>
     </span>
   )

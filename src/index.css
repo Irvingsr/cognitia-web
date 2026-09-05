@@ -383,3 +383,9 @@ textarea.form-input { resize: vertical; min-height: 120px; }
 .post-content a { color: var(--electric); text-decoration: underline; text-underline-offset: 3px; }
 .post-content blockquote { border-left: 3px solid var(--electric); padding: 16px 24px; margin: 32px 0; background: rgba(0,194,255,0.04); border-radius: 0 12px 12px 0; }
 .post-content blockquote p { margin: 0; font-style: italic; color: var(--text); }
+
+/* El Home en direccion "Taller" pinta su propio fondo marfil sobre el ground oscuro global.
+   Hay que cubrir tambien <html>: como ya trae fondo propio, el del <body> no se
+   propaga al lienzo y el oscuro reaparecia en el rebote del scroll. */
+html:has(.taller),
+body:has(.taller){background:#F6F4EE}

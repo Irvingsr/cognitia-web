@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import ChatWidget from './components/ChatWidget'
@@ -18,16 +18,22 @@ import NotFound from './pages/NotFound'
 // En el navegador es BrowserRouter (src/main.jsx); en el prerender es
 // StaticRouter (src/entry-server.jsx), que no depende de `document`.
 export default function App() {
+  const { pathname } = useLocation()
+  // El Home de la direccion "Taller" trae su propia cabecera y pie en claro.
+  // El resto del sitio conserva la navegacion oscura hasta que se extienda el rediseno.
+  const homeClaro = pathname === '/'
+
   return (
     <>
       <Seo />
-      {/* Blobs animados fijos — siempre visibles sin importar el scroll */}
-      <div className="background-blobs" aria-hidden="true">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
-      </div>
-      <Nav />
+      {!homeClaro && (
+        <div className="background-blobs" aria-hidden="true">
+          <div className="blob blob-1" />
+          <div className="blob blob-2" />
+          <div className="blob blob-3" />
+        </div>
+      )}
+      {!homeClaro && <Nav />}
       <main style={{ position: 'relative', zIndex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -42,7 +48,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Footer />
+      {!homeClaro && <Footer />}
       <ChatWidget />
     </>
   )
