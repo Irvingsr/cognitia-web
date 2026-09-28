@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import ChatWidget from './components/ChatWidget'
+import WhatsAppFlotante from './components/WhatsAppFlotante'
 import Seo from './components/Seo'
 import Home from './pages/Home'
 import Servicios from './pages/Servicios'
@@ -50,6 +51,7 @@ export default function App() {
       </main>
       {!homeClaro && <Footer />}
       <ChatWidget />
+      <WhatsAppFlotante />
     </>
   )
 }

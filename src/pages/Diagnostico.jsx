@@ -14,7 +14,7 @@ const DASHBOARD = [
   'Tres problemas prioritarios detectados',
   'Principales oportunidades de mejora',
   'Cuellos de botella y puntos de fricción',
-  'Qué procesos podrían beneficiarse de tecnología o IA',
+  'Qué procesos podrían beneficiarse de automatización',
   'Qué NO conviene automatizar todavía',
   'Prioridades recomendadas',
   'Plan de acción a 30, 60 y 90 días',
@@ -24,13 +24,13 @@ const DASHBOARD = [
 const PARA_QUIEN = [
   'Tu negocio ya está funcionando y quieres mejorarlo, no arrancarlo.',
   'Sabes que algo te está frenando, pero no tienes claro qué atacar primero.',
-  'Escuchas hablar de IA todos los días y no sabes qué aplica a tu caso.',
+  'Escuchas hablar de automatizar todo y no sabes qué aplica a tu caso.',
   'Prefieres entender antes de invertir.',
 ]
 
 const NO_ES_PARA = [
   'Buscas que alguien te instale una herramienta específica que ya decidiste.',
-  'Quieres implementar IA sin revisar antes cómo opera tu negocio.',
+  'Quieres implementar herramientas sin revisar antes cómo opera tu negocio.',
   'Esperas un resultado garantizado antes de que exista un análisis.',
 ]
 
@@ -49,7 +49,7 @@ export default function Diagnostico() {
           <p className="label label-electric">Diagnóstico Estratégico Cognitia</p>
           <h1 style={{ maxWidth: 860 }}>
             Descubre qué mejorar, qué automatizar y qué priorizar{' '}
-            <span className="grad-success">antes de invertir</span> en inteligencia artificial
+            <span className="grad-success">antes de invertir</span> en tecnología
           </h1>
           <p style={s.sub}>
             Analizamos cómo opera tu negocio hoy, identificamos qué está frenando tus resultados
@@ -68,7 +68,7 @@ export default function Diagnostico() {
           <p className="label label-purple">Qué problema resuelve</p>
           <h2>La falta de claridad cuesta más que la tecnología</h2>
           <p style={s.body}>
-            La mayoría de los negocios que se acercan a la inteligencia artificial no tienen un
+            La mayoría de los negocios que se acercan a automatizar no tienen un
             problema de herramientas: tienen un problema de prioridades. Se invierte en lo que
             está de moda en lugar de en lo que realmente limita la operación, y el resultado es
             gasto sin cambio real.

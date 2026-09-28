@@ -19,7 +19,7 @@ const SERVICES = [
   {
     label: 'Implementación',
     labelColor: 'var(--purple)',
-    title: 'Automatización e integración de IA',
+    title: 'Automatización e integración de sistemas',
     desc: 'Después del diagnóstico, construimos lo que la prioridad justifique: automatizaciones, asistentes y sistemas de seguimiento integrados a tu operación real.',
     items: [
       'Automatización de tareas repetitivas',
@@ -33,12 +33,12 @@ const SERVICES = [
   {
     label: 'Adopción y productividad',
     labelColor: 'var(--success)',
-    title: 'Capacitación y educación en IA',
-    desc: 'Aprende a utilizar Claude, ChatGPT y Gemini en tareas reales de tu trabajo, para ganar tiempo y aprovechar la inteligencia artificial con criterio — no por moda.',
+    title: 'Capacitación del equipo',
+    desc: 'Aprende a utilizar Claude, ChatGPT y Gemini en tareas reales de tu trabajo, para ganar tiempo y usarlas con criterio — no por moda.',
     items: [
       'Uso aplicado de Claude, ChatGPT y Gemini en el día a día',
       'Talleres sobre las tareas concretas de tu equipo',
-      'Criterio para saber cuándo conviene usar IA y cuándo no',
+      'Criterio para saber cuándo conviene usarlas y cuándo no',
       'Acompañamiento posterior para sostener la adopción',
     ],
     cta: '/contacto',
@@ -61,7 +61,7 @@ export default function Servicios() {
         <div className="container">
           <div className="section-header" style={{ marginBottom: 0 }}>
             <p className="label label-electric">Qué hacemos</p>
-            <h1>Consultoría, estrategia e implementación de IA para tu negocio</h1>
+            <h1>Consultoría, estrategia e implementación para tu negocio</h1>
             <p>No empezamos por la herramienta. Primero entendemos qué frena tus resultados, después decidimos dónde tiene sentido aplicar tecnología — y dónde no.</p>
           </div>
         </div>

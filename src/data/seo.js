@@ -17,37 +17,37 @@ export function absoluteUrl(path = '/') {
 
 export const seo = {
   '/': {
-    title: 'Consultoría de Inteligencia Artificial para Empresas | Cognitia',
+    title: 'Consultoría en automatización de procesos en Playa del Carmen | Cognitia',
     description:
-      'Ayudamos a dueños de negocio a identificar qué frena sus resultados y dónde aplicar tecnología e IA con sentido. Diagnóstico Estratégico en México.',
+      'Que ningún cliente se te pierda por responder tarde o por olvidar un seguimiento. Diagnóstico y automatización de procesos para negocios en Playa del Carmen.',
   },
   '/diagnostico': {
-    title: 'Diagnóstico de IA para Empresas | Cognitia',
+    title: 'Diagnóstico de procesos para tu negocio | Cognitia',
     description:
-      'Analizamos tu operación y te entregamos prioridades, oportunidades y un plan de 30/60/90 días antes de que inviertas en inteligencia artificial.',
+      'Analizamos tu operación y te entregamos prioridades, oportunidades y un plan de 30/60/90 días antes de que inviertas en herramientas o software.',
   },
   '/scorecard': {
-    title: 'Evaluación gratuita de madurez en IA | Cognitia',
+    title: 'Evaluación gratuita de tus procesos | Cognitia',
     description:
       'Responde unas preguntas y descubre en qué punto está tu negocio. Es una evaluación inicial: no sustituye al Diagnóstico Estratégico Cognitia.',
   },
   '/servicios': {
-    title: 'Consultoría y Automatización con IA para Empresas | Cognitia',
+    title: 'Automatización de procesos y seguimiento comercial | Cognitia',
     description:
       'Diagnóstico, estrategia, implementación y adopción. Automatizamos solo lo que el diagnóstico justifica, no lo que está de moda.',
   },
   '/metodo': {
-    title: 'Cómo implementar IA en una empresa | Método Cognitia',
+    title: 'Cómo decidir qué automatizar en tu negocio | Método Cognitia',
     description:
-      'Diagnóstico, prioridades, estrategia, implementación y medición. Así decidimos dónde tiene sentido aplicar IA — y dónde no.',
+      'Diagnóstico, prioridades, estrategia, implementación y medición. Así decidimos qué conviene automatizar — y qué no.',
   },
   '/nosotros': {
-    title: 'Consultor de Inteligencia Artificial en México | Cognitia',
+    title: 'Consultor en automatización de procesos en Playa del Carmen | Cognitia',
     description:
-      'Irving de los Santos Reyes, consultor de IA para empresas. Proyectos reales, metodología propia y trabajo cercano desde Playa del Carmen.',
+      'Irving de los Santos Reyes, consultor en automatización de procesos. Proyectos reales, metodología propia y trabajo cercano desde Playa del Carmen.',
   },
   '/contacto': {
-    title: 'Contacta a Cognitia | Consultoría de Inteligencia Artificial',
+    title: 'Contacta a Cognitia | Consultoría en automatización de procesos',
     description:
       'Cuéntanos qué quieres mejorar en tu negocio. Respondemos por WhatsApp o correo y te decimos si podemos ayudarte.',
   },
@@ -59,7 +59,7 @@ export const seo = {
   '/blog': {
     title: 'Blog | Cognitia',
     description:
-      'Artículos prácticos sobre inteligencia artificial aplicada a negocios, escritos sin tecnicismos para dueños de empresa.',
+      'Artículos prácticos sobre automatización, seguimiento comercial y procesos, escritos sin tecnicismos para dueños de negocio.',
   },
   '/manifiesto': {
     title: 'Manifiesto | Cognitia',

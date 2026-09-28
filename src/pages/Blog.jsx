@@ -17,10 +17,10 @@ export default function Blog() {
       <section style={s.header}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span className="label label-electric animate-fade-in-up d1">Blog</span>
-          <h1 className="animate-fade-in-up d2">IA aplicada.<br />Sin tecnicismos.</h1>
+          <h1 className="animate-fade-in-up d2">Procesos que funcionan.<br />Sin tecnicismos.</h1>
           <p style={s.sub} className="animate-fade-in-up d3">
-            Artículos prácticos para dueños de negocio que quieren entender la IA<br />
-            y usarla para crecer — no para impresionar en una conferencia.
+            Artículos prácticos para dueños de negocio que quieren dejar de perder<br />
+            clientes por responder tarde o por olvidar un seguimiento.
           </p>
         </div>
       </section>

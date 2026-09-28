@@ -25,7 +25,7 @@ export default function Calculadora() {
           <h1 className="animate-fade-in-up d2">¿Cuánto vale automatizar<br />tu operación?</h1>
           <p style={s.sub} className="animate-fade-in-up d3">
             Estima cuánto tiempo y dinero está perdiendo tu negocio en tareas repetitivas<br />
-            que la IA podría resolver en piloto automático.
+            que podrías resolver en piloto automático.
           </p>
         </div>
       </section>
@@ -97,7 +97,7 @@ export default function Calculadora() {
                   <span style={s.valRed}>{fmt(totalCostoM)} / mes</span>
                 </div>
                 <div style={{ ...s.compRow, marginTop: 8 }}>
-                  <span style={s.compLabel}>Costo con automatización IA:</span>
+                  <span style={s.compLabel}>Costo con automatización:</span>
                   <span style={{ ...s.valGreen, fontWeight: 700 }}>{fmt(costoConIA)} / mes</span>
                 </div>
               </div>

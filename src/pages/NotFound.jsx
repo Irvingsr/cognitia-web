@@ -20,7 +20,7 @@ export default function NotFound() {
 
           <p style={s.helpLabel}>¿Buscabas algo en específico?</p>
           <div style={s.links}>
-            <Link to="/diagnostico" style={s.quickLink}>Diagnóstico de IA</Link>
+            <Link to="/diagnostico" style={s.quickLink}>Diagnóstico Estratégico</Link>
             <Link to="/calculadora" style={s.quickLink}>Calculadora de ROI</Link>
             <Link to="/blog" style={s.quickLink}>Blog</Link>
             <Link to="/contacto" style={s.quickLink}>Contacto</Link>

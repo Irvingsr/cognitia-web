@@ -20,9 +20,9 @@ const BOTTLENECKS = [
   { id: 'no_content',   text: 'Publicamos contenido sin estrategia ni consistencia', cat: 'Marketing Digital' },
   { id: 'no_processes', text: 'Las ventas e interacciones se cierran con total improvisación', cat: 'Procesos Comerciales' },
   { id: 'no_followup',  text: 'Perdemos ventas porque olvidamos dar seguimiento a los prospectos', cat: 'Sistemas Comerciales' },
-  { id: 'team',         text: 'Nuestro equipo no usa IA y opera de forma 100% tradicional', cat: 'Educación y Cultura' },
+  { id: 'team',         text: 'Nuestro equipo trabaja de forma 100% manual y tradicional', cat: 'Educación y Cultura' },
   { id: 'saturated',    text: 'El dueño del negocio está saturado operativamente y sin tiempo', cat: 'Consultoría de Procesos' },
-  { id: 'no_tools',     text: 'No sabemos qué herramientas de IA usar ni por dónde empezar', cat: 'Educación y Estrategia' },
+  { id: 'no_tools',     text: 'No sabemos qué herramientas usar ni por dónde empezar', cat: 'Educación y Estrategia' },
 ]
 
 function getRoadmap(selected, businessName, industry) {
@@ -33,7 +33,7 @@ function getRoadmap(selected, businessName, industry) {
     ? 'Intermedio-Inicial'
     : 'Nivel de Improvisación Operativa'
   const description = score > 75
-    ? 'Tu negocio tiene bases sólidas, pero carece de sistemas unificados de IA. Estás listo para automatizaciones end-to-end.'
+    ? 'Tu negocio tiene bases sólidas, pero sus sistemas no están conectados entre sí. Estás listo para automatizar de punta a punta.'
     : score > 45
     ? 'Tienes procesos funcionando, pero gran parte de la operación depende del esfuerzo manual. Hay alto riesgo de pérdida de ventas.'
     : 'Gran carga operativa manual. Tu negocio depende de respuestas inmediatas del dueño o equipo, perdiendo escalabilidad y ventas.'
@@ -56,13 +56,13 @@ function getRoadmap(selected, businessName, industry) {
     tools.push('Make.com', 'Zapier', 'Agentes Cognitia')
   }
   if (selected.includes('team') || selected.includes('no_tools')) {
-    phase1.push('Taller de IA Práctica para nivelar al equipo con herramientas generativas reales.')
-    phase2.push('Crear una biblioteca interna de prompts y políticas de uso de IA para la empresa.')
+    phase1.push('Taller práctico para nivelar al equipo con las herramientas que ya usa el negocio.')
+    phase2.push('Crear una guía interna de uso de herramientas y criterios para el equipo.')
     tools.push('Talleres Cognitia', 'ChatGPT Teams')
   }
   if (phase1.length === 0) {
     phase1.push('Taller de Diagnóstico Inicial con Cognitia.')
-    phase2.push('Definición de primeros casos de uso de IA.')
+    phase2.push('Definición de los primeros procesos a automatizar.')
     tools.push('ChatGPT', 'Make.com')
   }
 
@@ -101,10 +101,10 @@ export default function Diagnostico() {
       <section style={s.header}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span className="label label-electric animate-fade-in-up d1">Gratis · 2 minutos</span>
-          <h1 className="animate-fade-in-up d2">Evaluación de madurez en IA</h1>
+          <h1 className="animate-fade-in-up d2">Evaluación de tus procesos</h1>
           <p style={s.headerSub} className="animate-fade-in-up d3">
             Responde unas preguntas y obtén una primera lectura de en qué punto está tu
-            negocio y qué procesos podrían apoyarse en IA.
+            negocio y qué procesos podrían automatizarse.
           </p>
           <p style={s.headerNote} className="animate-fade-in-up d3">
             Es una evaluación inicial y automática. <strong>No sustituye al{' '}
@@ -154,7 +154,7 @@ export default function Diagnostico() {
 
               <div style={{ textAlign: 'center', marginTop: 40 }}>
                 <button type="submit" className="btn-primary" style={{ padding: '16px 40px', fontSize: 16 }}>
-                  Analizar mi Negocio con IA →
+                  Analizar mi negocio →
                 </button>
               </div>
             </form>
@@ -168,7 +168,7 @@ export default function Diagnostico() {
                 <span style={s.spinnerPct}>{progress}%</span>
               </div>
               <h3 style={s.loadTitle}>Analizando la estructura de tu negocio...</h3>
-              <p style={s.loadSub}>Nuestros algoritmos están procesando tus cuellos de botella e identificando integraciones óptimas de IA...</p>
+              <p style={s.loadSub}>Procesando tus cuellos de botella e identificando qué conviene automatizar primero...</p>
               <div className="terminal" style={{ maxWidth: 560, margin: '0 auto' }}>
                 <div className="terminal-bar">
                   <div className="dot dot-red" /><div className="dot dot-yellow" /><div className="dot dot-green" />
@@ -201,7 +201,7 @@ export default function Diagnostico() {
                   }}>
                     <div style={s.scoreInner}>
                       <span style={s.scoreNum}>{roadmap.score}%</span>
-                      <span style={s.scoreLbl}>Eficiencia IA</span>
+                      <span style={s.scoreLbl}>Eficiencia</span>
                     </div>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function Diagnostico() {
 
               {/* Roadmap card */}
               <div className="glass-panel" style={{ textAlign: 'left' }}>
-                <h3 style={{ marginBottom: 8 }}>Roadmap Sugerido de IA Práctica</h3>
+                <h3 style={{ marginBottom: 8 }}>Roadmap sugerido</h3>
                 <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 24 }}>
                   Acciones diseñadas por Cognitia para resolver tus cuellos de botella específicos:
                 </p>

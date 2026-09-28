@@ -31,8 +31,8 @@ const SERVICIOS = [
   },
   {
     problema: '«Mi equipo no usa estas herramientas y yo tampoco sé enseñarles.»',
-    titulo: 'Capacitación y educación en IA',
-    desc: 'Talleres para que tú y tu equipo aprendan a usar Claude, ChatGPT y Gemini en las tareas concretas de su trabajo, con criterio para saber cuándo conviene y cuándo no.',
+    titulo: 'Capacitación del equipo',
+    desc: 'Talleres para que tú y tu equipo aprendan a usar Claude, ChatGPT y Gemini en las tareas concretas de su trabajo, con criterio para saber cuándo conviene usarlas y cuándo no.',
     entrega: 'Equipo usando las herramientas en el día a día',
   },
 ]
@@ -103,10 +103,10 @@ export default function Home() {
       </header>
 
       {/* ---------------- Hero ---------------- */}
-      <section className="t-hero">
+      <section className="t-hero" id="inicio">
         <div className="t-wrap t-hero-in">
           <div className="t-hero-txt">
-            <p className="t-eyebrow">Consultoría en inteligencia artificial para PyMEs</p>
+            <p className="t-eyebrow">Consultoría en automatización de procesos · Playa del Carmen</p>
             <h1>Te ayudo a saber qué mejorar antes de invertir en tecnología</h1>
             <p className="t-lead">
               Muchos negocios compran herramientas antes de entender qué los está frenando.
@@ -130,10 +130,10 @@ export default function Home() {
               src="/taller-hero-1600.jpg"
               srcSet="/taller-hero-700.jpg 700w, /taller-hero-1000.jpg 1000w, /taller-hero-1600.jpg 1600w"
               sizes="(max-width: 900px) 100vw, 52vw"
-              alt="Irving de los Santos impartiendo un taller de inteligencia artificial aplicada a negocios, con un análisis de mercado proyectado en pantalla."
+              alt="Irving de los Santos impartiendo un taller sobre herramientas digitales aplicadas a negocios, con un análisis de mercado proyectado en pantalla."
               width="1600" height="900" loading="eager" decoding="async"
             />
-            <figcaption>Taller de IA aplicada · Playa del Carmen</figcaption>
+            <figcaption>Taller para dueños de negocio · Playa del Carmen</figcaption>
           </figure>
         </div>
       </section>
@@ -164,7 +164,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- Método IFC ---------------- */}
-      <section className="t-metodo">
+      <section className="t-metodo" id="metodo">
         <div className="t-wrap">
           <div className="t-head">
             <p className="t-eyebrow t-eyebrow-verde">El método</p>
@@ -194,7 +194,7 @@ export default function Home() {
           <p className="t-metodo-pie">
             El IFC se aplica <strong>antes</strong> de implementar nada. Primero se diagnostica
             la fricción; después se decide qué conviene resolver con mejor proceso, qué con
-            automatización y qué con inteligencia artificial. A veces la respuesta es que no
+            automatización y qué con software. A veces la respuesta es que no
             hace falta tecnología todavía.
           </p>
         </div>
@@ -233,11 +233,11 @@ export default function Home() {
                 src="/taller-grupo-1600.jpg"
                 srcSet="/taller-grupo-760.jpg 760w, /taller-grupo-1100.jpg 1100w, /taller-grupo-1600.jpg 1600w"
                 sizes="(max-width: 900px) 100vw, 55vw"
-                alt="Grupo de participantes al terminar un taller de inteligencia artificial para negocios impartido por Cognitia."
+                alt="Grupo de participantes al terminar un taller para dueños de negocio impartido por Cognitia."
                 width="1564" height="1006" loading="lazy" decoding="async"
               />
               <figcaption>
-                Cierre de uno de los talleres de IA para negocios. Las personas de la foto
+                Cierre de uno de los talleres para dueños de negocio. Las personas de la foto
                 asistieron a la sesión.
               </figcaption>
             </figure>
@@ -246,7 +246,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- CTA ---------------- */}
-      <section className="t-cta">
+      <section className="t-cta" id="contacto">
         <div className="t-wrap t-cta-in">
           <h2>Cuéntame qué quieres mejorar en tu negocio</h2>
           <p>
@@ -267,7 +267,7 @@ export default function Home() {
         <div className="t-wrap t-foot-in">
           <div className="t-foot-brand">
             <Logo size={26} id="taller-foot" tone="oscuro" />
-            <p>Consultoría en inteligencia artificial para negocios.</p>
+            <p>Consultoría en automatización de procesos para negocios.</p>
           </div>
 
           <div className="t-foot-col">

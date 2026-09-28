@@ -2,19 +2,19 @@ import { useState } from 'react'
 
 const PILLARS = [
   {
-    title: 'La IA al servicio de las personas, no al revés',
+    title: 'La tecnología al servicio de las personas, no al revés',
     sub: 'Reducir estrés y facilitar el trabajo humano',
-    body: 'Creemos firmemente que la tecnología debe adaptarse a tu equipo y no obligar a tu gente a cambiar su esencia para complacer a una máquina. La IA debe ser una herramienta invisible que elimine la carga mental, automatice lo aburrido y te devuelva el recurso más valioso: el tiempo.',
+    body: 'Creemos firmemente que la tecnología debe adaptarse a tu equipo y no obligar a tu gente a cambiar su esencia para complacer a una máquina. Debe ser invisible: eliminar la carga mental, automatizar lo aburrido y devolverte el recurso más valioso, que es el tiempo.',
   },
   {
     title: 'Estrategia + Tecnología + Acompañamiento Humano',
     sub: 'No vendemos software, entregamos resultados',
-    body: 'La implementación de IA falla cuando es solo tecnología. Nosotros combinamos diagnóstico estratégico, herramientas de vanguardia y acompañamiento real para que el cambio funcione en la realidad de tu negocio, no solo en papel.',
+    body: 'Automatizar falla cuando es solo tecnología. Nosotros combinamos diagnóstico estratégico, herramientas adecuadas y acompañamiento real para que el cambio funcione en la realidad de tu negocio, no solo en papel.',
   },
   {
     title: 'Simplicidad sobre Complejidad',
     sub: 'Si necesita un manual de 200 páginas, está mal diseñado',
-    body: 'Un agente de IA bien construido debe sentirse natural desde el primer día. Diseñamos flujos simples, intuitivos y focalizados en el problema real. Sin tecnicismos, sin promesas vacías, sin complejidad innecesaria.',
+    body: 'Un sistema bien construido debe sentirse natural desde el primer día. Diseñamos flujos simples, intuitivos y focalizados en el problema real. Sin tecnicismos, sin promesas vacías, sin complejidad innecesaria.',
   },
 ]
 
@@ -42,7 +42,7 @@ export default function Manifiesto() {
         <div className="container">
           <p className="label label-purple">Nuestro Manifiesto</p>
           <h1 style={{ maxWidth: 700 }}>
-            Inteligencia Artificial diseñada para{' '}
+            Procesos diseñados para{' '}
             <span className="grad-success">humanos</span>
           </h1>
         </div>
@@ -54,11 +54,11 @@ export default function Manifiesto() {
           {/* Left */}
           <div style={s.left}>
             <p style={s.intro}>
-              No somos una agencia tradicional que te vende plantillas. Creemos en un futuro donde la IA reduce la frustración, ayuda a los negocios a operar con claridad y permite a las personas enfocarse en lo que mejor saben hacer: crear valor.
+              No somos una agencia tradicional que te vende plantillas. Creemos en negocios que operan con claridad, donde la tecnología reduce la frustración y permite a las personas enfocarse en lo que mejor saben hacer: crear valor.
             </p>
             <blockquote style={s.quote}>
               <span style={s.quoteMark}>"</span>
-              La IA debe facilitar el trabajo humano, reducir estrés y mejorar la toma de decisiones, no imponer tecnología por moda.
+              La tecnología debe facilitar el trabajo humano, reducir estrés y mejorar la toma de decisiones, no imponerse por moda.
             </blockquote>
           </div>
 
@@ -81,7 +81,7 @@ export default function Manifiesto() {
               <p style={s.founderName}>Irving de los Santos</p>
               <p style={s.founderRole}>Fundador · Cognitia</p>
               <p style={s.founderBio}>
-                Estratega de IA aplicada a negocios reales. Desde Playa del Carmen construyendo el modelo de automatización que las PyMEs mexicanas merecen: práctico, humano y medible.
+                Consultor en automatización de procesos para negocios reales. Desde Playa del Carmen construyendo el modelo que las PyMEs mexicanas merecen: práctico, humano y medible.
               </p>
             </div>
           </div>
