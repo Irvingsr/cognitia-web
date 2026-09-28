@@ -211,8 +211,8 @@ export default function Home() {
           <div className="t-conmigo">
             <div className="t-bio">
               <p>
-                Soy <strong>Irving de los Santos Reyes</strong>, consultor de inteligencia
-                artificial para negocios. Cognitia no es una agencia con capas de por medio:
+                Soy <strong>Irving de los Santos Reyes</strong>, consultor en automatización
+                de procesos. Cognitia no es una agencia con capas de por medio:
                 la persona que diagnostica tu operación es la misma que te acompaña después.
               </p>
               <p>
