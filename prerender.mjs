@@ -154,6 +154,12 @@ async function run() {
   // Sitemap generado desde la MISMA lista de rutas que se prerenderiza.
   // Asi no puede desincronizarse ni listar URLs que redirigen o devuelven 404.
   const priority = route => (route === '/' ? '1.0' : route.startsWith('/blog/') ? '0.6' : '0.8')
+  // lastmod solo donde hay una fecha real de cambio (los posts). Poner la fecha del
+  // build en todas las rutas la volvería falsa, y Google ignora lastmod poco confiable.
+  const lastmod = route => {
+    const post = posts.find(p => `/blog/${p.slug}` === route)
+    return post ? `    <lastmod>${post.updated || post.date}</lastmod>` : null
+  }
   const sitemap = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -161,9 +167,10 @@ async function run() {
       [
         '  <url>',
         `    <loc>${SITE_URL}${route === '/' ? '/' : route}</loc>`,
+        lastmod(route),
         `    <priority>${priority(route)}</priority>`,
         '  </url>',
-      ].join('\n')
+      ].filter(Boolean).join('\n')
     ),
     '</urlset>',
     '',

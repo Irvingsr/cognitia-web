@@ -3,6 +3,8 @@
 // 1. Crea el archivo en src/posts/[slug].jsx
 // 2. Agrega un registro aquí con los metadatos
 // 3. El post aparece automáticamente en /blog
+// `updated` = última vez que cambió el contenido. Alimenta el lastmod del sitemap
+// y el dateModified del schema; si no existe, se usa `date`.
 
 export const posts = [
   {
@@ -12,6 +14,7 @@ export const posts = [
     date: '2026-06-07',
     category: 'Real Estate',
     readTime: '6 min',
+    updated: '2026-09-29',
     author: 'Irving de los Santos',
   },
   {
@@ -21,6 +24,7 @@ export const posts = [
     date: '2026-05-26',
     category: 'Fundamentos',
     readTime: '5 min',
+    updated: '2026-09-29',
     author: 'Irving de los Santos',
   },
   {
@@ -30,6 +34,7 @@ export const posts = [
     date: '2026-05-26',
     category: 'Casos prácticos',
     readTime: '4 min',
+    updated: '2026-09-29',
     author: 'Irving de los Santos',
   },
 ]

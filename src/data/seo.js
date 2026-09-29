@@ -36,16 +36,6 @@ export const seo = {
     description:
       'Diagnóstico, estrategia, implementación y adopción. Automatizamos solo lo que el diagnóstico justifica, no lo que está de moda.',
   },
-  '/metodo': {
-    title: 'Cómo decidir qué automatizar en tu negocio | Método Cognitia',
-    description:
-      'Diagnóstico, prioridades, estrategia, implementación y medición. Así decidimos qué conviene automatizar — y qué no.',
-  },
-  '/nosotros': {
-    title: 'Consultor en automatización de procesos en Playa del Carmen | Cognitia',
-    description:
-      'Irving de los Santos Reyes, consultor en automatización de procesos. Proyectos reales, metodología propia y trabajo cercano desde Playa del Carmen.',
-  },
   '/contacto': {
     title: 'Contacta a Cognitia | Consultoría en automatización de procesos',
     description:
