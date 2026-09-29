@@ -2,10 +2,10 @@
   --marfil:#F6F4EE;
   --marfil-2:#EFEDE5;
   --blanco:#FFFFFF;
-  --verde:#234B40;
-  --verde-osc:#1B3A31;
-  --salvia:#DCE6DF;
-  --salvia-borde:#C3D3C7;
+  --verde:#7B5CF5;
+  --verde-osc:#5B44C9;
+  --salvia:#EFEAFE;
+  --salvia-borde:#DCD1F7;
   --tinta:#252C28;
   --tinta-2:#5A6560;
   --borde:#E2DFD6;
@@ -30,7 +30,7 @@
 /* ---- botones ---- */
 .taller .t-btn{
   display:inline-flex;align-items:center;justify-content:center;
-  background:var(--verde);color:#fff;
+  background:linear-gradient(135deg,#7B5CF5,#5B8DEF);color:#fff;
   padding:14px 26px;border-radius:100px;
   font-size:15.5px;font-weight:600;line-height:1;
   transition:background .18s ease,transform .18s ease;
@@ -61,9 +61,35 @@
 }
 .t-nav-in{display:flex;align-items:center;gap:28px;height:74px}
 .t-logo{flex-shrink:0;display:flex;align-items:center}
-.t-links{display:flex;gap:26px;margin-left:auto}
+.t-links{display:flex;gap:26px;margin-left:auto;align-items:center}
 .t-links a{font-size:15px;font-weight:500;color:var(--tinta-2);transition:color .16s}
 .t-links a:hover{color:var(--verde)}
+
+/* ---- items de nav con panel al hover (Servicios, Diagnóstico) ---- */
+.t-navitem{position:relative}
+.t-navlabel{display:flex;align-items:center;gap:5px}
+.t-navchev{font-size:10px;transition:transform .18s ease}
+.t-navitem:hover .t-navchev{transform:rotate(180deg)}
+
+.t-navpanel{
+  position:absolute;top:100%;left:50%;
+  transform:translateX(-50%) translateY(6px);
+  background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+  border:1px solid var(--borde);border-radius:var(--radio);
+  box-shadow:0 20px 48px -20px rgba(37,44,40,.28);
+  padding:14px;display:flex;gap:6px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .16s ease,transform .16s ease;
+  z-index:20;
+}
+.t-navitem:hover .t-navpanel{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.t-navpanel-left{left:0;transform:translateX(0) translateY(6px)}
+.t-navitem:hover .t-navpanel-left{transform:translateX(0) translateY(0)}
+
+.t-nav .t-navpanel-item{display:block;width:225px;padding:13px 15px;border-radius:9px;transition:background .14s ease}
+.t-nav .t-navpanel-item:hover{background:var(--salvia)}
+.t-navpanel-t{font-size:14px;font-weight:700;color:var(--tinta);margin-bottom:4px;display:block}
+.t-navpanel-d{font-size:12px;line-height:1.5;color:var(--tinta-2);display:block}
 .t-navcta{display:flex;align-items:center;gap:18px}
 .taller .t-tel{font-size:14.5px;font-weight:600;color:var(--verde);white-space:nowrap}
 .t-burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px;margin-left:auto}
@@ -178,7 +204,7 @@
 }
 
 /* ---- cta ---- */
-.t-cta{background:var(--verde);color:#fff;padding:80px 0}
+.t-cta{background:linear-gradient(135deg,#5B44C9,#3A6FD8);color:#fff;padding:80px 0}
 .t-cta-in{text-align:center;display:flex;flex-direction:column;align-items:center}
 .t-cta h2{color:#fff;max-width:20ch}
 .t-cta p{font-size:17.5px;line-height:1.7;color:rgba(255,255,255,.82);margin-top:16px;max-width:52ch}

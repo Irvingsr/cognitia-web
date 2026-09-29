@@ -2,7 +2,7 @@
 // Cambiar aquí actualiza cabecera, pie, contacto, blog y chat a la vez.
 
 /** Como se muestra al usuario. */
-export const TELEFONO_DISPLAY = '+52 1 985 251 4602'
+export const TELEFONO_DISPLAY = '+52 985 251 4602'
 
 /** Para enlaces tel: — formato E.164. */
 export const TELEFONO_E164 = '+529852514602'
