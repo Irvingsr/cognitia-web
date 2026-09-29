@@ -131,7 +131,10 @@ Colores oficiales del logo: **morado `#7B5CF5`** + **azul `#5B8DEF`**. Fondo mar
 
 ### Reglas de marca
 - La marca habla de TRANSFORMACIONES, no de tecnología.
-- Nunca mencionar "ChatGPT": COGNITIA usa Claude (Anthropic).
+- No mencionar "ChatGPT" como herramienta de COGNITIA: COGNITIA usa Claude (Anthropic).
+  **Excepción (decidida 29-sep-2026):** en la oferta de **capacitación** sí se nombra junto a Claude y
+  Gemini (ej. el panel "Servicios" de `TallerNav.jsx`), porque son las herramientas que usan los equipos
+  que se capacitan. No quitarlo de ahí.
 - En el blog se quitó la palabra "IA" (se dice "agente digital" / "automatización").
   El "IA" resaltado del logo sigue pendiente de decidir.
 - "MX" solo en email y dominio.
