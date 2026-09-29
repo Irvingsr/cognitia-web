@@ -105,6 +105,7 @@ async function run() {
 
   const { render, getMeta } = await vite.ssrLoadModule('/src/entry-server.jsx')
   const { posts } = await vite.ssrLoadModule('/src/data/posts.js')
+  const { SITE_URL } = await vite.ssrLoadModule('/src/data/seo.js')
 
   const routes = [...STATIC_ROUTES, ...posts.map(p => `/blog/${p.slug}`)]
   console.log(`\nPrerender · ${routes.length} rutas\n`)
@@ -137,7 +138,7 @@ async function run() {
     const html = applyMeta(template, {
       title: 'Página no encontrada | Cognitia',
       description: 'La página que buscas no existe o cambió de lugar.',
-      canonical: 'https://cognitiamx.com/',
+      canonical: `${SITE_URL}/`,
       type: 'website',
     })
       .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
@@ -152,7 +153,6 @@ async function run() {
 
   // Sitemap generado desde la MISMA lista de rutas que se prerenderiza.
   // Asi no puede desincronizarse ni listar URLs que redirigen o devuelven 404.
-  const { SITE_URL } = await vite.ssrLoadModule('/src/data/seo.js')
   const priority = route => (route === '/' ? '1.0' : route.startsWith('/blog/') ? '0.6' : '0.8')
   const sitemap = [
     '<?xml version="1.0" encoding="UTF-8"?>',
