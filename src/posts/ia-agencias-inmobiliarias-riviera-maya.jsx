@@ -65,10 +65,10 @@ export default function PostIAInmobiliariasRivieraMaya() {
         permanente ante urgencias.
       </p>
 
-      <h2>Cómo la IA resuelve las 4 zonas</h2>
+      <h2>Cómo se resuelven las 4 zonas</h2>
       <p>
-        El <strong>Protocolo de Hospitalidad Cognitiva™</strong> de Cognitia implementa agentes de
-        IA que eliminan la fricción en cada una de estas zonas:
+        El <strong>Protocolo de Hospitalidad Cognitiva™</strong> de Cognitia implementa agentes
+        digitales que eliminan la fricción en cada una de estas zonas:
       </p>
       <ul>
         <li>
@@ -91,24 +91,6 @@ export default function PostIAInmobiliariasRivieraMaya() {
           activos, con alertas cuando un lead lleva más de X días sin contacto.
         </li>
       </ul>
-
-      <h2>Lo que pasa cuando el protocolo funciona</h2>
-      <p>
-        Novedades Diana es un caso que implementamos en Comalcalco, Tabasco. Antes del protocolo,
-        la atención era 100% manual via WhatsApp personal — sin sistema, sin seguimiento, sin
-        visibilidad. Después de la implementación, el negocio cuenta con un CRM de 20 clientes VIP
-        con historial personalizado, secuencias de seguimiento activas y cero dependencia del
-        WhatsApp personal del dueño.
-      </p>
-      <p>
-        El negocio pasó de operar en modo reactivo a tener un sistema que trabaja incluso cuando
-        la dueña no está disponible.
-      </p>
-      <p>
-        El mismo resultado, adaptado al contexto de una agencia inmobiliaria en la Riviera Maya,
-        significa: más leads atendidos, más visitas programadas y más cierres — con el mismo
-        equipo que ya tienes.
-      </p>
 
       <h2>El primer paso: calcular tu IFC™</h2>
       <p>

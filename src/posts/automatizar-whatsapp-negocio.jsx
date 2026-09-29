@@ -8,7 +8,7 @@ export default function PostAutomatizarWhatsapp() {
       </p>
       <p>
         Eso no es un problema de disciplina ni de organización — es una oportunidad perfecta para
-        automatización. Un agente de IA puede manejar estas conversaciones solo, al instante,
+        automatización. Un agente digital puede manejar estas conversaciones solo, al instante,
         las 24 horas, sin que nadie tenga que estar pendiente del teléfono.
       </p>
 
