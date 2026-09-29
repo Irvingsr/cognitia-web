@@ -17,7 +17,7 @@ export function absoluteUrl(path = '/') {
 
 export const seo = {
   '/': {
-    title: 'Consultoría en automatización de procesos en Playa del Carmen | Cognitia',
+    title: 'Consultoría en automatización en Playa del Carmen | Cognitia',
     description:
       'Que ningún cliente se te pierda por responder tarde o por olvidar un seguimiento. Diagnóstico y automatización de procesos para negocios en Playa del Carmen.',
   },
@@ -52,12 +52,12 @@ export const seo = {
       'Cuéntanos qué quieres mejorar en tu negocio. Respondemos por WhatsApp o correo y te decimos si podemos ayudarte.',
   },
   '/calculadora': {
-    title: 'Calculadora de impacto | Cognitia',
+    title: 'Calculadora ROI de automatización | Cognitia',
     description:
       'Estima de forma orientativa cuánto tiempo y cuántas oportunidades podrías estar perdiendo hoy. Punto de partida, no diagnóstico.',
   },
   '/blog': {
-    title: 'Blog | Cognitia',
+    title: 'Blog de automatización de procesos para negocios | Cognitia',
     description:
       'Artículos prácticos sobre automatización, seguimiento comercial y procesos, escritos sin tecnicismos para dueños de negocio.',
   },
