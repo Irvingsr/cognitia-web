@@ -4,7 +4,6 @@ import { WHATSAPP_URL } from '../data/contacto'
 const SERVICES = [
   {
     label: 'Diagnóstico y claridad',
-    labelColor: 'var(--electric)',
     title: 'Consultoría e identificación de oportunidades',
     desc: 'Analizamos cómo opera tu negocio hoy para identificar qué está frenando los resultados, dónde hay oportunidades reales y qué conviene atender primero.',
     items: [
@@ -18,7 +17,6 @@ const SERVICES = [
   },
   {
     label: 'Implementación',
-    labelColor: 'var(--purple)',
     title: 'Automatización e integración de sistemas',
     desc: 'Después del diagnóstico, construimos lo que la prioridad justifique: automatizaciones, asistentes y sistemas de seguimiento integrados a tu operación real.',
     items: [
@@ -32,7 +30,6 @@ const SERVICES = [
   },
   {
     label: 'Adopción y productividad',
-    labelColor: 'var(--success)',
     title: 'Capacitación del equipo',
     desc: 'Aprende a utilizar Claude, ChatGPT y Gemini en tareas reales de tu trabajo, para ganar tiempo y usarlas con criterio — no por moda.',
     items: [
@@ -55,88 +52,73 @@ const CAPACIDADES = [
 
 export default function Servicios() {
   return (
-    <div className="page-bg">
-      {/* Header */}
-      <section style={s.header}>
-        <div className="container">
-          <div className="section-header" style={{ marginBottom: 0 }}>
-            <p className="label label-electric">Qué hacemos</p>
-            <h1>Consultoría, estrategia e implementación para tu negocio</h1>
-            <p>No empezamos por la herramienta. Primero entendemos qué frena tus resultados, después decidimos dónde tiene sentido aplicar tecnología — y dónde no.</p>
-          </div>
+    <>
+      <section className="t-hero t-sec-first">
+        <div className="t-wrap t-hero-in t-hero-solo" style={{ textAlign: 'center', margin: '0 auto' }}>
+          <p className="t-eyebrow" style={{ justifyContent: 'center' }}>Qué hacemos</p>
+          <h1>Consultoría, estrategia e implementación para tu negocio</h1>
+          <p className="t-lead" style={{ margin: '0 auto' }}>
+            No empezamos por la herramienta. Primero entendemos qué frena tus resultados,
+            después decidimos dónde tiene sentido aplicar tecnología — y dónde no.
+          </p>
         </div>
       </section>
 
-      {/* Service Cards */}
-      <section className="section">
-        <div className="container">
-          <div style={s.grid}>
+      <section className="t-sec t-sec-first">
+        <div className="t-wrap">
+          <div className="t-grid3">
             {SERVICES.map((sv, i) => (
-              <div key={i} className="card" style={s.card}>
-                <span style={{ ...s.cardStep, color: sv.labelColor }}>{String(i + 1).padStart(2, '0')}</span>
-                <p className="label" style={{ color: sv.labelColor }}>{sv.label}</p>
-                <h3 style={s.cardTitle}>{sv.title}</h3>
-                <p style={s.cardDesc}>{sv.desc}</p>
-                <ul className="checklist">
-                  {sv.items.map((item, j) => <li key={j}>{item}</li>)}
+              <article key={sv.title} className="t-card">
+                <p className="t-quote">
+                  {String(i + 1).padStart(2, '0')} · {sv.label}
+                </p>
+                <h3>{sv.title}</h3>
+                <p className="t-cardtxt">{sv.desc}</p>
+                <ul className="t-checklist" style={{ marginTop: 18 }}>
+                  {sv.items.map(item => <li key={item}>{item}</li>)}
                 </ul>
-                <Link to={sv.cta} className="btn-primary" style={{ marginTop: 28, alignSelf: 'flex-start' }}>
+                <Link to={sv.cta} className="t-btn t-btn-sm" style={{ marginTop: 24, alignSelf: 'flex-start' }}>
                   {sv.ctaLabel}
                 </Link>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Agentes */}
-      <section className="section" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="container">
-          <div className="section-header">
-            <p className="label label-purple">Capacidades</p>
+      <section className="t-metodo">
+        <div className="t-wrap">
+          <div className="t-head">
+            <p className="t-eyebrow t-eyebrow-verde">Capacidades</p>
             <h2>Qué podemos implementar después del diagnóstico</h2>
-            <p>Ejemplos de lo que suele salir priorizado. Lo que aplique a tu caso lo define el análisis, no un catálogo.</p>
+            <p className="t-sub">
+              Ejemplos de lo que suele salir priorizado. Lo que aplique a tu caso lo
+              define el análisis, no un catálogo.
+            </p>
           </div>
-          <div style={s.agentGrid}>
-            {CAPACIDADES.map((ag, i) => (
-              <div key={i} className="card" style={s.agentCard}>
-                <h3 style={s.agentTitle}>{ag.title}</h3>
-                <p style={s.agentDesc}>{ag.desc}</p>
+          <div className="t-grid4">
+            {CAPACIDADES.map(ag => (
+              <div key={ag.title} className="t-area t-card-center">
+                <h3>{ag.title}</h3>
+                <p className="t-aread">{ag.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={s.cta}>
-        <div className="container" style={s.ctaInner}>
+      <section className="t-cta">
+        <div className="t-wrap t-cta-in">
           <h2>¿No sabes por dónde empezar?</h2>
-          <p style={{ color: 'var(--muted)', marginTop: 10 }}>Empezamos por entender tu operación y de ahí sale el plan.</p>
-          <div style={{ display: 'flex', gap: 12, marginTop: 28, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/diagnostico" className="btn-primary">Solicitar Diagnóstico Estratégico →</Link>
-            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="btn-secondary">WhatsApp directo</a>
+          <p>Empezamos por entender tu operación y de ahí sale el plan.</p>
+          <div className="t-actions">
+            <Link to="/diagnostico" className="t-btn t-btn-claro">Solicitar Diagnóstico Estratégico →</Link>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="t-btn-ghost t-ghost-claro">
+              WhatsApp directo
+            </a>
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
-}
-
-const s = {
-  header: { padding: '100px 0 64px', textAlign: 'center' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 },
-  card: { display: 'flex', flexDirection: 'column' },
-  cardStep: {
-    fontFamily: "'Bebas Neue', sans-serif", fontSize: 26, letterSpacing: 1.5,
-    lineHeight: 1, display: 'block', marginBottom: 14, opacity: 0.9,
-  },
-  cardTitle: { fontSize: '1.5rem', margin: '4px 0 12px' },
-  cardDesc: { fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 },
-  agentGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 },
-  agentCard: { textAlign: 'center' },
-  agentTitle: { fontSize: '1.2rem', marginBottom: 10 },
-  agentDesc: { fontSize: 13, color: 'var(--muted)', lineHeight: 1.7 },
-  cta: { padding: '80px 0' },
-  ctaInner: { textAlign: 'center' },
 }

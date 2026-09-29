@@ -69,7 +69,7 @@ function getRoadmap(selected, businessName, industry) {
   return { score, maturity, description, phase1, phase2, tools: [...new Set(tools)] }
 }
 
-export default function Diagnostico() {
+export default function Scorecard() {
   const [step, setStep] = useState(1)
   const [nombre, setNombre] = useState('')
   const [sector, setSector] = useState('')
@@ -96,64 +96,66 @@ export default function Diagnostico() {
   const roadmap = getRoadmap(selected, nombre, sector)
 
   return (
-    <div className="page-bg">
-      {/* Header */}
-      <section style={s.header}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <span className="label label-electric animate-fade-in-up d1">Gratis · 2 minutos</span>
-          <h1 className="animate-fade-in-up d2">Evaluación de tus procesos</h1>
-          <p style={s.headerSub} className="animate-fade-in-up d3">
+    <>
+      <section className="t-hero t-sec-first">
+        <div className="t-wrap t-hero-in t-hero-solo" style={{ textAlign: 'center', margin: '0 auto' }}>
+          <p className="t-eyebrow" style={{ justifyContent: 'center' }}>Gratis · 2 minutos</p>
+          <h1>Evaluación de tus procesos</h1>
+          <p className="t-lead" style={{ margin: '0 auto' }}>
             Responde unas preguntas y obtén una primera lectura de en qué punto está tu
             negocio y qué procesos podrían automatizarse.
           </p>
-          <p style={s.headerNote} className="animate-fade-in-up d3">
+          <p className="t-micro" style={{ margin: '20px auto 0', maxWidth: 620, borderTop: '1px solid var(--borde)', paddingTop: 16 }}>
             Es una evaluación inicial y automática. <strong>No sustituye al{' '}
-            <Link to="/diagnostico" style={s.headerLink}>Diagnóstico Estratégico Cognitia</Link></strong>,
+            <Link to="/diagnostico" style={{ color: 'var(--verde)' }}>Diagnóstico Estratégico Cognitia</Link></strong>,
             que analiza tu operación a fondo y entrega un dashboard con prioridades y un plan
             de acción.
           </p>
         </div>
       </section>
 
-      <section style={s.body}>
-        <div className="container" style={{ maxWidth: 900 }}>
+      <section className="t-sec t-sec-first">
+        <div className="t-wrap" style={{ maxWidth: 900 }}>
 
           {/* ── STEP 1: FORMULARIO ── */}
           {step === 1 && (
-            <form onSubmit={startAnalysis} className="glass-panel animate-fade-in-up">
-              <h3 style={s.stepTitle}><span style={s.stepBar} />Paso 1: Cuéntanos de tu negocio</h3>
-              <div style={s.row2}>
-                <div style={s.field}>
-                  <label style={s.fieldLabel}>Nombre del Negocio / Empresa</label>
-                  <input className="form-input" placeholder="Ej. Restaurante El Sabor" value={nombre} onChange={e => setNombre(e.target.value)} required />
+            <form onSubmit={startAnalysis} className="t-card">
+              <h3>Paso 1: Cuéntanos de tu negocio</h3>
+              <div className="t-form-row2" style={{ marginTop: 18 }}>
+                <div className="t-field">
+                  <label>Nombre del Negocio / Empresa</label>
+                  <input className="t-input" placeholder="Ej. Restaurante El Sabor" value={nombre} onChange={e => setNombre(e.target.value)} required />
                 </div>
-                <div style={s.field}>
-                  <label style={s.fieldLabel}>Sector o Industria</label>
-                  <select className="form-input" value={sector} onChange={e => setSector(e.target.value)} required>
+                <div className="t-field">
+                  <label>Sector o Industria</label>
+                  <select className="t-select" value={sector} onChange={e => setSector(e.target.value)} required>
                     <option value="">Selecciona una opción</option>
                     {SECTORS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
                 </div>
               </div>
 
-              <h3 style={{ ...s.stepTitle, marginTop: 32 }}><span style={s.stepBar} />Paso 2: ¿Con qué problemas lidias a diario?</h3>
-              <p style={s.helper}>Selecciona todos los que apliquen:</p>
+              <h3 style={{ marginTop: 32 }}>Paso 2: ¿Con qué problemas lidias a diario?</h3>
+              <p className="t-sub" style={{ margin: '6px 0 16px', fontSize: 14.5 }}>Selecciona todos los que apliquen:</p>
 
-              <div style={s.checks}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {BOTTLENECKS.map(b => (
-                  <label key={b.id} className="custom-checkbox" style={s.checkRow}>
-                    <input type="checkbox" checked={selected.includes(b.id)} onChange={() => toggle(b.id)} />
-                    <span className="checkmark" />
-                    <div>
-                      <span style={s.checkText}>{b.text}</span>
-                      <span style={s.checkCat}>{b.cat}</span>
-                    </div>
-                  </label>
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => toggle(b.id)}
+                    className={`t-option${selected.includes(b.id) ? ' t-option-selected' : ''}`}
+                  >
+                    <span style={{ display: 'block', fontWeight: 500 }}>{b.text}</span>
+                    <span style={{ display: 'block', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.05em', color: 'var(--tinta-2)', marginTop: 4 }}>
+                      {b.cat}
+                    </span>
+                  </button>
                 ))}
               </div>
 
-              <div style={{ textAlign: 'center', marginTop: 40 }}>
-                <button type="submit" className="btn-primary" style={{ padding: '16px 40px', fontSize: 16 }}>
+              <div style={{ textAlign: 'center', marginTop: 32 }}>
+                <button type="submit" className="t-btn" style={{ padding: '16px 40px', fontSize: 16 }}>
                   Analizar mi negocio →
                 </button>
               </div>
@@ -162,96 +164,107 @@ export default function Diagnostico() {
 
           {/* ── STEP 2: CARGANDO ── */}
           {step === 2 && (
-            <div className="glass-panel animate-fade-in-up" style={s.loading}>
-              <div style={s.spinnerWrap}>
-                <div style={s.spinner} />
-                <span style={s.spinnerPct}>{progress}%</span>
+            <div className="t-card t-card-center" style={{ padding: '60px 40px', gap: 20 }}>
+              <div style={{ position: 'relative', width: 100, height: 100 }}>
+                <div style={{
+                  width: '100%', height: '100%', border: '4px solid var(--salvia)',
+                  borderTop: '4px solid var(--verde)', borderRadius: '50%',
+                  animation: 'spin 1.2s linear infinite',
+                }} />
+                <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 20, fontWeight: 800 }}>
+                  {progress}%
+                </span>
               </div>
-              <h3 style={s.loadTitle}>Analizando la estructura de tu negocio...</h3>
-              <p style={s.loadSub}>Procesando tus cuellos de botella e identificando qué conviene automatizar primero...</p>
-              <div className="terminal" style={{ maxWidth: 560, margin: '0 auto' }}>
-                <div className="terminal-bar">
-                  <div className="dot dot-red" /><div className="dot dot-yellow" /><div className="dot dot-green" />
-                  <span>cognitia-engine v2.1</span>
-                </div>
-                <div className="terminal-body">
-                  {progress > 10 && <p className="terminal-line"><span className="cmd">&gt; </span>Mapeando procesos para: {nombre || 'Empresa'}</p>}
-                  {progress > 30 && <p className="terminal-line"><span className="cmd">&gt; </span>Identificando cuellos de botella: {sector || 'General'}</p>}
-                  {progress > 50 && <p className="terminal-line warn"><span className="cmd">&gt; </span>Detectados {selected.length} cuellos de botella operativos.</p>}
-                  {progress > 70 && <p className="terminal-line suc"><span className="cmd">&gt; </span>Diseñando Roadmap de 2 Fases...</p>}
-                  {progress > 90 && <p className="terminal-line suc"><span className="cmd">&gt; </span>Generando sugerencias de herramientas y ROI... ✓</p>}
-                </div>
+              <h3>Analizando la estructura de tu negocio...</h3>
+              <p className="t-cardtxt" style={{ maxWidth: 500 }}>
+                Procesando tus cuellos de botella e identificando qué conviene automatizar primero...
+              </p>
+              <div className="t-infobox" style={{ maxWidth: 560, textAlign: 'left', width: '100%' }}>
+                {progress > 10 && <p>› Mapeando procesos para: {nombre || 'Empresa'}</p>}
+                {progress > 30 && <p>› Identificando cuellos de botella: {sector || 'General'}</p>}
+                {progress > 50 && <p>› Detectados {selected.length} cuellos de botella operativos.</p>}
+                {progress > 70 && <p>› Diseñando Roadmap de 2 Fases...</p>}
+                {progress > 90 && <p>› Generando sugerencias de herramientas y ROI... ✓</p>}
               </div>
             </div>
           )}
 
           {/* ── STEP 3: RESULTADOS ── */}
           {step === 3 && (
-            <div className="animate-fade-in-up" style={s.resultsGrid}>
-              {/* Score card */}
-              <div className="glass-panel" style={s.scoreCard}>
-                <span style={s.resultsBadge}>Resultado del Diagnóstico</span>
-                <h3 style={s.companyName}>{nombre || 'Tu Empresa'}</h3>
-                <span style={s.industryTag}>{sector}</span>
+            <div className="t-grid2" style={{ gridTemplateColumns: '1fr 1.5fr', alignItems: 'start' }}>
+              <div className="t-card t-card-center">
+                <span className="t-blog-cat">Resultado del Diagnóstico</span>
+                <h3 style={{ marginTop: 16 }}>{nombre || 'Tu Empresa'}</h3>
+                <span className="t-cardtxt" style={{ marginBottom: 24 }}>{sector}</span>
 
-                <div style={s.scoreWrap}>
+                <div style={{ width: 140, height: 140, margin: '8px 0 24px' }}>
                   <div style={{
-                    ...s.scoreCircle,
-                    background: `conic-gradient(var(--success) ${roadmap.score}%, rgba(255,255,255,0.05) ${roadmap.score}%)`
+                    width: '100%', height: '100%', borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 8,
+                    background: `conic-gradient(var(--verde) ${roadmap.score}%, var(--salvia) ${roadmap.score}%)`,
                   }}>
-                    <div style={s.scoreInner}>
-                      <span style={s.scoreNum}>{roadmap.score}%</span>
-                      <span style={s.scoreLbl}>Eficiencia</span>
+                    <div style={{
+                      background: 'var(--blanco)', width: '100%', height: '100%', borderRadius: '50%',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <span style={{ fontSize: 32, fontWeight: 800, lineHeight: 1 }}>{roadmap.score}%</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', color: 'var(--tinta-2)' }}>Eficiencia</span>
                     </div>
                   </div>
                 </div>
 
-                <div style={s.maturityBox}>
-                  <span style={s.matLabel}>Nivel de Madurez Operativa</span>
-                  <span style={{ ...s.matVal, color: roadmap.score > 60 ? 'var(--success)' : '#f59e0b' }}>
-                    {roadmap.maturity}
-                  </span>
-                </div>
-                <p style={s.matDesc}>{roadmap.description}</p>
-                <button onClick={reset} className="btn-secondary" style={{ width: '100%', justifyContent: 'center', fontSize: 14 }}>
+                <p className="t-eyebrow" style={{ marginBottom: 2 }}>Nivel de Madurez Operativa</p>
+                <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--verde)', marginBottom: 12 }}>
+                  {roadmap.maturity}
+                </p>
+                <p className="t-cardtxt" style={{ marginBottom: 24 }}>{roadmap.description}</p>
+                <button onClick={reset} className="t-btn-ghost" style={{ width: '100%' }}>
                   ↺ Realizar nuevo test
                 </button>
               </div>
 
-              {/* Roadmap card */}
-              <div className="glass-panel" style={{ textAlign: 'left' }}>
-                <h3 style={{ marginBottom: 8 }}>Roadmap sugerido</h3>
-                <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 24 }}>
+              <div className="t-card">
+                <h3>Roadmap sugerido</h3>
+                <p className="t-cardtxt" style={{ marginBottom: 24, flex: 'none' }}>
                   Acciones diseñadas por Cognitia para resolver tus cuellos de botella específicos:
                 </p>
 
-                <div style={s.phase}>
-                  <span style={{ ...s.phaseBadge, ...s.phase1Badge }}>Fase 1: Quick Wins (0 – 30 días)</span>
-                  <ul style={s.phaseList}>
-                    {roadmap.phase1.map((item, i) => <li key={i} style={s.phaseItem}>{item}</li>)}
+                <div className="t-area">
+                  <span className="t-blog-cat">Fase 1: Quick Wins (0 – 30 días)</span>
+                  <ul className="t-checklist" style={{ marginTop: 14 }}>
+                    {roadmap.phase1.map(item => <li key={item}>{item}</li>)}
                   </ul>
                 </div>
 
-                <div style={{ ...s.phase, marginTop: 20 }}>
-                  <span style={{ ...s.phaseBadge, ...s.phase2Badge }}>Fase 2: Automatización Core (30 – 90 días)</span>
-                  <ul style={s.phaseList}>
-                    {roadmap.phase2.map((item, i) => <li key={i} style={{ ...s.phaseItem, color: 'var(--success)' }}>{item}</li>)}
+                <div className="t-area" style={{ marginTop: 20 }}>
+                  <span className="t-blog-cat">Fase 2: Automatización Core (30 – 90 días)</span>
+                  <ul className="t-checklist" style={{ marginTop: 14 }}>
+                    {roadmap.phase2.map(item => <li key={item}>{item}</li>)}
                   </ul>
                 </div>
 
-                <div style={s.toolsWrap}>
-                  <span style={s.toolsLabel}>Herramientas Recomendadas</span>
-                  <div style={s.toolsTags}>
-                    {roadmap.tools.map((t, i) => <span key={i} style={s.toolTag}>{t}</span>)}
+                <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--borde)' }}>
+                  <span className="t-eyebrow" style={{ display: 'block' }}>Herramientas Recomendadas</span>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+                    {roadmap.tools.map(t => (
+                      <span key={t} style={{
+                        fontSize: 13, fontWeight: 600, background: 'var(--salvia)',
+                        color: 'var(--tinta)', padding: '6px 14px', borderRadius: 100,
+                      }}>{t}</span>
+                    ))}
                   </div>
                 </div>
 
-                <div style={s.ctaBox}>
-                  <h4 style={{ marginBottom: 8, fontSize: 16 }}>¿Quieres implementar este Roadmap?</h4>
-                  <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 20, lineHeight: 1.6 }}>
-                    En Cognitia no solo te damos el plan — te acompañamos en el diseño, desarrollo e integración para garantizar resultados reales.
+                <div className="t-infobox" style={{ marginTop: 28 }}>
+                  <p>¿Quieres implementar este Roadmap?</p>
+                  <p style={{ marginBottom: 16 }}>
+                    En Cognitia no solo te damos el plan — te acompañamos en el diseño, desarrollo
+                    e integración para garantizar resultados reales.
                   </p>
-                  <a href="https://calendly.com/irvingsr-cognitiamx/llamada-de-consultoria-cognitia-30-min" target="_blank" rel="noreferrer" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                  <a
+                    href="https://calendly.com/irvingsr-cognitiamx/llamada-de-consultoria-cognitia-30-min"
+                    target="_blank" rel="noreferrer" className="t-btn" style={{ width: '100%' }}
+                  >
                     Agendar Sesión de Diagnóstico Gratis →
                   </a>
                 </div>
@@ -261,74 +274,6 @@ export default function Diagnostico() {
 
         </div>
       </section>
-    </div>
+    </>
   )
-}
-
-const s = {
-  header: { padding: '100px 0 48px' },
-  headerSub: { color: 'var(--muted)', fontSize: 16, lineHeight: 1.7, marginTop: 14 },
-  headerNote: {
-    color: 'var(--muted)', fontSize: 14, lineHeight: 1.7, marginTop: 18,
-    maxWidth: 620, marginLeft: 'auto', marginRight: 'auto',
-    borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16,
-  },
-  headerLink: { color: 'var(--electric)' },
-  body: { padding: '40px 0 96px' },
-  row2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 },
-  field: { display: 'flex', flexDirection: 'column', gap: 8 },
-  fieldLabel: { fontSize: 14, fontWeight: 600, color: 'var(--muted)' },
-  stepTitle: { fontSize: 18, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 12, color: 'var(--text)' },
-  stepBar: { width: 3, height: 20, background: 'var(--purple)', borderRadius: 2, display: 'inline-block', flexShrink: 0 },
-  helper: { color: 'var(--muted)', fontSize: 14, margin: '8px 0 16px' },
-  checks: { display: 'flex', flexDirection: 'column', gap: 10 },
-  checkRow: {
-    background: 'rgba(255,255,255,0.02)', border: '1px solid var(--glass-border)',
-    borderRadius: 12, padding: '16px 16px 16px 48px',
-    display: 'flex', flexDirection: 'column', gap: 4,
-    transition: 'background 0.2s, border-color 0.2s',
-  },
-  checkText: { fontSize: 15, fontWeight: 500, color: 'var(--text)', lineHeight: 1.4 },
-  checkCat: { fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--muted)' },
-  // Step 2
-  loading: { textAlign: 'center', padding: '60px 40px', display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' },
-  spinnerWrap: { position: 'relative', width: 100, height: 100 },
-  spinner: {
-    width: '100%', height: '100%',
-    border: '4px solid rgba(123,92,245,0.1)', borderTop: '4px solid var(--purple)',
-    borderRadius: '50%', animation: 'spin 1.2s linear infinite',
-  },
-  spinnerPct: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 20, fontWeight: 800 },
-  loadTitle: { fontSize: 22, fontWeight: 700 },
-  loadSub: { color: 'var(--muted)', fontSize: 15, maxWidth: 500 },
-  // Step 3
-  resultsGrid: { display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 32, alignItems: 'start' },
-  scoreCard: { textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' },
-  resultsBadge: {
-    background: 'rgba(0,219,130,0.1)', border: '1px solid rgba(0,219,130,0.2)',
-    color: '#34d399', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em',
-    padding: '4px 12px', borderRadius: 20, marginBottom: 16,
-  },
-  companyName: { fontSize: 26, fontWeight: 800, marginBottom: 4 },
-  industryTag: { fontSize: 14, color: 'var(--muted)', marginBottom: 24, display: 'block' },
-  scoreWrap: { width: 140, height: 140, marginBottom: 24 },
-  scoreCircle: { width: '100%', height: '100%', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 8 },
-  scoreInner: { background: '#0A0A0C', width: '100%', height: '100%', borderRadius: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' },
-  scoreNum: { fontSize: 32, fontWeight: 900, color: 'var(--text)', lineHeight: 1 },
-  scoreLbl: { fontSize: 10, color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase' },
-  maturityBox: { display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12 },
-  matLabel: { fontSize: 11, color: 'var(--muted)', fontWeight: 700, textTransform: 'uppercase' },
-  matVal: { fontSize: 18, fontWeight: 800 },
-  matDesc: { fontSize: 14, lineHeight: 1.6, marginBottom: 24, color: 'var(--muted)' },
-  phase: { background: 'rgba(255,255,255,0.01)', border: '1px solid var(--glass-border)', borderRadius: 14, padding: 20 },
-  phaseBadge: { display: 'inline-block', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20, marginBottom: 14 },
-  phase1Badge: { background: 'rgba(123,92,245,0.1)', color: '#c084fc', border: '1px solid rgba(123,92,245,0.2)' },
-  phase2Badge: { background: 'rgba(0,219,130,0.1)', color: '#34d399', border: '1px solid rgba(0,219,130,0.2)' },
-  phaseList: { listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 },
-  phaseItem: { fontSize: 14, paddingLeft: 20, position: 'relative', lineHeight: 1.5, color: 'var(--text)' },
-  toolsWrap: { marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--glass-border)' },
-  toolsLabel: { display: 'block', fontSize: 13, fontWeight: 700, marginBottom: 10, color: 'var(--muted)' },
-  toolsTags: { display: 'flex', flexWrap: 'wrap', gap: 8 },
-  toolTag: { fontSize: 13, fontWeight: 600, background: 'rgba(255,255,255,0.03)', border: '1px solid var(--glass-border)', color: 'var(--text)', padding: '6px 14px', borderRadius: 20 },
-  ctaBox: { background: 'linear-gradient(135deg,rgba(123,92,245,0.08),rgba(0,219,130,0.03))', border: '1px solid rgba(123,92,245,0.2)', borderRadius: 16, padding: 24, marginTop: 28 },
 }

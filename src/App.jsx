@@ -1,6 +1,6 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
-import Nav from './components/Nav'
-import Footer from './components/Footer'
+import { Routes, Route } from 'react-router-dom'
+import TallerNav from './components/TallerNav'
+import TallerFoot from './components/TallerFoot'
 import ChatWidget from './components/ChatWidget'
 import WhatsAppFlotante from './components/WhatsAppFlotante'
 import Seo from './components/Seo'
@@ -18,23 +18,15 @@ import NotFound from './pages/NotFound'
 // El Router NO vive aquí: lo aporta quien monta la app.
 // En el navegador es BrowserRouter (src/main.jsx); en el prerender es
 // StaticRouter (src/entry-server.jsx), que no depende de `document`.
+//
+// Todo el sitio vive en la dirección visual "Taller" (ver src/pages/Home.jsx
+// y src/styles/taller.css): cada página se envuelve en <div className="taller">
+// y comparte este nav/footer.
 export default function App() {
-  const { pathname } = useLocation()
-  // El Home de la direccion "Taller" trae su propia cabecera y pie en claro.
-  // El resto del sitio conserva la navegacion oscura hasta que se extienda el rediseno.
-  const homeClaro = pathname === '/'
-
   return (
-    <>
+    <div className="taller">
       <Seo />
-      {!homeClaro && (
-        <div className="background-blobs" aria-hidden="true">
-          <div className="blob blob-1" />
-          <div className="blob blob-2" />
-          <div className="blob blob-3" />
-        </div>
-      )}
-      {!homeClaro && <Nav />}
+      <TallerNav />
       <main style={{ position: 'relative', zIndex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -49,9 +41,9 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!homeClaro && <Footer />}
+      <TallerFoot />
       <ChatWidget />
       <WhatsAppFlotante />
-    </>
+    </div>
   )
 }

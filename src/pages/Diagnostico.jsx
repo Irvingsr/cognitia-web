@@ -42,83 +42,74 @@ const NO_INCLUYE = [
 
 export default function Diagnostico() {
   return (
-    <div className="page-bg">
-      {/* Header */}
-      <section style={s.header}>
-        <div className="container">
-          <p className="label label-electric">Diagnóstico Estratégico Cognitia</p>
+    <>
+      <section className="t-hero t-sec-first">
+        <div className="t-wrap t-hero-in t-hero-solo">
+          <p className="t-eyebrow">Diagnóstico Estratégico Cognitia</p>
           <h1 style={{ maxWidth: 860 }}>
-            Descubre qué mejorar, qué automatizar y qué priorizar{' '}
-            <span className="grad-success">antes de invertir</span> en tecnología
+            Descubre qué mejorar, qué automatizar y qué priorizar antes de invertir en tecnología
           </h1>
-          <p style={s.sub}>
+          <p className="t-lead" style={{ maxWidth: 680 }}>
             Analizamos cómo opera tu negocio hoy, identificamos qué está frenando tus resultados
             y te entregamos un plan priorizado. Con eso en la mano decides qué hacer — con
             nosotros o por tu cuenta.
           </p>
-          <div style={s.actions}>
-            <Link to="/contacto" className="btn-primary">Solicitar Diagnóstico Estratégico →</Link>
+          <div className="t-actions">
+            <Link to="/contacto" className="t-btn">Solicitar Diagnóstico Estratégico →</Link>
           </div>
         </div>
       </section>
 
-      {/* Qué problema resuelve */}
-      <section className="section">
-        <div className="container" style={{ maxWidth: 760 }}>
-          <p className="label label-purple">Qué problema resuelve</p>
+      <section className="t-sec t-sec-first">
+        <div className="t-wrap" style={{ maxWidth: 760 }}>
+          <p className="t-eyebrow t-eyebrow-verde">Qué problema resuelve</p>
           <h2>La falta de claridad cuesta más que la tecnología</h2>
-          <p style={s.body}>
+          <p className="t-sub">
             La mayoría de los negocios que se acercan a automatizar no tienen un
             problema de herramientas: tienen un problema de prioridades. Se invierte en lo que
             está de moda en lugar de en lo que realmente limita la operación, y el resultado es
             gasto sin cambio real.
           </p>
-          <p style={s.body}>
+          <p className="t-sub">
             El Diagnóstico Estratégico existe para evitar exactamente eso: primero entender el
             negocio, después decidir dónde tiene sentido aplicar tecnología — y dónde no.
           </p>
         </div>
       </section>
 
-      {/* Para quién es */}
-      <section className="section-sm">
-        <div className="container" style={s.twoCol}>
-          <div className="card" style={s.col}>
-            <p style={s.colTitle}>Para quién es</p>
-            <ul style={s.list}>
-              {PARA_QUIEN.map((t, i) => (
-                <li key={i} style={s.listItem}><span style={s.bulletYes}>✓</span>{t}</li>
-              ))}
+      <section className="t-sec t-sec-sm">
+        <div className="t-wrap t-grid2">
+          <div className="t-card">
+            <p className="t-eyebrow t-eyebrow-verde">Para quién es</p>
+            <ul className="t-checklist">
+              {PARA_QUIEN.map(t => <li key={t}>{t}</li>)}
             </ul>
           </div>
-          <div className="card" style={s.col}>
-            <p style={s.colTitle}>Para quién no es</p>
-            <ul style={s.list}>
-              {NO_ES_PARA.map((t, i) => (
-                <li key={i} style={s.listItem}><span style={s.bulletNo}>—</span>{t}</li>
-              ))}
+          <div className="t-card">
+            <p className="t-eyebrow" style={{ color: 'var(--tinta-2)' }}>Para quién no es</p>
+            <ul className="t-checklist t-checklist-x">
+              {NO_ES_PARA.map(t => <li key={t}>{t}</li>)}
             </ul>
           </div>
         </div>
       </section>
 
-      {/* Qué analizamos */}
-      <section className="section">
-        <div className="container">
-          <p className="label label-electric">Qué analizamos</p>
+      <section className="t-sec">
+        <div className="t-wrap">
+          <p className="t-eyebrow">Qué analizamos</p>
           <h2 style={{ maxWidth: 620 }}>Cinco frentes, en el orden en que importan</h2>
-          <div style={s.grid}>
+          <div className="t-grid3" style={{ marginTop: 28 }}>
             {ANALIZAMOS.map((item, i) => (
-              <div key={i} className="card" style={s.item}>
-                <span style={s.itemNum}>{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <p style={s.itemTitle}>{item.t}</p>
-                  <p style={s.itemBody}>{item.d}</p>
-                </div>
+              <div key={item.t} className="t-card">
+                <p className="t-quote" style={{ fontStyle: 'normal', color: 'var(--verde)', fontWeight: 700 }}>
+                  {String(i + 1).padStart(2, '0')}
+                </p>
+                <h3>{item.t}</h3>
+                <p className="t-cardtxt">{item.d}</p>
               </div>
             ))}
           </div>
-          <p style={s.note}>
+          <p className="t-metodo-pie" style={{ borderLeft: '3px solid var(--verde)', paddingLeft: 18 }}>
             Para el análisis usamos el <strong>Índice de Fricción Cognitiva™ (IFC™)</strong>, la
             metodología de diagnóstico que desarrollamos en Cognitia para localizar dónde un
             negocio pierde ventas, tiempo o capacidad de atención. No necesitas conocerla para
@@ -127,111 +118,76 @@ export default function Diagnostico() {
         </div>
       </section>
 
-      {/* Dashboard */}
-      <section className="section" style={s.dashSection}>
-        <div className="container">
-          <p className="label label-purple">Qué obtienes</p>
+      <section className="t-metodo">
+        <div className="t-wrap">
+          <p className="t-eyebrow t-eyebrow-verde">Qué obtienes</p>
           <h2 style={{ maxWidth: 640 }}>Dashboard Estratégico Cognitia</h2>
-          <p style={s.body}>
+          <p className="t-sub">
             El resultado no es una llamada ni un correo con recomendaciones sueltas. Es un
             documento visual, tuyo, con el análisis completo y el plan que sale de él.
           </p>
-          <ol style={s.dashList}>
+          <ol className="t-grid2" style={{ listStyle: 'none', margin: '28px 0 0', padding: 0 }}>
             {DASHBOARD.map((t, i) => (
-              <li key={i} style={s.dashItem}>
-                <span style={s.dashNum}>{String(i + 1).padStart(2, '0')}</span>
+              <li key={t} style={{ display: 'flex', gap: 12, fontSize: 15, alignItems: 'baseline' }}>
+                <span style={{ color: 'var(--verde)', fontWeight: 700, flexShrink: 0 }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
                 {t}
               </li>
             ))}
           </ol>
-          <p style={s.disclaimer}>
+          <p className="t-metodo-pie">
             La estimación de impacto distingue siempre entre dato comprobado, estimación e
             hipótesis. No prometemos cifras de retorno que no podamos sostener.
           </p>
         </div>
       </section>
 
-      {/* Qué ocurre después */}
-      <section className="section-sm">
-        <div className="container" style={{ maxWidth: 760 }}>
-          <p className="label label-electric">Qué ocurre después</p>
+      <section className="t-sec t-sec-sm">
+        <div className="t-wrap" style={{ maxWidth: 760 }}>
+          <p className="t-eyebrow">Qué ocurre después</p>
           <h2>Tú decides el siguiente paso</h2>
-          <p style={s.body}>
+          <p className="t-sub">
             Con el dashboard y el roadmap en la mano tienes tres caminos: ejecutarlo por tu
             cuenta, ejecutarlo con tu equipo, o que lo implementemos contigo. El diagnóstico se
             entrega completo en cualquiera de los tres casos — no es un documento que solo sirva
             si nos contratas después.
           </p>
-          <Link to="/servicios" style={s.inlineLink}>Ver cómo trabajamos las etapas siguientes →</Link>
+          <Link to="/servicios" className="t-quicklink" style={{ display: 'inline-block', marginTop: 18 }}>
+            Ver cómo trabajamos las etapas siguientes →
+          </Link>
         </div>
       </section>
 
-      {/* Qué no incluye */}
-      <section className="section-sm">
-        <div className="container">
-          <p className="label label-purple">Qué no incluye</p>
+      <section className="t-sec t-sec-sm">
+        <div className="t-wrap">
+          <p className="t-eyebrow t-eyebrow-verde">Qué no incluye</p>
           <h2 style={{ maxWidth: 560 }}>Para que no haya malentendidos</h2>
-          <div style={s.grid}>
-            {NO_INCLUYE.map((item, i) => (
-              <div key={i} className="card" style={s.item}>
-                <div>
-                  <p style={s.itemTitle}>{item.t}</p>
-                  <p style={s.itemBody}>{item.d}</p>
-                </div>
+          <div className="t-grid3" style={{ marginTop: 28 }}>
+            {NO_INCLUYE.map(item => (
+              <div key={item.t} className="t-card">
+                <h3>{item.t}</h3>
+                <p className="t-cardtxt">{item.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="section">
-        <div className="container" style={s.cta}>
+      <section className="t-cta">
+        <div className="t-wrap t-cta-in">
           <h2 style={{ maxWidth: 560 }}>¿Empezamos por entender tu negocio?</h2>
-          <p style={s.body}>
-            Cuéntanos qué quieres mejorar. Si el diagnóstico no es lo que necesitas, te lo
-            decimos.
-          </p>
-          <div style={s.actions}>
-            <Link to="/contacto" className="btn-primary">Solicitar Diagnóstico Estratégico →</Link>
-            <Link to="/scorecard" className="btn-secondary">Hacer primero la evaluación gratuita</Link>
+          <p>Cuéntanos qué quieres mejorar. Si el diagnóstico no es lo que necesitas, te lo decimos.</p>
+          <div className="t-actions">
+            <Link to="/contacto" className="t-btn t-btn-claro">Solicitar Diagnóstico Estratégico →</Link>
+            <Link to="/scorecard" className="t-btn-ghost t-ghost-claro">Hacer primero la evaluación gratuita</Link>
           </div>
-          <p style={s.disclaimer}>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,.7)', marginTop: 18 }}>
             La evaluación gratuita es un punto de partida de dos minutos. No sustituye al
             Diagnóstico Estratégico.
           </p>
         </div>
       </section>
-    </div>
+    </>
   )
-}
-
-const s = {
-  header: { padding: '100px 0 48px' },
-  sub: { fontSize: 17, color: 'var(--muted)', lineHeight: 1.8, maxWidth: 680, marginTop: 20 },
-  actions: { display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 28 },
-  body: { fontSize: 16, color: 'var(--muted)', lineHeight: 1.8, maxWidth: 680, marginTop: 16 },
-  note: {
-    fontSize: 14, color: 'var(--muted)', lineHeight: 1.8, maxWidth: 700, marginTop: 28,
-    borderLeft: '3px solid var(--electric)', paddingLeft: 18,
-  },
-  disclaimer: { fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, maxWidth: 620, marginTop: 20, opacity: 0.85 },
-  twoCol: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 },
-  col: { padding: 26 },
-  colTitle: { fontSize: 13, fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 16 },
-  list: { listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 },
-  listItem: { display: 'flex', gap: 10, fontSize: 14.5, color: 'var(--muted)', lineHeight: 1.65 },
-  bulletYes: { color: 'var(--electric)', flexShrink: 0 },
-  bulletNo: { color: 'var(--muted)', flexShrink: 0 },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18, marginTop: 28 },
-  item: { display: 'flex', gap: 16, padding: 24, alignItems: 'flex-start' },
-  itemNum: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 24, color: 'var(--electric)', lineHeight: 1, flexShrink: 0 },
-  itemTitle: { fontSize: 16, fontWeight: 700, marginBottom: 6 },
-  itemBody: { fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 },
-  dashSection: { borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' },
-  dashList: { listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 12, marginTop: 28 },
-  dashItem: { display: 'flex', gap: 12, fontSize: 15, color: 'var(--muted)', lineHeight: 1.6, alignItems: 'baseline' },
-  dashNum: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, color: 'var(--purple)', flexShrink: 0 },
-  inlineLink: { display: 'inline-block', marginTop: 20, color: 'var(--electric)', fontSize: 14.5, fontWeight: 600 },
-  cta: { textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' },
 }

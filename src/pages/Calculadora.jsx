@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function Calculadora() {
-  const [hours, setHours]     = useState(15)   // hrs semanales por persona
-  const [rate, setRate]       = useState(250)   // costo hora en MXN
-  const [team, setTeam]       = useState(3)     // personas en el equipo
+  const [hours, setHours] = useState(15)   // hrs semanales por persona
+  const [rate, setRate]   = useState(250)  // costo hora en MXN
+  const [team, setTeam]   = useState(3)    // personas en el equipo
 
   // Cálculos (modelo Cognitia — 75% eficiencia, de Antigravity)
   const totalHorasM  = Math.round(hours * 4.33 * team)
@@ -17,27 +17,26 @@ export default function Calculadora() {
   const fmt = n => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n)
 
   return (
-    <div className="page-bg">
-      {/* Header */}
-      <section style={s.header}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <span className="label label-success animate-fade-in-up d1">Calculadora Interactiva</span>
-          <h1 className="animate-fade-in-up d2">¿Cuánto vale automatizar<br />tu operación?</h1>
-          <p style={s.sub} className="animate-fade-in-up d3">
-            Estima cuánto tiempo y dinero está perdiendo tu negocio en tareas repetitivas<br />
+    <>
+      <section className="t-hero t-sec-first">
+        <div className="t-wrap t-hero-in t-hero-solo" style={{ textAlign: 'center', margin: '0 auto' }}>
+          <p className="t-eyebrow" style={{ justifyContent: 'center' }}>Calculadora interactiva</p>
+          <h1>¿Cuánto vale automatizar tu operación?</h1>
+          <p className="t-lead" style={{ margin: '0 auto' }}>
+            Estima cuánto tiempo y dinero está perdiendo tu negocio en tareas repetitivas
             que podrías resolver en piloto automático.
           </p>
         </div>
       </section>
 
-      <section style={s.body}>
-        <div className="container" style={{ maxWidth: 1100 }}>
-          <div className="glass-panel animate-fade-in-up calc-main-grid">
+      <section className="t-sec t-sec-first">
+        <div className="t-wrap" style={{ maxWidth: 1100 }}>
+          <div className="t-calc-grid">
 
             {/* ── SLIDERS ── */}
-            <div style={s.inputs}>
-              <h3 style={s.cardTitle}>1. Configura tus datos</h3>
-              <p style={s.cardDesc}>Ajusta los valores para aproximarlos a la realidad de tu empresa:</p>
+            <div className="t-card">
+              <h3>1. Configura tus datos</h3>
+              <p className="t-cardtxt" style={{ flex: 'none' }}>Ajusta los valores para aproximarlos a la realidad de tu empresa:</p>
 
               <SliderField
                 label="Horas semanales por persona en tareas manuales"
@@ -66,47 +65,35 @@ export default function Calculadora() {
             </div>
 
             {/* ── RESULTADOS ── */}
-            <div style={s.results}>
-              <h3 style={{ ...s.cardTitle, textAlign: 'center' }}>2. Impacto con Cognitia</h3>
-              <p style={{ ...s.cardDesc, textAlign: 'center' }}>Al automatizar el 75% de estas actividades rutinarias:</p>
+            <div className="t-result-panel">
+              <h3 style={{ textAlign: 'center' }}>2. Impacto con Cognitia</h3>
+              <p className="t-cardtxt" style={{ textAlign: 'center', flex: 'none', marginBottom: 18 }}>
+                Al automatizar el 75% de estas actividades rutinarias:
+              </p>
 
-              <div style={s.metrics}>
-                <div style={s.metricCard}>
-                  <div style={s.metricHead}>
-                    <span style={s.metricTitle}>Tiempo Recuperado</span>
-                    <span style={{ ...s.metricBadge, ...s.badgePurple }}>Eficiencia</span>
-                  </div>
-                  <div style={s.metricVal}>{horasAhorradasM} hrs</div>
-                  <div style={s.metricSub}>ahorradas al mes para el equipo</div>
-                </div>
-
-                <div style={s.metricCard}>
-                  <div style={s.metricHead}>
-                    <span style={s.metricTitle}>Retorno de Inversión Anual</span>
-                    <span style={{ ...s.metricBadge, ...s.badgeGreen }}>Ahorro</span>
-                  </div>
-                  <div style={{ ...s.metricVal, ...s.valGreen }}>{fmt(costoAhorradoY)}</div>
-                  <div style={s.metricSub}>recuperados por año en fugas operativas</div>
-                </div>
+              <div className="t-result-row">
+                <span className="t-result-label">Tiempo recuperado al mes</span>
+                <span className="t-result-val t-result-val-lg">{horasAhorradasM} hrs</span>
+              </div>
+              <div className="t-result-row">
+                <span className="t-result-label">Costo operativo manual actual</span>
+                <span className="t-result-label" style={{ fontWeight: 700, color: '#B3423C' }}>{fmt(totalCostoM)} / mes</span>
+              </div>
+              <div className="t-result-row">
+                <span className="t-result-label">Costo con automatización</span>
+                <span className="t-result-val">{fmt(costoConIA)} / mes</span>
               </div>
 
-              {/* Comparativa */}
-              <div style={s.comparison}>
-                <div style={s.compRow}>
-                  <span style={s.compLabel}>Costo operativo manual actual:</span>
-                  <span style={s.valRed}>{fmt(totalCostoM)} / mes</span>
-                </div>
-                <div style={{ ...s.compRow, marginTop: 8 }}>
-                  <span style={s.compLabel}>Costo con automatización:</span>
-                  <span style={{ ...s.valGreen, fontWeight: 700 }}>{fmt(costoConIA)} / mes</span>
-                </div>
+              <div className="t-result-highlight">
+                <span className="t-result-label">Retorno de inversión anual</span>
+                <div className="t-result-val t-result-val-lg" style={{ marginTop: 4 }}>{fmt(costoAhorradoY)}</div>
               </div>
 
-              <Link to="/diagnostico" className="btn-primary" style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+              <Link to="/diagnostico" className="t-btn" style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                 Quiero automatizar mi negocio →
               </Link>
 
-              <p style={s.disclaimer}>
+              <p style={{ fontSize: 11, color: 'var(--tinta-2)', lineHeight: 1.5, marginTop: 12, opacity: .8 }}>
                 * Basado en un factor de eficiencia del 75% — promedio documentado por McKinsey para automatización de tareas repetitivas en PyMEs (2024).
               </p>
             </div>
@@ -114,61 +101,26 @@ export default function Calculadora() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }
 
 function SliderField({ label, helper, value, min, max, step, display, onChange, minLabel, maxLabel }) {
   return (
-    <div style={sf.wrap}>
-      <div style={sf.row}>
-        <span style={sf.label}>{label}</span>
-        <span style={sf.val}>{display}</span>
+    <div className="t-slider-group">
+      <div className="t-slider-label">
+        <span>{label}</span>
+        <span className="t-slider-val">{display}</span>
       </div>
-      <p style={sf.helper}>{helper}</p>
+      <p style={{ fontSize: 12, color: 'var(--tinta-2)', lineHeight: 1.4, marginBottom: 8 }}>{helper}</p>
       <input type="range" min={min} max={max} step={step} value={value}
         onChange={e => onChange(Number(e.target.value))}
-        className="range-slider"
+        className="t-range"
       />
-      <div style={sf.limits}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--tinta-2)', marginTop: 4 }}>
         <span>{minLabel}</span>
         <span>{maxLabel}</span>
       </div>
     </div>
   )
-}
-
-const sf = {
-  wrap: { display: 'flex', flexDirection: 'column', gap: 8, marginTop: 24 },
-  row: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' },
-  label: { fontSize: 15, fontWeight: 700, color: 'var(--text)', flex: 1, paddingRight: 12 },
-  val: { fontSize: 18, fontWeight: 800, color: 'var(--success)', flexShrink: 0 },
-  helper: { fontSize: 12, color: 'var(--muted)', lineHeight: 1.4, marginBottom: 4 },
-  limits: { display: 'flex', justifyContent: 'space-between', fontFamily: 'monospace', fontSize: 11, color: 'var(--muted)', marginTop: 4 },
-}
-
-const s = {
-  header: { padding: '100px 0 48px' },
-  sub: { color: 'var(--muted)', fontSize: 16, marginTop: 14, lineHeight: 1.7 },
-  body: { padding: '40px 0 96px' },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'stretch', padding: 48, background: 'rgba(10,10,12,0.5)' },
-  inputs: { textAlign: 'left' },
-  cardTitle: { fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.8rem', letterSpacing: 1.5, marginBottom: 8, color: 'var(--text)' },
-  cardDesc: { fontSize: 14, color: 'var(--muted)', marginBottom: 8 },
-  results: { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--glass-border)', borderRadius: 20, padding: 32 },
-  metrics: { display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 20 },
-  metricCard: { background: 'rgba(255,255,255,0.02)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: '18px 20px' },
-  metricHead: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  metricTitle: { fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1 },
-  metricBadge: { fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10 },
-  badgePurple: { background: 'rgba(123,92,245,0.12)', color: '#c084fc' },
-  badgeGreen: { background: 'rgba(0,219,130,0.12)', color: '#34d399' },
-  metricVal: { fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: 1, lineHeight: 1.1, color: 'var(--text)' },
-  metricSub: { fontSize: 12, color: 'var(--muted)', marginTop: 4 },
-  valGreen: { background: 'linear-gradient(135deg,#00db82,#34d399)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' },
-  comparison: { background: 'rgba(0,0,0,0.2)', border: '1px solid var(--glass-border)', borderRadius: 12, padding: 16 },
-  compRow: { display: 'flex', justifyContent: 'space-between', fontSize: 13 },
-  compLabel: { color: 'var(--muted)' },
-  valRed: { color: '#f87171', fontWeight: 700 },
-  disclaimer: { fontSize: 11, color: 'var(--muted)', lineHeight: 1.5, marginTop: 12, opacity: 0.7 },
 }
