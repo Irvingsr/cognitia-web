@@ -2,6 +2,32 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import { getPost, formatDate } from '../data/posts'
 import Seo from '../components/Seo'
 import { WHATSAPP_URL } from '../data/contacto'
+import { SITE_URL, absoluteUrl, DEFAULT_OG_IMAGE } from '../data/seo'
+
+/**
+ * Schema BlogPosting del post. Va en el cuerpo (no en el head) para que el prerender
+ * lo hornee en el HTML sin tocar la plantilla; Google lo lee igual en cualquier lugar.
+ * El publisher apunta por @id al negocio declarado en index.html.
+ */
+function blogPostingSchema(post) {
+  const url = absoluteUrl(`/blog/${post.slug}`)
+  const json = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    image: DEFAULT_OG_IMAGE,
+    datePublished: post.date,
+    dateModified: post.updated || post.date,
+    inLanguage: 'es-MX',
+    url,
+    mainEntityOfPage: url,
+    author: { '@type': 'Person', name: post.author, url: absoluteUrl('/manifiesto') },
+    publisher: { '@id': `${SITE_URL}/#business` },
+  })
+  // Evita que un "</script>" dentro del texto cierre la etiqueta antes de tiempo.
+  return json.replace(/</g, '\\u003c')
+}
 
 // Contenido de los posts, resuelto en tiempo de build.
 // Eager (no lazy) para que el cuerpo del artículo también quede en el HTML
@@ -30,6 +56,10 @@ export default function BlogPost() {
         title={`${post.title} | Cognitia`}
         description={post.excerpt}
         type="article"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: blogPostingSchema(post) }}
       />
 
       <section className="t-sec t-sec-first" style={{ paddingBottom: 0 }}>
