@@ -80,13 +80,20 @@ export default function Home() {
           </div>
 
           <figure className="t-hero-fig">
-            <img
-              src="/taller-hero-1600.jpg"
-              srcSet="/taller-hero-700.jpg 700w, /taller-hero-1000.jpg 1000w, /taller-hero-1600.jpg 1600w"
-              sizes="(max-width: 900px) 100vw, 52vw"
-              alt="Irving de los Santos impartiendo un taller sobre herramientas digitales aplicadas a negocios, con un análisis de mercado proyectado en pantalla."
-              width="1600" height="900" loading="eager" decoding="async"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcSet="/taller-hero-700.webp 700w, /taller-hero-1000.webp 1000w, /taller-hero-1600.webp 1600w"
+                sizes="(max-width: 900px) 100vw, 52vw"
+              />
+              <img
+                src="/taller-hero-1600.jpg"
+                srcSet="/taller-hero-700.jpg 700w, /taller-hero-1000.jpg 1000w, /taller-hero-1600.jpg 1600w"
+                sizes="(max-width: 900px) 100vw, 52vw"
+                alt="Irving de los Santos impartiendo un taller sobre herramientas digitales aplicadas a negocios, con un análisis de mercado proyectado en pantalla."
+                width="1600" height="900" loading="eager" decoding="async"
+              />
+            </picture>
             <figcaption>Taller para dueños de negocio · Playa del Carmen</figcaption>
           </figure>
         </div>
@@ -183,13 +190,20 @@ export default function Home() {
             </div>
 
             <figure className="t-grupo">
-              <img
-                src="/taller-grupo-1600.jpg"
-                srcSet="/taller-grupo-760.jpg 760w, /taller-grupo-1100.jpg 1100w, /taller-grupo-1600.jpg 1600w"
-                sizes="(max-width: 900px) 100vw, 55vw"
-                alt="Grupo de participantes al terminar un taller para dueños de negocio impartido por Cognitia."
-                width="1564" height="1006" loading="lazy" decoding="async"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/taller-grupo-760.webp 760w, /taller-grupo-1100.webp 1100w, /taller-grupo-1600.webp 1600w"
+                  sizes="(max-width: 900px) 100vw, 55vw"
+                />
+                <img
+                  src="/taller-grupo-1600.jpg"
+                  srcSet="/taller-grupo-760.jpg 760w, /taller-grupo-1100.jpg 1100w, /taller-grupo-1600.jpg 1600w"
+                  sizes="(max-width: 900px) 100vw, 55vw"
+                  alt="Grupo de participantes al terminar un taller para dueños de negocio impartido por Cognitia."
+                  width="1564" height="1006" loading="lazy" decoding="async"
+                />
+              </picture>
               <figcaption>
                 Cierre de uno de los talleres para dueños de negocio. Las personas de la foto
                 asistieron a la sesión.

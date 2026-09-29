@@ -119,6 +119,7 @@
 .t-micro{font-size:14px;color:var(--tinta-2);margin-top:20px;max-width:46ch;line-height:1.6}
 
 .t-hero-fig{margin:0}
+.t-hero-fig picture,.t-grupo picture{display:block}
 .t-hero-fig img{
   width:100%;border-radius:var(--radio);
   border:1px solid var(--borde);
