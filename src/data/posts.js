@@ -8,6 +8,15 @@
 
 export const posts = [
   {
+    slug: 'clinica-dental-consultas-whatsapp',
+    title: 'Clínicas dentales: dónde se pierden las consultas que llegan por WhatsApp',
+    excerpt: 'Antes de invertir en otra herramienta, revisa una semana de consultas. Así encuentras en qué paso se pierden las citas de tu clínica y qué conviene ajustar primero.',
+    date: '2026-09-29',
+    category: 'Clínicas',
+    readTime: '5 min',
+    author: 'Irving de los Santos',
+  },
+  {
     slug: 'ia-agencias-inmobiliarias-riviera-maya',
     title: 'Cómo las agencias inmobiliarias de la Riviera Maya pierden el 78% de sus leads (y cómo resolverlo)',
     excerpt: 'Un prospecto que no recibe respuesta personalizada en los primeros 5 minutos tiene un 78% más de probabilidad de irse a la competencia. En el mercado de lujo de la Riviera Maya, esa fricción cuesta millones.',
@@ -45,6 +54,6 @@ export function getPost(slug) {
 
 export function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('es-MX', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
   })
 }
