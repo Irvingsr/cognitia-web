@@ -3,24 +3,37 @@
 // 1. Crea el archivo en src/posts/[slug].jsx
 // 2. Agrega un registro aquí con los metadatos
 // 3. El post aparece automáticamente en /blog
+// `updated` = última vez que cambió el contenido. Alimenta el lastmod del sitemap
+// y el dateModified del schema; si no existe, se usa `date`.
 
 export const posts = [
   {
+    slug: 'clinica-dental-consultas-whatsapp',
+    title: 'Clínicas dentales: dónde se pierden las consultas que llegan por WhatsApp',
+    excerpt: 'Antes de invertir en otra herramienta, revisa una semana de consultas. Así encuentras en qué paso se pierden las citas de tu clínica y qué conviene ajustar primero.',
+    date: '2026-09-29',
+    category: 'Clínicas',
+    readTime: '5 min',
+    author: 'Irving de los Santos',
+  },
+  {
     slug: 'ia-agencias-inmobiliarias-riviera-maya',
-    title: 'Cómo las agencias inmobiliarias de la Riviera Maya pierden el 78% de sus leads (y cómo la IA lo resuelve)',
+    title: 'Cómo las agencias inmobiliarias de la Riviera Maya pierden el 78% de sus leads (y cómo resolverlo)',
     excerpt: 'Un prospecto que no recibe respuesta personalizada en los primeros 5 minutos tiene un 78% más de probabilidad de irse a la competencia. En el mercado de lujo de la Riviera Maya, esa fricción cuesta millones.',
     date: '2026-06-07',
     category: 'Real Estate',
     readTime: '6 min',
+    updated: '2026-09-29',
     author: 'Irving de los Santos',
   },
   {
     slug: 'que-es-un-agente-de-ia',
-    title: '¿Qué es un agente de IA y cómo puede trabajar en tu negocio?',
-    excerpt: 'Sin tecnicismos: qué son los agentes de IA, cómo funcionan y por qué un negocio como el tuyo ya puede usarlos hoy — sin contratar a nadie nuevo.',
+    title: '¿Qué es un agente digital y cómo puede trabajar en tu negocio?',
+    excerpt: 'Sin tecnicismos: qué son los agentes digitales, cómo funcionan y por qué un negocio como el tuyo ya puede usarlos hoy — sin contratar a nadie nuevo.',
     date: '2026-05-26',
     category: 'Fundamentos',
     readTime: '5 min',
+    updated: '2026-09-29',
     author: 'Irving de los Santos',
   },
   {
@@ -30,6 +43,7 @@ export const posts = [
     date: '2026-05-26',
     category: 'Casos prácticos',
     readTime: '4 min',
+    updated: '2026-09-29',
     author: 'Irving de los Santos',
   },
 ]
@@ -40,6 +54,6 @@ export function getPost(slug) {
 
 export function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('es-MX', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
   })
 }

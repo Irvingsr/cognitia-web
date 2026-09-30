@@ -1,328 +1,236 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { WHATSAPP_URL } from '../data/contacto'
 
-const TERMINAL_LINES = [
-  { cmd: '> ', text: 'midiendo_friccion_operativa.py' },
-  { cmd: '> ', text: 'zona 1: lead sin respuesta detectado (3h 42min)' },
-  { cmd: '> ', text: 'desplegando agente: respuesta < 1 min, 24/7' },
-  { cmd: '> ', text: 'fricción eliminada. seguimiento activo ✓' },
-]
+/**
+ * Home — dirección visual "Taller".
+ *
+ * Marfil cálido de base, verde profundo como único acento, fotografía real de
+ * talleres y tipografía humanista de ancho normal. Los estilos viven en
+ * `src/styles/taller.css`, acotados a `.taller`. Todo el sitio usa esta
+ * dirección visual (TallerNav/TallerFoot en App.jsx).
+ *
+ * El método IFC se describe según la definición oficial interna
+ * (`00_Archivo/02_IFC_Definicion_Oficial.md`): tres áreas de fricción —
+ * atención, seguimiento y conversión — no los cuatro pasos de la maqueta.
+ */
 
-const ZONAS = [
+const SERVICIOS = [
   {
-    num: 'Zona 1',
-    title: 'Primer Contacto',
-    desc: 'Un prospecto que no recibe respuesta personalizada en los primeros 5 minutos tiene 78% más probabilidad de irse con tu competencia. ¿Qué tan rápido respondes hoy?',
+    problema: '«Sé que algo no está funcionando, pero no sé por dónde empezar.»',
+    titulo: 'Consultoría y diagnóstico',
+    desc: 'Analizo cómo opera tu negocio hoy, identifico qué está frenando los resultados y te entrego prioridades y un plan de acción antes de que inviertas en nada.',
+    entrega: 'Dashboard Estratégico y plan a 30, 60 y 90 días',
   },
   {
-    num: 'Zona 2',
-    title: 'Seguimiento',
-    desc: 'La mayoría de las ventas ocurren entre el contacto 5 y el 12. La mayoría de los equipos se rinde en el 2. Ahí se queda el dinero.',
+    problema: '«Ya sé qué me falla, pero no tengo cómo resolverlo.»',
+    titulo: 'Implementación y automatización',
+    desc: 'Construimos lo que el diagnóstico justifique: automatización de tareas repetitivas, seguimiento de prospectos, orden en la información. Nada que no salga del análisis.',
+    entrega: 'Sistemas funcionando en tu operación real',
   },
   {
-    num: 'Zona 3',
-    title: 'Cliente Activo',
-    desc: '¿Tu cliente siente que lo anticipas o que solo lo buscas cuando te conviene? Un cliente anticipado tiene 4X más probabilidad de referirte.',
-  },
-  {
-    num: 'Zona 4',
-    title: 'Visibilidad Operativa',
-    desc: '¿Sabes en tiempo real cuántos prospectos activos tienes y en qué etapa están? Sin visibilidad, tu operación vive en reacción permanente.',
-  },
-]
-
-const SECTORES = [
-  {
-    icon: '✚',
-    title: 'Clínicas Estéticas y Dentales',
-    desc: 'Agenda llena sin perder pacientes en WhatsApp. Confirmaciones, recordatorios y seguimiento post-consulta automáticos, con el tono de tu clínica.',
-  },
-  {
-    icon: '⌂',
-    title: 'Inmobiliarias y Real Estate',
-    desc: 'Leads de portales atendidos y calificados en menos de 1 minuto, 24/7. Seguimiento que no se rinde y pipeline visible en tiempo real.',
-  },
-  {
-    icon: '◆',
-    title: 'Empresas y Servicios B2B',
-    desc: 'Operación, cotizaciones y atención sin cuellos de botella. Menos horas de administración, más control y reportes claros para dirección.',
+    problema: '«Mi equipo no usa estas herramientas y yo tampoco sé enseñarles.»',
+    titulo: 'Capacitación del equipo',
+    desc: 'Talleres para que tú y tu equipo aprendan a usar Claude, ChatGPT y Gemini en las tareas concretas de su trabajo, con criterio para saber cuándo conviene usarlas y cuándo no.',
+    entrega: 'Equipo usando las herramientas en el día a día',
   },
 ]
 
-const STEPS = [
-  { title: 'Auditoría IFC™', desc: 'Medimos la fricción en tus 4 zonas de contacto y la traducimos a dinero: cuántos prospectos y cuántas ventas estás perdiendo hoy. Sin costo.' },
-  { title: 'Diseño del Sistema', desc: 'Diseñamos los agentes de IA exactos para eliminar la fricción detectada. Con el tono y la personalidad de tu negocio. Sin soluciones genéricas.' },
-  { title: 'Implementación', desc: 'Activamos los agentes en tu operación real: WhatsApp, portales, CRM. Tu equipo aprende a operarlos sin curva técnica.' },
-  { title: 'Evolución Mensual', desc: 'El sistema se mide, se ajusta y mejora cada mes. La fricción no regresa: tu operación se vuelve más fina con el tiempo.' },
+const AREAS_IFC = [
+  {
+    nombre: 'Atención',
+    pregunta: '¿El cliente recibe una respuesta rápida, útil y clara?',
+    detalle: 'Cuánto espera, cuántas veces tiene que insistir, si obtiene una respuesta completa la primera vez.',
+  },
+  {
+    nombre: 'Seguimiento',
+    pregunta: '¿El negocio mantiene continuidad después del primer contacto?',
+    detalle: 'Si alguien retoma la conversación, si se recuerda el contexto del cliente o si tiene que repetir todo otra vez.',
+  },
+  {
+    nombre: 'Conversión',
+    pregunta: '¿El proceso guía al cliente hacia una decisión?',
+    detalle: 'Si sabe cuál es el siguiente paso o se queda esperando sin entender qué sigue.',
+  },
 ]
-
-const s = {
-  hero: { padding: '100px 0 80px' },
-  heroLeft: { display: 'flex', flexDirection: 'column', gap: 0 },
-  heroSub: { color: 'var(--muted)', fontSize: 17, lineHeight: 1.7, margin: '20px 0 32px', maxWidth: 500 },
-  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap' },
-  heroStats: { display: 'flex', gap: 32, flexWrap: 'wrap', marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' },
-  heroStat: { display: 'flex', flexDirection: 'column', gap: 4 },
-  heroStatVal: { fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: 1, color: 'var(--text)' },
-  heroStatDesc: { fontSize: 12, color: 'var(--muted)' },
-  heroRight: {},
-  mockupWrap: { display: 'flex', flexDirection: 'column', gap: 12 },
-  statsRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
-  statCard: {
-    background: 'var(--dark3)', border: '1px solid var(--border)',
-    borderRadius: 12, padding: '18px 20px',
-  },
-  statLabel: { fontSize: 12, color: 'var(--muted)', marginBottom: 4 },
-  statVal: { fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.2rem', letterSpacing: 1 },
-  statSub: { fontSize: 11, color: 'var(--muted)', marginTop: 4 },
-  chartCard: {
-    background: 'var(--dark3)', border: '1px solid var(--border)',
-    borderRadius: 12, padding: '16px 20px',
-  },
-  chartBars: { display: 'flex', alignItems: 'flex-end', gap: 8, height: 80, marginBottom: 8 },
-  barWrap: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, height: '100%' },
-  bar: { width: '100%', borderRadius: '4px 4px 0 0', transition: 'height 0.5s' },
-  barLabel: { fontSize: 10, color: 'var(--muted)' },
-  sectoresGrid: {
-    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24,
-  },
-  sectorIcon: {
-    fontSize: 28, color: 'var(--electric)', marginBottom: 16,
-    width: 56, height: 56, borderRadius: 14,
-    background: 'rgba(110,159,212,0.08)', border: '1px solid rgba(110,159,212,0.2)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-  },
-  zonas: {
-    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 24,
-  },
-  zonaNum: {
-    fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase',
-    color: 'var(--purple)', marginBottom: 10,
-    background: 'rgba(139,30,45,0.12)', border: '1px solid rgba(139,30,45,0.3)',
-    borderRadius: 100, padding: '4px 12px', display: 'inline-block',
-  },
-  steps: {
-    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24,
-  },
-  step: { position: 'relative' },
-  stepNum: {
-    fontFamily: "'Bebas Neue', sans-serif", fontSize: '3.5rem', letterSpacing: 2,
-    color: 'rgba(110,159,212,0.22)', lineHeight: 1, marginBottom: 12,
-  },
-  stepTitle: { fontSize: '1.3rem', marginBottom: 10 },
-  stepDesc: { fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 },
-  origen: {
-    maxWidth: 760, margin: '56px auto 0', textAlign: 'center',
-    padding: '28px 32px', borderRadius: 16,
-    background: 'rgba(30,58,95,0.25)', border: '1px solid rgba(110,159,212,0.15)',
-    fontSize: 15, color: 'var(--muted)', lineHeight: 1.8,
-  },
-  ctaBand: {
-    background: 'linear-gradient(135deg, rgba(30,58,95,0.45), rgba(139,30,45,0.25))',
-    borderTop: '1px solid rgba(110,159,212,0.25)',
-    borderBottom: '1px solid rgba(139,30,45,0.2)',
-    padding: '64px 0',
-  },
-  ctaBandInner: {
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    gap: 32, flexWrap: 'wrap',
-  },
-}
-
-function TerminalMockup() {
-  const [lineCount, setLineCount] = useState(0)
-
-  useEffect(() => {
-    if (lineCount >= TERMINAL_LINES.length) return
-    const timer = setTimeout(() => {
-      setLineCount(c => c + 1)
-    }, 900)
-    return () => clearTimeout(timer)
-  }, [lineCount])
-
-  const lines = TERMINAL_LINES.slice(0, lineCount)
-
-  return (
-    <div style={s.mockupWrap}>
-      {/* Stats row */}
-      <div style={s.statsRow}>
-        <div style={s.statCard}>
-          <p style={s.statLabel}>Velocidad de Respuesta</p>
-          <p style={{ ...s.statVal, color: 'var(--electric)' }}>&lt; 1 min</p>
-          <p style={s.statSub}>Con agente activo · 24/7, sin descansos ni vacaciones</p>
-        </div>
-        <div style={s.statCard}>
-          <p style={s.statLabel}>Seguimiento por Prospecto</p>
-          <p style={{ ...s.statVal, color: 'var(--text)' }}>5–12</p>
-          <p style={s.statSub}>Contactos donde ocurre la venta · el agente nunca se rinde</p>
-        </div>
-      </div>
-
-      {/* Bar chart */}
-      <div style={s.chartCard}>
-        <div style={s.chartBars}>
-          {[100, 70, 45, 20].map((h, i) => (
-            <div key={i} style={s.barWrap}>
-              <div style={{ ...s.bar, height: `${h}%`, background: i === 3 ? 'linear-gradient(to top, var(--blue-mid), var(--electric))' : 'rgba(139,30,45,0.35)' }} />
-              <span style={s.barLabel}>{['Hoy', 'Mes 1', 'Mes 2', 'Mes 3'][i]}</span>
-            </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: 13 }}>Índice de Fricción Cognitiva™</span>
-          <span style={{ color: 'var(--electric)', fontSize: 11 }}>● Fricción bajando = ventas subiendo</span>
-        </div>
-      </div>
-
-      {/* Terminal */}
-      <div className="terminal">
-        <div className="terminal-bar">
-          <div className="dot dot-red" />
-          <div className="dot dot-yellow" />
-          <div className="dot dot-green" />
-          <span>cognitia-engine v2.1</span>
-        </div>
-        <div className="terminal-body">
-          {lines.map((l, i) => (
-            <p key={i} className="terminal-line">
-              <span className="cmd">{l.cmd}</span>{l.text}
-            </p>
-          ))}
-          {lineCount < TERMINAL_LINES.length && (
-            <p className="terminal-line"><span className="cmd">&gt; </span><span className="cursor">▋</span></p>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default function Home() {
   return (
-    <div className="page-bg">
-      {/* HERO */}
-      <section style={s.hero}>
-        <div className="container hero-grid">
-          <div style={s.heroLeft}>
-            <p className="label label-purple fade-up d1">Índice de Fricción Cognitiva™</p>
-            <h1 className="fade-up d2">
-              La fricción invisible de tu operación{' '}
-              <span className="grad-electric">te está costando ventas</span>
-            </h1>
-            <p style={s.heroSub} className="fade-up d3">
-              Cada lead sin respuesta, cada seguimiento abandonado y cada cliente
-              que no se siente esperado es dinero que se va. Lo medimos con el
-              IFC™ y lo eliminamos con agentes de IA que trabajan 24/7 en tu
-              negocio — con tu tono, sin curva técnica para ti.
+    <>
+      {/* ---------------- Hero ---------------- */}
+      <section className="t-hero" id="inicio">
+        <div className="t-wrap t-hero-in">
+          <div className="t-hero-txt">
+            <p className="t-eyebrow">Consultoría en automatización de procesos · Playa del Carmen</p>
+            <h1>Te ayudo a saber qué mejorar antes de invertir en tecnología</h1>
+            <p className="t-lead">
+              Muchos negocios compran herramientas antes de entender qué los está frenando.
+              Trabajo al revés: primero entendemos cómo opera tu empresa y qué le cuesta
+              tiempo o clientes; después decidimos si hace falta tecnología, y cuál.
             </p>
-            <div style={s.heroBtns} className="fade-up d4">
-              <Link to="/diagnostico" className="btn-primary">
-                Mide tu fricción gratis →
-              </Link>
-              <Link to="/contacto" className="btn-secondary">
-                Agenda 30 min con Irving
-              </Link>
+            <div className="t-actions">
+              <Link to="/contacto" className="t-btn">Cuéntame sobre tu negocio</Link>
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="t-btn-ghost">
+                Escríbeme por WhatsApp
+              </a>
             </div>
-            <div style={s.heroStats} className="fade-up d4">
-              {[
-                { val: '78%',  desc: 'de los prospectos se van con la competencia si no respondes en 5 minutos' },
-                { val: '5–12', desc: 'contactos donde ocurre la venta. La mayoría de los equipos se rinde en el 2' },
-                { val: '4x',   desc: 'más referidos cuando el cliente siente que lo anticipas' },
-              ].map(st => (
-                <div key={st.val} style={s.heroStat}>
-                  <span style={s.heroStatVal}>{st.val}</span>
-                  <span style={s.heroStatDesc}>{st.desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div style={s.heroRight} className="fade-up d3">
-            <TerminalMockup />
-          </div>
-        </div>
-      </section>
-
-      {/* SECTORES */}
-      <section className="section" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="container">
-          <div className="section-header">
-            <p className="label label-electric">Dónde implementamos</p>
-            <h2>Sectores donde la fricción cuesta más caro</h2>
-            <p>Negocios donde cada prospecto vale mucho — y cada uno que se pierde, duele.</p>
-          </div>
-          <div style={s.sectoresGrid}>
-            {SECTORES.map((sec, i) => (
-              <div key={i} className="glass-card">
-                <div style={s.sectorIcon}>{sec.icon}</div>
-                <h3 style={{ fontSize: '1.3rem', marginBottom: 10 }}>{sec.title}</h3>
-                <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 }}>{sec.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* LAS 4 ZONAS DE FRICCIÓN */}
-      <section className="section" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="container">
-          <div className="section-header">
-            <p className="label label-purple">La metodología</p>
-            <h2>Las 4 zonas donde tu negocio pierde dinero</h2>
-            <p>El IFC™ mide el esfuerzo invisible que le cuesta a tus clientes hacer negocios contigo — y lo traduce a pesos.</p>
-          </div>
-          <div style={s.zonas}>
-            {ZONAS.map((z, i) => (
-              <div key={i} className="glass-card">
-                <span style={s.zonaNum}>{z.num}</span>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: 10 }}>{z.title}</h3>
-                <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.7 }}>{z.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div style={s.origen}>
-            La metodología IFC™ nació en 9 años de hospitalidad de ultra-lujo en la
-            Riviera Maya, donde el estándar es uno solo: <strong style={{ color: 'var(--text)' }}>el
-            cliente nunca espera, nunca repite información y nunca siente que no era
-            esperado.</strong> Hoy aplicamos ese estándar a tu operación con inteligencia artificial.
-          </div>
-        </div>
-      </section>
-
-      {/* CÓMO FUNCIONA */}
-      <section className="section" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="container">
-          <div className="section-header">
-            <p className="label label-electric">El proceso</p>
-            <h2>De la fricción medida al agente activo</h2>
-            <p>Sin curva de aprendizaje para ti. Nosotros construimos, tú operas.</p>
-          </div>
-          <div style={s.steps}>
-            {STEPS.map((step, i) => (
-              <div key={i} style={s.step} className="card">
-                <div style={s.stepNum}>{String(i + 1).padStart(2, '0')}</div>
-                <h3 style={s.stepTitle}>{step.title}</h3>
-                <p style={s.stepDesc}>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA BAND */}
-      <section style={s.ctaBand}>
-        <div className="container" style={s.ctaBandInner}>
-          <div>
-            <h2 style={{ color: '#fff' }}>¿Cuánto te está costando la fricción hoy?</h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>
-              Calcula tu Índice de Fricción Cognitiva™ gratis. 2 minutos, sin compromiso.
+            <p className="t-micro">
+              Empezamos con una conversación para entender tu caso. Si el diagnóstico no es
+              lo que necesitas, te lo digo.
             </p>
           </div>
-          <Link to="/diagnostico" className="btn-success" style={{ flexShrink: 0 }}>
-            Calcular mi IFC™ gratis →
-          </Link>
+
+          <figure className="t-hero-fig">
+            <picture>
+              <source
+                type="image/webp"
+                srcSet="/taller-hero-700.webp 700w, /taller-hero-1000.webp 1000w, /taller-hero-1600.webp 1600w"
+                sizes="(max-width: 900px) 100vw, 52vw"
+              />
+              <img
+                src="/taller-hero-1600.jpg"
+                srcSet="/taller-hero-700.jpg 700w, /taller-hero-1000.jpg 1000w, /taller-hero-1600.jpg 1600w"
+                sizes="(max-width: 900px) 100vw, 52vw"
+                alt="Irving de los Santos impartiendo un taller sobre herramientas digitales aplicadas a negocios, con un análisis de mercado proyectado en pantalla."
+                width="1600" height="900" loading="eager" decoding="async"
+              />
+            </picture>
+            <figcaption>Taller para dueños de negocio · Playa del Carmen</figcaption>
+          </figure>
         </div>
       </section>
-    </div>
+
+      {/* ---------------- Servicios ---------------- */}
+      <section className="t-sec" id="servicios">
+        <div className="t-wrap">
+          <div className="t-head">
+            <p className="t-eyebrow">En qué te acompaño</p>
+            <h2>Tres formas de trabajar, según dónde estés hoy</h2>
+            <p className="t-sub">
+              No todos los negocios necesitan lo mismo. Estas son las tres situaciones con las
+              que llega la mayoría.
+            </p>
+          </div>
+
+          <div className="t-grid3">
+            {SERVICIOS.map(sv => (
+              <article key={sv.titulo} className="t-card">
+                <p className="t-quote">{sv.problema}</p>
+                <h3>{sv.titulo}</h3>
+                <p className="t-cardtxt">{sv.desc}</p>
+                <p className="t-entrega"><span>Terminas con</span>{sv.entrega}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- Método IFC ---------------- */}
+      <section className="t-metodo" id="metodo">
+        <div className="t-wrap">
+          <div className="t-head">
+            <p className="t-eyebrow t-eyebrow-verde">El método</p>
+            <h2>Índice de Fricción Cognitiva</h2>
+            <p className="t-sub">
+              Es la metodología que desarrollé para encontrar dónde un negocio pierde clientes
+              por fricción. No mide qué tan avanzado eres en tecnología: mide cuánto esfuerzo
+              de más tiene que hacer tu cliente para poder avanzar contigo.
+            </p>
+          </div>
+
+          <blockquote className="t-pregunta">
+            ¿Dónde está haciendo esfuerzo de más el cliente para poder comprar, recibir
+            atención o avanzar?
+          </blockquote>
+
+          <div className="t-grid3 t-grid-areas">
+            {AREAS_IFC.map(a => (
+              <div key={a.nombre} className="t-area">
+                <h3>{a.nombre}</h3>
+                <p className="t-areaq">{a.pregunta}</p>
+                <p className="t-aread">{a.detalle}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="t-metodo-pie">
+            El IFC se aplica <strong>antes</strong> de implementar nada. Primero se diagnostica
+            la fricción; después se decide qué conviene resolver con mejor proceso, qué con
+            automatización y qué con software. A veces la respuesta es que no
+            hace falta tecnología todavía.
+          </p>
+        </div>
+      </section>
+
+      {/* ---------------- Trabajas directamente conmigo ---------------- */}
+      <section className="t-sec" id="conmigo">
+        <div className="t-wrap">
+          <div className="t-head">
+            <p className="t-eyebrow">Quién está detrás</p>
+            <h2>Trabajas directamente conmigo</h2>
+          </div>
+
+          <div className="t-conmigo">
+            <div className="t-bio">
+              <p>
+                Soy <strong>Irving de los Santos Reyes</strong>, consultor en automatización
+                de procesos. Cognitia no es una agencia con capas de por medio:
+                la persona que diagnostica tu operación es la misma que te acompaña después.
+              </p>
+              <p>
+                Vengo de nueve años en hospitalidad de ultra-lujo en la Riviera Maya —siete en
+                Banyan Tree Mayakoba y dos en EDITION Kanai— donde el estándar era uno solo:
+                que el cliente nunca espere, nunca repita su información y nunca sienta que no
+                lo estaban esperando. Ese estándar es el origen del IFC.
+              </p>
+              <p>
+                Trabajo desde Playa del Carmen, presencial en la Riviera Maya y en remoto para
+                el resto del país.
+              </p>
+              <Link to="/contacto" className="t-btn">Cuéntame sobre tu negocio</Link>
+            </div>
+
+            <figure className="t-grupo">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/taller-grupo-760.webp 760w, /taller-grupo-1100.webp 1100w, /taller-grupo-1600.webp 1600w"
+                  sizes="(max-width: 900px) 100vw, 55vw"
+                />
+                <img
+                  src="/taller-grupo-1600.jpg"
+                  srcSet="/taller-grupo-760.jpg 760w, /taller-grupo-1100.jpg 1100w, /taller-grupo-1600.jpg 1600w"
+                  sizes="(max-width: 900px) 100vw, 55vw"
+                  alt="Grupo de participantes al terminar un taller para dueños de negocio impartido por Cognitia."
+                  width="1564" height="1006" loading="lazy" decoding="async"
+                />
+              </picture>
+              <figcaption>
+                Cierre de uno de los talleres para dueños de negocio. Las personas de la foto
+                asistieron a la sesión.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- CTA ---------------- */}
+      <section className="t-cta" id="contacto">
+        <div className="t-wrap t-cta-in">
+          <h2>Cuéntame qué quieres mejorar en tu negocio</h2>
+          <p>
+            Una conversación para entender tu caso y decirte si puedo ayudarte. Si no es así,
+            también te lo digo.
+          </p>
+          <div className="t-actions">
+            <Link to="/contacto" className="t-btn t-btn-claro">Cuéntame sobre tu negocio</Link>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="t-btn-ghost t-ghost-claro">
+              Escríbeme por WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </>
   )
 }
+

@@ -30,7 +30,6 @@ export default class ErrorBoundary extends Component {
           textAlign: 'center',
           gap: 16,
         }}>
-          <div style={{ fontSize: 48 }}>◈</div>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: 2, fontSize: '2rem', margin: 0 }}>
             Algo salió mal
           </h2>

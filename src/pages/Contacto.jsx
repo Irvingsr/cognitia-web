@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { WHATSAPP_URL, TELEFONO_DISPLAY, EMAIL } from '../data/contacto'
 
 export default function Contacto() {
   const [sent, setSent] = useState(false)
@@ -30,148 +32,115 @@ export default function Contacto() {
   }
 
   return (
-    <div className="page-bg">
-      {/* Header */}
-      <section style={s.header}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p className="label label-electric">Hablemos</p>
-          <h1>¿Listo para automatizar<br />tu negocio?</h1>
-          <p style={s.headerSub}>Sin compromisos. Una conversación de 30 minutos puede cambiar cómo opera tu negocio para siempre.</p>
+    <>
+      <section className="t-hero t-sec-first">
+        <div className="t-wrap t-hero-in t-hero-solo" style={{ textAlign: 'center', margin: '0 auto' }}>
+          <p className="t-eyebrow" style={{ justifyContent: 'center' }}>Hablemos</p>
+          <h1>Hablemos sobre lo que quieres mejorar en tu negocio</h1>
+          <p className="t-lead" style={{ margin: '0 auto' }}>
+            Cuéntanos qué te está frenando. Si podemos ayudarte, te decimos cómo; si no,
+            también te lo decimos.
+          </p>
         </div>
       </section>
 
-      <section style={s.main}>
-        <div className="container contact-main-grid">
-          {/* Quick CTAs */}
-          <div style={s.ctaCol}>
-            <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" style={s.ctaCard}>
-              <div style={{ ...s.ctaIcon, background: 'rgba(0,219,130,0.1)', border: '1px solid rgba(0,219,130,0.25)' }}>
-                <span style={{ fontSize: 28 }}>💬</span>
-              </div>
+      <section className="t-sec t-sec-first">
+        <div className="t-wrap t-contact-grid">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="t-quickcard">
+              <span className="t-quickrule" />
               <div>
-                <p style={s.ctaTitle}>WhatsApp directo</p>
-                <p style={s.ctaSub}>Respuesta en menos de 2 horas en horario de negocios</p>
-                <p style={s.ctaLink}>+52 984 179 8638 →</p>
+                <p className="t-quicktitle">WhatsApp directo</p>
+                <p className="t-quicksub">La vía más rápida para una primera conversación</p>
+                <p className="t-quicklink">{TELEFONO_DISPLAY} →</p>
               </div>
             </a>
 
-            <a href="https://calendly.com/irvingsr-cognitiamx/llamada-de-consultoria-cognitia-30-min" target="_blank" rel="noreferrer" style={s.ctaCard}>
-              <div style={{ ...s.ctaIcon, background: 'rgba(123,92,245,0.1)', border: '1px solid rgba(123,92,245,0.25)' }}>
-                <span style={{ fontSize: 28 }}>📅</span>
-              </div>
+            <a href="https://calendly.com/irvingsr-cognitiamx/llamada-de-consultoria-cognitia-30-min" target="_blank" rel="noreferrer" className="t-quickcard">
+              <span className="t-quickrule" />
               <div>
-                <p style={s.ctaTitle}>Agendar llamada</p>
-                <p style={s.ctaSub}>Sesión de diagnóstico gratuita de 30 minutos con Irving</p>
-                <p style={{ ...s.ctaLink, color: 'var(--purple)' }}>Ver disponibilidad →</p>
+                <p className="t-quicktitle">Agendar llamada</p>
+                <p className="t-quicksub">30 minutos con Irving para entender tu caso</p>
+                <p className="t-quicklink">Ver disponibilidad →</p>
               </div>
             </a>
 
-            <a href="mailto:irvingsr@cognitiamx.com" style={s.ctaCard}>
-              <div style={{ ...s.ctaIcon, background: 'rgba(0,194,255,0.1)', border: '1px solid rgba(0,194,255,0.25)' }}>
-                <span style={{ fontSize: 28 }}>✉️</span>
-              </div>
+            <a href={`mailto:${EMAIL}`} className="t-quickcard">
+              <span className="t-quickrule" />
               <div>
-                <p style={s.ctaTitle}>Email</p>
-                <p style={s.ctaSub}>Para propuestas formales y proyectos enterprise</p>
-                <p style={{ ...s.ctaLink, color: 'var(--electric)' }}>irvingsr@cognitiamx.com →</p>
+                <p className="t-quicktitle">Correo</p>
+                <p className="t-quicksub">Para propuestas formales y proyectos de mayor alcance</p>
+                <p className="t-quicklink">{EMAIL} →</p>
               </div>
             </a>
 
-            <div style={s.infoBox}>
-              <p style={s.infoTitle}>📍 Ubicación</p>
-              <p style={s.infoText}>Playa del Carmen, Quintana Roo · México</p>
-              <p style={s.infoText}>También atendemos Tabasco y proyectos remotos</p>
+            <div className="t-infobox">
+              <p>Ubicación</p>
+              <p>Playa del Carmen, Quintana Roo · México</p>
+              <p>Atendemos la Riviera Maya de forma presencial, y el resto del país en remoto</p>
             </div>
           </div>
 
-          {/* Form */}
-          <div className="card" style={s.formCard}>
+          <div className="t-card">
             {sent ? (
-              <div style={s.thanks}>
-                <div style={s.thanksBadge}>✓</div>
+              <div className="t-thanks">
+                <div className="t-thanks-badge">✓</div>
                 <h3>¡Mensaje recibido!</h3>
-                <p style={{ color: 'var(--muted)', marginTop: 10 }}>Te contactaremos en menos de 24 horas. También puedes escribirnos por WhatsApp para una respuesta más rápida.</p>
-                <a href="https://wa.me/529841798638" target="_blank" rel="noreferrer" className="btn-success" style={{ marginTop: 20, alignSelf: 'center' }}>
+                <p className="t-cardtxt">
+                  Te contactaremos en menos de 24 horas. También puedes escribirnos por
+                  WhatsApp para una respuesta más rápida.
+                </p>
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="t-btn" style={{ marginTop: 8 }}>
                   Ir a WhatsApp
                 </a>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={s.form}>
-                <h3 style={{ marginBottom: 24 }}>Envíanos un mensaje</h3>
-                <div className="form-row-2col">
-                  <div className="form-field">
+              <form onSubmit={handleSubmit} className="t-form">
+                <h3>Envíanos un mensaje</h3>
+                <div className="t-form-row2">
+                  <div className="t-field">
                     <label>Nombre *</label>
-                    <input className="form-input" placeholder="Tu nombre" value={form.nombre} onChange={set('nombre')} required />
+                    <input className="t-input" placeholder="Tu nombre" value={form.nombre} onChange={set('nombre')} required />
                   </div>
-                  <div className="form-field">
+                  <div className="t-field">
                     <label>Email *</label>
-                    <input className="form-input" type="email" placeholder="correo@empresa.com" value={form.email} onChange={set('email')} required />
+                    <input className="t-input" type="email" placeholder="correo@empresa.com" value={form.email} onChange={set('email')} required />
                   </div>
                 </div>
-                <div className="form-row-2col">
-                  <div className="form-field">
+                <div className="t-form-row2">
+                  <div className="t-field">
                     <label>Teléfono</label>
-                    <input className="form-input" placeholder="+52 984 000 0000" value={form.telefono} onChange={set('telefono')} />
+                    <input className="t-input" placeholder="+52 984 000 0000" value={form.telefono} onChange={set('telefono')} />
                   </div>
-                  <div className="form-field">
+                  <div className="t-field">
                     <label>Nombre del negocio</label>
-                    <input className="form-input" placeholder="Mi Empresa S.A." value={form.negocio} onChange={set('negocio')} />
+                    <input className="t-input" placeholder="Mi Empresa S.A." value={form.negocio} onChange={set('negocio')} />
                   </div>
                 </div>
-                <div className="form-field">
+                <div className="t-field">
                   <label>¿En qué podemos ayudarte?</label>
                   <textarea
-                    className="form-input"
+                    className="t-input"
                     placeholder="Cuéntanos brevemente qué procesos quieres automatizar o qué problema tienes..."
                     value={form.mensaje} onChange={set('mensaje')}
-                    rows={4} style={{ resize: 'vertical' }}
+                    rows={4}
                   />
                 </div>
                 {/* Honeypot anti-bot — oculto para humanos */}
                 <input name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
-                {error && <p style={{ color: '#ff5f57', fontSize: 13 }}>{error}</p>}
-                <button type="submit" className="btn-primary" style={{ marginTop: 8 }} disabled={loading}>
+                {error && <p className="t-error">{error}</p>}
+                <button type="submit" className="t-btn" disabled={loading}>
                   {loading ? 'Enviando…' : 'Enviar mensaje →'}
                 </button>
+                <p className="t-form-legal">
+                  Al enviar aceptas que usemos tus datos para responderte, según nuestro{' '}
+                  <Link to="/privacidad">Aviso de Privacidad</Link>.
+                </p>
               </form>
             )}
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
-}
-
-const s = {
-  header: { padding: '100px 0 48px' },
-  headerSub: { color: 'var(--muted)', fontSize: 16, lineHeight: 1.7, marginTop: 14, maxWidth: 520, margin: '14px auto 0' },
-  main: { padding: '40px 0 96px' },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' },
-  ctaCol: { display: 'flex', flexDirection: 'column', gap: 16 },
-  ctaCard: {
-    display: 'flex', alignItems: 'flex-start', gap: 16,
-    background: 'var(--dark3)', border: '1px solid var(--border)',
-    borderRadius: 14, padding: '20px 22px', textDecoration: 'none',
-    transition: 'border-color 0.2s, transform 0.2s',
-  },
-  ctaIcon: { width: 52, height: 52, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  ctaTitle: { fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--text)' },
-  ctaSub: { fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 },
-  ctaLink: { fontSize: 13, color: 'var(--success)', marginTop: 6, fontWeight: 600 },
-  infoBox: {
-    background: 'var(--dark4)', border: '1px solid var(--border)',
-    borderRadius: 12, padding: '16px 20px',
-  },
-  infoTitle: { fontSize: 14, fontWeight: 600, marginBottom: 8 },
-  infoText: { fontSize: 13, color: 'var(--muted)', marginBottom: 4 },
-  formCard: { padding: 36 },
-  form: { display: 'flex', flexDirection: 'column', gap: 18 },
-  row: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 },
-  thanks: { display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '24px 0', gap: 12 },
-  thanksBadge: {
-    width: 64, height: 64, borderRadius: 20,
-    background: 'linear-gradient(135deg, var(--success), #00a865)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 28, color: '#000', fontWeight: 700,
-  },
 }
