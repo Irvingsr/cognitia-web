@@ -146,7 +146,9 @@ Colores oficiales del logo: **morado `#7B5CF5`** + **azul `#5B8DEF`**. Fondo mar
 - En el blog se quitó la palabra "IA" (se dice "agente digital" / "automatización").
   El "IA" resaltado del logo sigue pendiente de decidir.
 - "MX" solo en email y dominio.
-- Schema `areaServed`: Playa del Carmen, Quintana Roo y Tabasco (decisión del commit d000b8e).
+- Zona de atención: presencial en Playa del Carmen, Quintana Roo y Tabasco; remota en todo México
+  (schema `areaServed` incluye México desde el 29-sep-2026). Giros: clínicas, inmobiliarias y empresas de
+  servicios. Si cambia, alinear schema (index.html), llms.txt (prerender.mjs) y la ficha de Google.
 
 ---
 
