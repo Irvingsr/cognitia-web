@@ -64,6 +64,8 @@ Routing:      React Router v6 (páginas separadas)
 Prerender:    prerender.mjs con react-dom/server (src/entry-server.jsx) → HTML estático en dist/
 SEO:          src/data/seo.js (títulos/meta por ruta, SITE_URL) + src/components/Seo.jsx
               Schema JSON-LD en index.html. sitemap.xml se genera en el build desde las rutas reales
+              llms.txt también se genera en el build (prerender.mjs) desde seo.js, posts.js y contacto.js:
+              no se edita a mano; un post nuevo aparece solo
 CSS:          src/styles/taller.css (diseño actual) + src/index.css (base heredada)
 Fuentes:      DM Sans (Google Fonts)
 Backend:      Vercel Serverless Functions (/api)
@@ -112,7 +114,7 @@ src/
 
 1. Crear `src/posts/[slug].jsx` con el contenido en JSX.
 2. Registrar el post en `src/data/posts.js` (slug, title, excerpt, date, category, readTime, author).
-3. El sitemap se regenera solo en `npm run build`. No hay que editarlo a mano.
+3. El sitemap y `llms.txt` se regeneran solos en `npm run build`. No hay que editarlos a mano.
 
 La skill `cognitia-blog-semanal` genera el JSX listo para pegar.
 

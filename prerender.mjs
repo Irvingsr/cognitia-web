@@ -106,7 +106,8 @@ async function run() {
 
   const { render, getMeta } = await vite.ssrLoadModule('/src/entry-server.jsx')
   const { posts } = await vite.ssrLoadModule('/src/data/posts.js')
-  const { SITE_URL } = await vite.ssrLoadModule('/src/data/seo.js')
+  const { SITE_URL, seoFor, absoluteUrl } = await vite.ssrLoadModule('/src/data/seo.js')
+  const contacto = await vite.ssrLoadModule('/src/data/contacto.js')
 
   const routes = [...STATIC_ROUTES, ...posts.map(p => `/blog/${p.slug}`)]
   console.log(`\nPrerender · ${routes.length} rutas\n`)
@@ -178,6 +179,46 @@ async function run() {
   ].join('\n')
   await writeFile(join(DIST, 'sitemap.xml'), sitemap, 'utf8')
   console.log(`  ✓ ${'sitemap.xml'.padEnd(42)} ${String(routes.length).padStart(7)} URLs`)
+
+  // llms.txt (formato llmstxt.org): resumen del sitio para asistentes y motores de
+  // respuesta. Se genera de las mismas fuentes que las páginas (seo.js, posts.js,
+  // contacto.js), así un post nuevo aparece solo y nada queda desincronizado.
+  const pagina = (nombre, route) => `- [${nombre}](${absoluteUrl(route)}): ${seoFor(route).description}`
+  const llms = [
+    '# Cognitia',
+    '',
+    '> Consultoría en automatización de procesos para negocios, con sede en Playa del Carmen,',
+    '> Quintana Roo (México). Primero diagnostica dónde un negocio pierde clientes, tiempo y',
+    '> eficiencia con su metodología, el Índice de Fricción Cognitiva™, y después implementa',
+    '> solo lo que ese diagnóstico justifica.',
+    '',
+    `- Fundador: Irving de los Santos Reyes`,
+    `- Zona de atención: Playa del Carmen, Quintana Roo y Tabasco`,
+    `- Servicios: Diagnóstico Estratégico con plan a 30, 60 y 90 días; automatización e integración de sistemas (atención, seguimiento comercial, reportes); capacitación de equipos en el uso de Claude, ChatGPT y Gemini`,
+    `- Contacto: WhatsApp ${contacto.TELEFONO_DISPLAY} · ${contacto.EMAIL} · ${SITE_URL}`,
+    '',
+    '## Páginas principales',
+    '',
+    pagina('Inicio', '/'),
+    pagina('Servicios', '/servicios'),
+    pagina('Diagnóstico Estratégico', '/diagnostico'),
+    pagina('Evaluación gratuita', '/scorecard'),
+    pagina('Calculadora ROI', '/calculadora'),
+    pagina('Manifiesto', '/manifiesto'),
+    pagina('Contacto', '/contacto'),
+    '',
+    '## Blog',
+    '',
+    ...posts.map(p => `- [${p.title}](${absoluteUrl(`/blog/${p.slug}`)}): ${p.excerpt}`),
+    '',
+    '## Optional',
+    '',
+    pagina('Aviso de Privacidad', '/privacidad'),
+    ...contacto.REDES.map(r => `- [${r.nombre}](${r.url}): perfil de ${r.de === 'negocio' ? 'Cognitia' : 'Irving de los Santos Reyes'}`),
+    '',
+  ].join('\n')
+  await writeFile(join(DIST, 'llms.txt'), llms, 'utf8')
+  console.log(`  ✓ ${'llms.txt'.padEnd(42)} ${String(llms.length).padStart(7)} B`)
 
   await vite.close()
 
