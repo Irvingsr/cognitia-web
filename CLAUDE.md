@@ -32,10 +32,12 @@
 | Dev local | `npm run dev` → http://localhost:5173 |
 | Build con prerender | `npm run build` → `npx serve dist` |
 
-### Ramas (ninguna mergeada a main todavía)
-- `seo/p0-indexacion`: prerender, canonical por ruta, 404 real y sitemap generado.
-- `brand/ux-conversion`: identidad oficial. Buena parte quedó absorbida por el rediseño.
-- `diseno/home-taller`: rediseño "Taller" de todo el sitio (se apila sobre las dos anteriores).
+### Ramas
+- `main`: producción. El 29-sep-2026 se publicó ahí todo el rediseño y la auditoría (PR #3).
+  Punto de regreso: tag `produccion-antes-rediseno` o Instant Rollback en Vercel.
+- `diseno/home-taller`: rama de trabajo. Flujo: commit → push (preview) → Irving revisa →
+  PR a `main` → Irving dice "publícalo" → merge y verificación en vivo.
+- `seo/p0-indexacion` y `brand/ux-conversion`: ya incluidas en `main`; obsoletas.
 
 ---
 
