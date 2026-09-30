@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
-import { WHATSAPP_URL, TELEFONO_DISPLAY, TELEFONO_E164, EMAIL, UBICACION } from '../data/contacto'
+import { WHATSAPP_URL, TELEFONO_DISPLAY, TELEFONO_E164, EMAIL, UBICACION, REDES } from '../data/contacto'
 
 export default function TallerFoot() {
   return (
@@ -28,6 +28,13 @@ export default function TallerFoot() {
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
           <span>{UBICACION}</span>
           <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+
+        <div className="t-foot-col">
+          <p className="t-foot-t">Síguenos</p>
+          {REDES.map(r => (
+            <a key={r.nombre} href={r.url} target="_blank" rel="noopener noreferrer">{r.nombre}</a>
+          ))}
         </div>
       </div>
       <div className="t-wrap t-foot-legal">

@@ -213,7 +213,7 @@
 
 /* ---- pie ---- */
 .t-foot{background:var(--marfil-2);border-top:1px solid var(--borde);padding:56px 0 0}
-.t-foot-in{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px}
+.t-foot-in{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px}
 .t-foot-brand p{font-size:15px;color:var(--tinta-2);margin-top:16px;line-height:1.65;max-width:34ch}
 .t-foot-col{display:flex;flex-direction:column;gap:10px}
 .t-foot-t{

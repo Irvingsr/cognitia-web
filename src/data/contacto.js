@@ -21,3 +21,16 @@ export function whatsappCon(mensaje) {
 
 export const EMAIL = 'irvingsr@cognitiamx.com'
 export const UBICACION = 'Playa del Carmen, Q. Roo'
+
+/**
+ * Redes sociales. `de`: 'negocio' = perfiles de Cognitia (van al sameAs del negocio
+ * en index.html); 'fundador' = perfiles personales de Irving (van al sameAs del founder).
+ * Si cambias una URL aquí, cámbiala también en el schema de index.html.
+ */
+export const REDES = [
+  { nombre: 'Facebook',  url: 'https://www.facebook.com/profile.php?id=61584788294091', de: 'negocio' },
+  { nombre: 'Instagram', url: 'https://www.instagram.com/cognitia_mx/', de: 'negocio' },
+  { nombre: 'X',         url: 'https://x.com/cognitiamx', de: 'negocio' },
+  { nombre: 'LinkedIn',  url: 'https://www.linkedin.com/in/irving-de-los-santos-reyes-496a1938/', de: 'fundador' },
+  { nombre: 'YouTube',   url: 'https://www.youtube.com/@IrvingdelosSantosReyes', de: 'fundador' },
+]
