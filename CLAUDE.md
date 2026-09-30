@@ -32,10 +32,12 @@
 | Dev local | `npm run dev` → http://localhost:5173 |
 | Build con prerender | `npm run build` → `npx serve dist` |
 
-### Ramas (ninguna mergeada a main todavía)
-- `seo/p0-indexacion`: prerender, canonical por ruta, 404 real y sitemap generado.
-- `brand/ux-conversion`: identidad oficial. Buena parte quedó absorbida por el rediseño.
-- `diseno/home-taller`: rediseño "Taller" de todo el sitio (se apila sobre las dos anteriores).
+### Ramas
+- `main`: producción. El 29-sep-2026 se publicó ahí todo el rediseño y la auditoría (PR #3).
+  Punto de regreso: tag `produccion-antes-rediseno` o Instant Rollback en Vercel.
+- `diseno/home-taller`: rama de trabajo. Flujo: commit → push (preview) → Irving revisa →
+  PR a `main` → Irving dice "publícalo" → merge y verificación en vivo.
+- `seo/p0-indexacion` y `brand/ux-conversion`: ya incluidas en `main`; obsoletas.
 
 ---
 
@@ -144,7 +146,9 @@ Colores oficiales del logo: **morado `#7B5CF5`** + **azul `#5B8DEF`**. Fondo mar
 - En el blog se quitó la palabra "IA" (se dice "agente digital" / "automatización").
   El "IA" resaltado del logo sigue pendiente de decidir.
 - "MX" solo en email y dominio.
-- Schema `areaServed`: Playa del Carmen, Quintana Roo y Tabasco (decisión del commit d000b8e).
+- Zona de atención: presencial en Playa del Carmen, Quintana Roo y Tabasco; remota en todo México
+  (schema `areaServed` incluye México desde el 29-sep-2026). Giros: clínicas, inmobiliarias y empresas de
+  servicios. Si cambia, alinear schema (index.html), llms.txt (prerender.mjs) y la ficha de Google.
 
 ---
 
