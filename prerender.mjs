@@ -31,6 +31,7 @@ const STATIC_ROUTES = [
   '/manifiesto',
   '/contacto',
   '/blog',
+  '/privacidad',
 ]
 
 /** Escapa texto que va dentro de un atributo HTML. */

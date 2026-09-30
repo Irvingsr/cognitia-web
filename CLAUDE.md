@@ -50,7 +50,9 @@
 7. **Dominio principal = `https://www.cognitiamx.com`** (decidido 29-sep-2026). Toda URL absoluta sale de
    `SITE_URL` en `src/data/seo.js`. Nunca escribir la versión sin www a mano.
 8. Datos de contacto: solo en `src/data/contacto.js` (se propagan a cabecera, pie, contacto, blog y chat).
-9. Antes de construir algo nuevo, listar puntos ciegos (frontend, backend, dominio).
+9. **Aviso de Privacidad (`src/pages/Privacidad.jsx`):** si cambia qué datos personales recoge el sitio
+   (formularios, chat) o a qué servicio se envían (`api/*.js`), actualizar el aviso y su fecha.
+10. Antes de construir algo nuevo, listar puntos ciegos (frontend, backend, dominio).
 
 ---
 
@@ -94,13 +96,15 @@ src/
     posts.js        Índice del blog
   components/       TallerNav, TallerFoot, Seo, ChatWidget, WhatsAppFlotante, Logo, ErrorBoundary
   pages/            Home, Servicios, Manifiesto, Diagnostico, Scorecard, Calculadora,
-                    Contacto, Blog, BlogPost, NotFound
+                    Contacto, Blog, BlogPost, Privacidad, NotFound
   posts/            que-es-un-agente-de-ia, automatizar-whatsapp-negocio,
                     ia-agencias-inmobiliarias-riviera-maya
 ```
 
 ### Rutas
-`/` · `/servicios` · `/manifiesto` · `/diagnostico` · `/scorecard` · `/calculadora` · `/contacto` · `/blog` · `/blog/:slug` · `*` (404)
+`/` · `/servicios` · `/manifiesto` · `/diagnostico` · `/scorecard` · `/calculadora` · `/contacto` · `/blog` · `/blog/:slug` · `/privacidad` · `*` (404)
+
+> Ruta nueva = agregarla en `src/App.jsx`, en `STATIC_ROUTES` de `prerender.mjs` y en `src/data/seo.js`.
 
 ---
 

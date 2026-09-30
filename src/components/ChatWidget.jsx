@@ -251,6 +251,7 @@ const s = {
   },
   leadBtns: { display: 'flex', gap: 8, marginTop: 4 },
   leadSubmit: { flex: 1, padding: '9px 0', background: 'linear-gradient(135deg, #7B5CF5, #00C2FF)', border: 'none', borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' },
+  leadLegal: { marginTop: 10, fontSize: 11, lineHeight: 1.5, color: '#7A8FAD' },
   leadSkip: { padding: '9px 14px', background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#7A8FAD', fontSize: 12, cursor: 'pointer' },
   leadSuccess: {
     background: 'rgba(0,219,130,0.1)', border: '1px solid rgba(0,219,130,0.25)',
@@ -586,6 +587,10 @@ export default function ChatWidget() {
                     {leadSubmitting ? 'Enviando...' : 'Quiero mi consulta gratuita →'}
                   </button>
                   <button type="button" style={s.leadSkip} onClick={() => setLeadStatus('skipped')}>Omitir</button>
+                </div>
+                <div style={s.leadLegal}>
+                  Al enviar aceptas nuestro{' '}
+                  <a href="/privacidad" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'underline' }}>Aviso de Privacidad</a>.
                 </div>
               </form>
             </div>

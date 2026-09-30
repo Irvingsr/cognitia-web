@@ -51,6 +51,11 @@ export const seo = {
     description:
       'Artículos prácticos sobre automatización, seguimiento comercial y procesos, escritos sin tecnicismos para dueños de negocio.',
   },
+  '/privacidad': {
+    title: 'Aviso de Privacidad | Cognitia',
+    description:
+      'Qué datos personales recaba Cognitia, para qué los usa, con quién se comparten y cómo ejercer tus derechos ARCO.',
+  },
   '/manifiesto': {
     title: 'Manifiesto | Cognitia',
     description:

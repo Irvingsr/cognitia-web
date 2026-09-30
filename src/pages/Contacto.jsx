@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { WHATSAPP_URL, TELEFONO_DISPLAY, EMAIL } from '../data/contacto'
 
 export default function Contacto() {
@@ -131,6 +132,10 @@ export default function Contacto() {
                 <button type="submit" className="t-btn" disabled={loading}>
                   {loading ? 'Enviando…' : 'Enviar mensaje →'}
                 </button>
+                <p className="t-form-legal">
+                  Al enviar aceptas que usemos tus datos para responderte, según nuestro{' '}
+                  <Link to="/privacidad">Aviso de Privacidad</Link>.
+                </p>
               </form>
             )}
           </div>

@@ -13,6 +13,7 @@ import Calculadora from './pages/Calculadora'
 import Contacto from './pages/Contacto'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
+import Privacidad from './pages/Privacidad'
 import NotFound from './pages/NotFound'
 
 // El Router NO vive aquí: lo aporta quien monta la app.
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/privacidad" element={<Privacidad />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

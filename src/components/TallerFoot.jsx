@@ -39,7 +39,7 @@ export default function TallerFoot() {
       </div>
       <div className="t-wrap t-foot-legal">
         <span>© {new Date().getFullYear()} Cognitia — EstrategIA Consulting</span>
-        <span>cognitiamx.com</span>
+        <Link to="/privacidad">Aviso de Privacidad</Link>
       </div>
     </footer>
   )
