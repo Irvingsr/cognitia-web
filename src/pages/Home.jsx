@@ -177,8 +177,8 @@ export default function Home() {
                 la persona que diagnostica tu operación es la misma que te acompaña después.
               </p>
               <p>
-                Vengo de nueve años en hospitalidad de ultra-lujo en la Riviera Maya —siete en
-                Banyan Tree Mayakoba y dos en EDITION Kanai— donde el estándar era uno solo:
+                Vengo de nueve años en hospitalidad de ultra-lujo en la Riviera Maya —en resorts
+                cinco estrellas de cadenas internacionales— donde el estándar era uno solo:
                 que el cliente nunca espere, nunca repita su información y nunca sienta que no
                 lo estaban esperando. Ese estándar es el origen del IFC.
               </p>

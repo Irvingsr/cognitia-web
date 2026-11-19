@@ -15,8 +15,8 @@ export default function PostIAInmobiliariasRivieraMaya() {
 
       <h2>El problema que nadie nombra: fricción cognitiva</h2>
       <p>
-        En hospitalidad de ultra-lujo — donde trabajé durante 7 años en propiedades como Banyan Tree
-        Mayakoba y Hotel Edition — existe un principio fundamental: <strong>el cliente nunca debe
+        En hospitalidad de ultra-lujo — donde trabajé durante nueve años en resorts cinco estrellas de
+        cadenas internacionales en la Riviera Maya — existe un principio fundamental: <strong>el cliente nunca debe
         esperar, nunca debe repetir su información y nunca debe sentir que no era esperado.</strong>
       </p>
       <p>
